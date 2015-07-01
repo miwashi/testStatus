@@ -26,9 +26,12 @@ mainClassName = "TestStatusApplication"
 applicationName = "app"
 
 jar {
-    baseName = 'test-status'
-    version = '0.0.1-SNAPSHOT'
+    baseName = 'app'
 }
+//jar {
+//    baseName = 'test-status'
+//    version = '0.0.1-SNAPSHOT'
+//}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
