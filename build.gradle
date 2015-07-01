@@ -22,7 +22,7 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
-mainClassName = "TestStatusApplication"
+mainClassName = "com.miwashi.TestStatusApplication"
 applicationName = "test-status"
 
 jar {
