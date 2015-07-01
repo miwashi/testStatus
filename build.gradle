@@ -22,6 +22,9 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
+mainClassName = "TestStatusApplication"
+applicationName = "app"
+
 jar {
     baseName = 'testStatus'
     version = '0.0.1-SNAPSHOT'
@@ -63,15 +66,6 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
 
-task stage(type: Copy, dependsOn: [clean, build]) {
-    from jar.archivePath
-    into project.rootDir
-    rename {
-        'app.jar'
-    }
-}
-stage.mustRunAfter(clean)
-
-clean << {
-    project.file('app.jar').delete()
+task stage(dependsOn: [clean, installDist]) {
+    
 }
