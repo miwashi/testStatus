@@ -23,15 +23,13 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
 mainClassName = "TestStatusApplication"
-applicationName = "app"
+applicationName = "test-status"
 
 jar {
-    baseName = 'app'
+    baseName = 'test-status'
+    version = '0.0.1-SNAPSHOT'
 }
-//jar {
-//    baseName = 'test-status'
-//    version = '0.0.1-SNAPSHOT'
-//}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 

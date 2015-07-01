@@ -1,0 +1,1 @@
+web: build/install/test-status/bin/test-status
