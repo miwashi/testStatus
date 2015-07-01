@@ -1,3 +1,6 @@
+server:
+  port: ${port:7776}
+  
 configuration:
     projectName: testStates
     bar: whateva
