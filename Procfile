@@ -1,1 +1,1 @@
-web: build/install/test-status/bin/test-status
+web: java -jar $JAVA_OPTS -Dport=$PORT  build/libs/test-status.jar
