@@ -1,1 +1,1 @@
-web: java -jar $JAVA_OPTS -Dport.http=$PORT  build/libs/test-status.jar
+web: java -jar $JAVA_OPTS build/libs/test-status.jar
