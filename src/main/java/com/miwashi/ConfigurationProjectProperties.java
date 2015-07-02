@@ -17,7 +17,7 @@ public class ConfigurationProjectProperties {
     }
 
     public void setProjectName(String projectName) {
-        System.out.println("Setting configuration to projectName" + projectName);
+        System.out.println("Setting configuration to projectName: " + projectName);
         this.projectName = projectName;
     }
 }

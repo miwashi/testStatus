@@ -15,8 +15,7 @@ server:
   port: ${port:8080}
   
 configuration:
-    projectName: testStates
-    bar: whateva
+    projectName: test-status
 
 
 # *******  DEV  *******
@@ -25,6 +24,10 @@ configuration:
 spring:
   profiles: dev
 
+configuration:
+  projectName: test-status-dev
+
+
 # *******  STAGE  *******
 
 ---
@@ -32,12 +35,18 @@ spring:
   profiles: stage
 
   datasuorce:
-      url: postgres://iyfgdecpmudmfo:yH4dXI2jVTgFQ8Js5n6djW4bgR@ec2-107-21-114-132.compute-1.amazonaws.com:5432/dtq22ng04anf3
-      username: iyfgdecpmudmfo
-      password: yH4dXI2jVTgFQ8Js5n6djW4bgR
+    url: postgres://iyfgdecpmudmfo:yH4dXI2jVTgFQ8Js5n6djW4bgR@ec2-107-21-114-132.compute-1.amazonaws.com:5432/dtq22ng04anf3
+    username: iyfgdecpmudmfo
+    password: yH4dXI2jVTgFQ8Js5n6djW4bgR
+
+configuration:
+  projectName: test-status-stage
 
 # *******  PROD  *******
 
 ---
 spring:
   profiles: prod
+
+configuration:
+  projectName: test-status-prod
