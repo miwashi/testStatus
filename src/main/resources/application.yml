@@ -1,5 +1,9 @@
 # *******  DEFAULT  *******
 spring:
+  mvc:
+    favicon:
+      enabled: false
+
   application:
     name: test-status
 

@@ -20,6 +20,8 @@ public class TestStatusApplication {
     InitializingBean seedDatabase(final UserRepository repository){
         return () -> {
           repository.save(new User("miwa","miwa"));
+            repository.save(new User("diwa","diwa"));
+            repository.save(new User("fiwa","fiwa"));
         };
     }
 
