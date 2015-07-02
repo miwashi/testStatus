@@ -1,1 +1,1 @@
-web: java -jar $JAVA_OPTS build/libs/test-status.jar --spring.profiles.active=stage
+web: java -jar $JAVA_OPTS build/libs/test-status.jar --spring.profiles.active=$ENV
