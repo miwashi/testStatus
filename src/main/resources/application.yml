@@ -1,6 +1,43 @@
+# *******  DEFAULT  *******
+spring:
+  application:
+    name: test-status
+
+  profiles:
+    default: ${ENV:dev}
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: ${VERSION:unknown}
+
 server:
-  port: ${port:7776}
+  port: ${port:8080}
   
 configuration:
     projectName: testStates
     bar: whateva
+
+
+# *******  DEV  *******
+
+---
+spring:
+  profiles: dev
+
+# *******  STAGE  *******
+
+---
+spring:
+  profiles: stage
+
+  datasuorce:
+      url: postgres://iyfgdecpmudmfo:yH4dXI2jVTgFQ8Js5n6djW4bgR@ec2-107-21-114-132.compute-1.amazonaws.com:5432/dtq22ng04anf3
+      username: iyfgdecpmudmfo
+      password: yH4dXI2jVTgFQ8Js5n6djW4bgR
+
+# *******  PROD  *******
+
+---
+spring:
+  profiles: prod

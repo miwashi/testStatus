@@ -1,16 +1,33 @@
 package com.miwashi;
 
+import com.miwashi.model.User;
+import com.miwashi.repositories.UserRepository;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 @ConfigurationProperties
 public class TestStatusApplication {
 
+    @Bean
+    InitializingBean seedDatabase(final UserRepository repository){
+        return () -> {
+          repository.save(new User("miwa","miwa"));
+        };
+    }
+
+    @Bean
+    CommandLineRunner exampleQuery(UserRepository repository){
+        return args ->
+                repository.findByName("miwa").forEach(System.out::println);
+    }
 
     @Value("${configuration.projectName}")
     void setProjectName(String projectName){
