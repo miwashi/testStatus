@@ -11,10 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 @ConfigurationProperties
-public class TestStatusApplication {
+public class TestStatusApplication extends WebMvcConfigurerAdapter{
 
     @Bean
     InitializingBean seedDatabase(final UserRepository repository){
@@ -29,6 +31,11 @@ public class TestStatusApplication {
     CommandLineRunner exampleQuery(UserRepository repository){
         return args ->
                 repository.findByName("miwa").forEach(System.out::println);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry){
+        registry.addViewController("/").setViewName("index");
     }
 
     @Value("${configuration.projectName}")
