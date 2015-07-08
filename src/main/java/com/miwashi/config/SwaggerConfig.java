@@ -18,8 +18,8 @@ public class SwaggerConfig {
 				.apiInfo(apiInfo())
 				.apiVersion(getApiVersion())
 				.includePatterns(
-						ApplicationConfig.getVersionedEndpointURL("/test.*")
-                        ,"/test.*"
+						ApplicationConfig.getVersionedEndpointURL("/requirement.*")
+                        ,"/requirement.*"
                         //,"/.*"
 						);
 	}
