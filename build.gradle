@@ -4,8 +4,9 @@ buildscript {
         springBootVersion = '1.2.4.RELEASE'
         springCloudVersion = '1.0.2.RELEASE'
 
-        svaggerVersion = '0.9.4'
-        svaggerUIVersion = '2.0.24'
+        svaggerVersion = '1.0.2'
+        svaggerUIVersion = '2.1.0'
+        jqueryVersion = '1.8.3'
     }
     repositories {
         mavenCentral()
@@ -47,10 +48,13 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    //compile("org.springframework.boot:spring-boot-starter-security")
     runtime("com.h2database:h2")
 
     compile group: 'com.mangofactory', name: 'swagger-springmvc', version: svaggerVersion
+
     compile group: 'org.webjars', name: 'swagger-ui', version: svaggerUIVersion
+    compile group: 'org.webjars', name: 'jquery', version: jqueryVersion
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

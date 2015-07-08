@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
 @ConfigurationProperties
-public class TestStatusApplication extends WebMvcConfigurerAdapter{
+public class TestStatusApplication {
 
     @Bean
     InitializingBean seedDatabase(final UserRepository repository){
@@ -31,11 +31,6 @@ public class TestStatusApplication extends WebMvcConfigurerAdapter{
     CommandLineRunner exampleQuery(UserRepository repository){
         return args ->
                 repository.findByName("miwa").forEach(System.out::println);
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry){
-        registry.addViewController("/").setViewName("index");
     }
 
     @Value("${configuration.projectName}")

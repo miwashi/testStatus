@@ -9,11 +9,21 @@
 </head>
 <body>
     <div class="container">
+
         <div class="banner">
             <img th:src="@{/img/logo.jpg}"/>
         </div>
-        <h1 layout:fragment="header"></h1>
+
+        <h1 layout:fragment="header">
+
+        </h1>
+
         <hr/>
+
+        <div layout:fragment="content">
+
+        </div>
+
         <p class="footer">A footer</p>
     </div>
 </body>
