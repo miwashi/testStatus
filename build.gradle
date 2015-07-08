@@ -52,9 +52,7 @@ dependencies {
     runtime("com.h2database:h2")
 
     compile group: 'com.mangofactory', name: 'swagger-springmvc', version: svaggerVersion
-
     compile group: 'org.webjars', name: 'swagger-ui', version: svaggerUIVersion
-    compile group: 'org.webjars', name: 'jquery', version: jqueryVersion
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

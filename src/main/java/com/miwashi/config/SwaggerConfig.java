@@ -18,8 +18,9 @@ public class SwaggerConfig {
 				.apiInfo(apiInfo())
 				.apiVersion(getApiVersion())
 				.includePatterns(
-						ApplicationConfig.getVersionedEndpointURL("/test.*"),
-                        "/test.*"
+						ApplicationConfig.getVersionedEndpointURL("/test.*")
+                        ,"/test.*"
+                        //,"/.*"
 						);
 	}
 
@@ -31,7 +32,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		ApiInfo apiInfo = new ApiInfo("SVT Sport API", "A HTTP/JSON API for the sport site",
+		ApiInfo apiInfo = new ApiInfo("Requirement Status", "A HTTP/JSON API for requirements",
 				"", // API terms of service
 				"", // API Contact Email
 				"", // API Licence Type

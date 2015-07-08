@@ -24,11 +24,13 @@
     <script type="text/javascript">
         $(function () {
             var url = window.location.search.match(/url=([^&]+)/);
+            url = "/api-docs";
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
                 url = "http://petstore.swagger.io/v2/swagger.json";
             }
+            url = "/api-docs";
             window.swaggerUi = new SwaggerUi({
                 url: url,
                 dom_id: "swagger-ui-container",
