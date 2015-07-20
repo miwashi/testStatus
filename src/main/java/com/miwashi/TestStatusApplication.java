@@ -1,7 +1,9 @@
 package com.miwashi;
 
-import com.miwashi.model.User;
-import com.miwashi.repositories.UserRepository;
+import com.miwashi.model.*;
+import com.miwashi.repositories.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,14 +11,58 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import reactor.io.encoding.StandardCodecs;
+import reactor.net.netty.udp.NettyDatagramServer;
+import reactor.net.tcp.support.SocketUtils;
+import reactor.net.udp.DatagramServer;
+import reactor.net.udp.spec.DatagramServerSpec;
+import reactor.spring.context.config.EnableReactor;
+
+import java.net.SocketException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 @ConfigurationProperties
+@EnableReactor
+@ComponentScan
 public class TestStatusApplication {
+
+    private Log log = LogFactory.getLog(TestStatusApplication.class);
+
+    private static final String DEFAULT_BROWSER = "firefox";
+    private static final String DEFAULT_PLATFORM = "linux";
+
+    @Autowired
+    RequirementRepository requirementRepository;
+
+    @Autowired
+    ResultRepository resultRepository;
+
+    @Autowired
+    BrowserRepository browserRepository;
+
+    @Autowired
+    PlatformRepository platformRepository;
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    volatile boolean isRunning = false;
+    private UDPServer udpServer = null;
+
+    private ConcurrentHashMap<String, ResultReport> reports = new ConcurrentHashMap<String, ResultReport>();
+    private ConcurrentHashMap<String, Group> groups = new ConcurrentHashMap<String, Group>();
+    private ConcurrentHashMap<String, Group> subgroups = new ConcurrentHashMap<String, Group>();
+    private ConcurrentHashMap<String, Subject> subjects = new ConcurrentHashMap<String, Subject>();
 
     @Bean
     InitializingBean seedDatabase(final UserRepository repository){
@@ -43,8 +89,120 @@ public class TestStatusApplication {
         System.out.println("Setting environment: " + env.getProperty("configuration.projectName"));
     }
 
+    public TestStatusApplication(){
+        super();
+    }
 
-    public static void main(String[] args) {
-        SpringApplication.run(TestStatusApplication.class, args);
+    @Scheduled(fixedRate = 1000)
+    public void handleResultReports() {
+        List<ResultReport> toBeHandled = new ArrayList<ResultReport>();
+        List<String> toBeDeleted = new ArrayList<String>();
+
+        reports.values().forEach(result -> {
+            if(result.getCompleteTime()!=null){
+                toBeHandled.add(result);
+                toBeDeleted.add(result.getKey());
+            }
+        });
+        toBeDeleted.forEach( key -> {
+            reports.remove(key);
+        });
+        toBeHandled.forEach(result -> {
+            handleResult(result);
+        });
+    }
+
+    private void handleResult(ResultReport resultReport) {
+        Browser aBrowser = loadBrowser(resultReport.getBrowser());
+        Platform aPlatform = loadPlatform(resultReport.getPlatform());
+
+        Requirement requirement = new Requirement(resultReport.getName());
+        Iterable<Requirement> requirements = requirementRepository.findByName(requirement.getName());
+        if(requirements.iterator().hasNext()){
+            requirement = requirements.iterator().next();
+        }
+
+        requirementRepository.save(requirement);
+
+        Result result = new Result(resultReport.getStatus());
+        result.setBrowser(aBrowser);
+        result.setPlatform(aPlatform);
+        result.setCompletionTime(resultReport.getCompleteTime());
+        result.setStartTime(resultReport.getStartTime());
+        requirement.add(result);
+        requirementRepository.save(requirement);
+    }
+
+    private Browser loadBrowser(String browserName){
+        if(browserName==null || browserName.isEmpty()){
+            browserName = Browser.DEFAULT_BROWSER;
+        }
+        browserName = browserName.toLowerCase();
+
+        Iterable<Browser> browsers = browserRepository.findByName(browserName);
+        Browser aBrowser = new Browser(browserName);
+        if(browsers.iterator().hasNext()){
+            aBrowser = browsers.iterator().next();
+        }else{
+            browserRepository.save(aBrowser);
+        }
+        return aBrowser;
+    }
+
+    private Platform loadPlatform(String platformName){
+        if(platformName==null || platformName.isEmpty()){
+            platformName = Platform.DEFAULT_PLATFORM;
+        }
+        platformName = platformName.toLowerCase();
+
+        Iterable<Platform> platforms = platformRepository.findByName(platformName);
+        Platform aPlatform = new Platform(platformName);
+        if(platforms.iterator().hasNext()){
+            aPlatform = platforms.iterator().next();
+        }else{
+            platformRepository.save(aPlatform);
+        }
+        return aPlatform;
+    }
+
+    @Bean
+    public DatagramServer<byte[], byte[]> datagramServer(reactor.core.Environment env) throws InterruptedException {
+
+        final DatagramServer<byte[], byte[]> server = new DatagramServerSpec<byte[], byte[]>(NettyDatagramServer.class)
+                .env(env)
+                //.listen(SocketUtils.findAvailableTcpPort())
+                .listen(6500)
+                .codec(StandardCodecs.BYTE_ARRAY_CODEC)
+                .consumeInput(bytes -> {
+                    String request = new String(bytes);
+                    log.info("received: " + request);
+
+                    ResultReport result = new ResultReport(request);
+                    if (result.isCompleted()) {
+                        ResultReport oldReport = reports.get(result.getKey());
+                        if (oldReport != null) {
+                            oldReport.setStatus(result.getStatus());
+                            oldReport.setCompleteTime(result.getStartTime());
+                        }
+                    } else {
+                        reports.put(result.getKey(), result);
+                    }
+                })
+                .get();
+
+        server.start().await();
+        return server;
+    }
+
+    @Bean
+    public CountDownLatch latch() {
+        return new CountDownLatch(1);
+    }
+
+
+    public static void main(String[] args) throws InterruptedException  {
+        ApplicationContext ctx = SpringApplication.run(TestStatusApplication.class, args);
+        CountDownLatch latch = ctx.getBean(CountDownLatch.class);
+        latch.await();
     }
 }

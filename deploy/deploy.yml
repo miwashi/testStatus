@@ -1,0 +1,33 @@
+- hosts: support
+  sudo: yes
+
+  vars:
+    platform: ubuntu
+
+    service_name: test-status
+    service_owner: root
+    service_group: root
+    service_mode: 0755
+    service_home: /etc/init.d
+    jar_home: /opt/test-status
+    jar_name: test-status.jar
+
+  tasks:
+  - name: Check that the server's alive
+    action: ping
+
+  - name: Add home directory for jar
+    file: path={{jar_home}} state=directory owner={{service_owner}} group={{service_group}}  mode=0755
+
+  - name: Ensure daemon {{service_name}} has stopped
+    action: service name={{service_name}} state=stopped
+
+  - name: Copying jar
+    copy: src=/Users/miwa01/ws/test-status/build/libs/test-status.jar dest={{jar_home}} owner={{service_owner}} group={{service_group}} mode=0755 force=yes
+
+  - name: Ensure daemon {{service_name}} has started
+    action: service name={{service_name}} state=started enabled=yes
+
+#  - name: Build service
+#    local_action: gradle stage
+#/Users/miwa01/ws/test-status/build/libs

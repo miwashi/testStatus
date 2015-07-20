@@ -20,6 +20,10 @@ public class SwaggerConfig {
 				.includePatterns(
 						ApplicationConfig.getVersionedEndpointURL("/requirement.*")
                         ,"/requirement.*"
+                        ,ApplicationConfig.getVersionedEndpointURL("/settings.*")
+                        ,"/settings.*"
+                        ,"/requirements.*"
+                        //,"/users.*"
                         //,"/.*"
 						);
 	}
