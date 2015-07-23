@@ -27,9 +27,10 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
-        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/api").setViewName("swagger");
         registry.addViewController("/thyme").setViewName("thyme");
-        //registry.addViewController("/settings").setViewName("settings");
+        registry.addViewController("/settings").setViewName("settings");
+        registry.addViewController("/").setViewName("index");
     }
 
 }

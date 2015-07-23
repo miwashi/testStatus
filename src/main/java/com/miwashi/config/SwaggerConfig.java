@@ -19,10 +19,11 @@ public class SwaggerConfig {
 				.apiVersion(getApiVersion())
 				.includePatterns(
 						ApplicationConfig.getVersionedEndpointURL("/requirement.*")
-                        ,"/requirement.*"
                         ,ApplicationConfig.getVersionedEndpointURL("/settings.*")
+                        ,"/requirement.*"
                         ,"/settings.*"
                         ,"/requirements.*"
+                        ,"/meta.*"
                         //,"/users.*"
                         //,"/.*"
 						);

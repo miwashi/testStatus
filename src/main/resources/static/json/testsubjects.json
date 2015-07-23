@@ -1,0 +1,1115 @@
+[
+  {
+    "key": "se.svt.test.svtse.medaljligatest",
+    "name": "medaljliga",
+    "group": "svtse",
+    "requirements": ["should be visible"]
+  },
+  {
+    "key": "se.svt.test.barn.barnkanalen.firstpageframeworktest",
+    "name": "first page framework",
+    "group": "barn",
+    "requirements": [
+      "should have big header",
+      "should have character list",
+      "should have search field",
+      "should have fast flow",
+      "should have navigation buttons",
+      "should open bolibompa in new window",
+      "should have slow flow",
+      "should have more button",
+      "should have footer"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.kidsvideoplayertest",
+    "name": "kids video player",
+    "group": "barn",
+    "requirements": [
+      "click video thumbnail and verify that correct video is started in clip player",
+      "verify clip player existence"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.fourofourpagetest",
+    "name": "four ofour page",
+    "group": "barn",
+    "requirements": [
+      "should be displayed when incorrect url is entered and should be closeable",
+      "should not be displayed on start page from the beginning"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.videoinformationtest",
+    "name": "video information",
+    "group": "atv",
+    "requirements": [
+      "should have only one active video rights icon",
+      "should contain four video rights icons",
+      "should display episode tv guide",
+      "should have geo block content"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.scribblelive.livearticleposttest",
+    "name": "live article post",
+    "group": "svtse",
+    "requirements": [
+      "should have poll with possibility to vote in",
+      "should be of type youtube",
+      "should be post in post",
+      "should be of type twitter",
+      "should be of type facebook",
+      "should have discussions",
+      "should be of type flickr",
+      "should have basic information if regular",
+      "should be of type instagram",
+      "should be of type wikipedia",
+      "should be sticky"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.kunskapskanalentest",
+    "name": "kunskapskanalen",
+    "group": "atv",
+    "requirements": [
+      "should verify that article group exists",
+      "should have kunskapskanalen title suffix",
+      "should verify that footer exists",
+      "should have schedule page showing schedule for at least today and tomorrow",
+      "should expand xsmall more menu",
+      "should verify article list element is able to expand and close"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.umbrella.umbrellatitlepagetest",
+    "name": "umbrella title page",
+    "group": "atv",
+    "requirements": [
+      "should have menu link to all related sites",
+      "should have bottom section"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.svt2singlechanneltest",
+    "name": "svt2 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.barn.play.searchtest",
+    "name": "search",
+    "group": "barn",
+    "requirements": [
+      "should change active title in search result list with tab key",
+      "should empty search field when search field is active and user hits escape",
+      "should give error message when searching on non existing titles",
+      "should link to episode modal",
+      "should set focus on first search hit when search field is active and user hits enter",
+      "should have input field in header in dimension large and medium",
+      "should show title list when searching on titles",
+      "should show search field when clicking on search icon",
+      "should have button in header in dimension small and xsmall"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.tv6singlechanneltest",
+    "name": "tv6 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.escenic.flowsectionhandler",
+    "name": "flow section handler",
+    "group": "svtse",
+    "requirements": ["create date sections for flow playlist"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.footertest",
+    "name": "footer",
+    "group": "barn",
+    "requirements": [
+      "should be present on all types of pages",
+      "should have links",
+      "should have the text sveriges television in the footer"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.localheadertest",
+    "name": "local header",
+    "group": "atv",
+    "requirements": [
+      "should have more button on small screens",
+      "should verify that header elements exist",
+      "should just have one navigation element if not active show",
+      "should verify that text logo is clickable and leads to start page",
+      "should have aclickable menu",
+      "should verify that program logo is clickable and leads to start page",
+      "should have logo",
+      "should verify local header min height",
+      "should return one navigation element with three list items"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.blogs.escenicblogmainpagetest",
+    "name": "escenic blog main page",
+    "group": "atv",
+    "requirements": [
+      "should have recent posts in right column",
+      "should be able to load more posts",
+      "should have player with correct attributes",
+      "should have global footer",
+      "should have local menu",
+      "should have social media links",
+      "should have posts",
+      "should have archived posts in right column",
+      "should have links to comments",
+      "should have svt header",
+      "should have expandable posts",
+      "should have rss subscribe button"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.headertest",
+    "name": "header",
+    "group": "barn",
+    "requirements": [
+      "should have link back to barnkanalen",
+      "should have five header icons in xsmall",
+      "should have four navigation icons"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.escenic.treechopper",
+    "name": "tree chopper",
+    "group": "svtse",
+    "requirements": ["perform tree chop"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.characterlisttest",
+    "name": "character list",
+    "group": "barn",
+    "requirements": [
+      "should have links to titles in barnplay",
+      "should have character images present",
+      "should exist on all types of pages",
+      "should show new titles when clicking on arrows",
+      "should have links to title pages on barnkanalen"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.barnkanalen.posttest",
+    "name": "post",
+    "group": "barn",
+    "requirements": ["should have content"]
+  },
+  {
+    "key": "se.svt.test.barn.play.categorylisttest",
+    "name": "category list",
+    "group": "barn",
+    "requirements": [
+      "should display category icons",
+      "should shift characters when clicking on arrows",
+      "should have correct number of titles visible in list",
+      "should have title lists displayed"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.globalsearchtest",
+    "name": "global search",
+    "group": "svtse",
+    "requirements": [
+      "should expand input field when click on search",
+      "search using the header search field should generate hits",
+      "search using the search page search box should generate hits",
+      "search for string without hits should return no hits page"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.kanal9singlechanneltest",
+    "name": "kanal9 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.videodeeplinktest",
+    "name": "video deep link",
+    "group": "barn",
+    "requirements": [
+      "verify all video players are rendered",
+      "verify section based player contains eight thumbnails and an anchor id",
+      "verify area based player",
+      "video player with only one video should show no video list"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.programao.programfiltercategoriestest",
+    "name": "program filter categories",
+    "group": "svtse",
+    "requirements": [
+      "the view aktuella should include active links and no inactive links",
+      "the category sport url should contain sport titles",
+      "the view alla should include both active and inactive links",
+      "program ao should have teasers on top",
+      "default view should include active links and no inactive links",
+      "footer should exist",
+      "header should exist",
+      "the category barn url should not contain sport titles"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.programao.innehallaotest",
+    "name": "innehall ao",
+    "group": "svtse",
+    "requirements": [
+      "clicking on anchor links should take us to the anchor target",
+      "ao should have navigation list",
+      "ao should have anchor targets for all elements in navigation list"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.radiohjalpentest",
+    "name": "radiohjalpen",
+    "group": "atv",
+    "requirements": [
+      "should expand xsmall more menu",
+      "should have se program page with player present",
+      "should return footer containing three logos",
+      "should have radiohjalpen title suffix",
+      "should verify article list element is able to expand and close",
+      "should have footer with logos"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.melodifestivalentest",
+    "name": "melodifestivalen",
+    "group": "atv",
+    "requirements": [
+      "should have more menu in dimension xs",
+      "should verify that side area contains articles",
+      "should have customized page title",
+      "should verify that top area contains afeatured top",
+      "should verify that main area contains article list"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.tv4singlechanneltest",
+    "name": "tv4 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.frontpage.newsareatest",
+    "name": "news area",
+    "group": "svtse",
+    "requirements": [
+      "news top image should be centered",
+      "regional link at top should have correct destination",
+      "news section should display seven medium or seven medium and one large or five medium and two large teasers",
+      "small images should be aligned to the left",
+      "news arrows should point to news",
+      "all teasers should have clickable titles and text bodies"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.titlepagetest",
+    "name": "title page",
+    "group": "barn",
+    "requirements": [
+      "should have text block on the page",
+      "should have episode player",
+      "should have video clip player",
+      "should have teaser group",
+      "should have title info on page",
+      "should exist"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.alphabeticalindexpagetest",
+    "name": "alphabetical index page",
+    "group": "barn",
+    "requirements": [
+      "should exist for all programs",
+      "should exist for games"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.headertest",
+    "name": "header",
+    "group": "barn",
+    "requirements": [
+      "should have home link that navigates back to front page",
+      "should have header link to games page",
+      "should have xsmall menu with five navigation elements",
+      "should have header link to crafts page",
+      "should have header with navigation elements"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.bredlagetest",
+    "name": "bredlage",
+    "group": "svtse",
+    "requirements": [
+      "should have top teaser with image and text",
+      "should have atwo column block",
+      "should have swipe",
+      "should have arrow in screamer xs",
+      "should have opinion teaser",
+      "should have top teaser",
+      "should have swipe teasers",
+      "should have screamer with text and link",
+      "should have aone column block",
+      "should have wideview title",
+      "should have analysis teaser"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.latestepisodeteasertest",
+    "name": "latest episode teaser",
+    "group": "atv",
+    "requirements": [
+      "should be clickable and start video",
+      "should have teaser play stamp",
+      "should have image",
+      "should have play button"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.barnkanalen.flowadmintest",
+    "name": "flow admin",
+    "group": "barn",
+    "requirements": [
+      "should display today",
+      "should load more posts",
+      "should display correct number of posts"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.showmorearticlestest",
+    "name": "show more articles",
+    "group": "atv",
+    "requirements": [
+      "should show more than one article but maximum ten articles on one page",
+      "should show more articles when pressed more articles button",
+      "should have amore articles button when ten or more articles in list"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.tv3singlechanneltest",
+    "name": "tv3 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.nextepisodeteasertest",
+    "name": "next episode teaser",
+    "group": "atv",
+    "requirements": [
+      "should verify that teaser has episode title",
+      "should have alink to video section with nr of episodes in link text",
+      "should lead to correct page after click on video section link",
+      "should have hidden description that is displayed when clicked on",
+      "should have css for achannel icon present",
+      "should verify that teaser is present"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.toplisttest",
+    "name": "top list",
+    "group": "atv",
+    "requirements": [
+      "should have entries with link and date and type info",
+      "should have two tabs",
+      "should exist in xsmall dimension",
+      "should have five list entries",
+      "should be able to switch between tabs",
+      "should exist in right column on page"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.scribblelive.livearticlecommenttest",
+    "name": "live article comment",
+    "group": "svtse",
+    "requirements": [
+      "should not be able to post acomment if message is not entered",
+      "should have comment field between stuck and post",
+      "should be able to post acomment when moderating is on",
+      "should not be able to post acomment if username is not entered"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.contentlisttest",
+    "name": "content list",
+    "group": "atv",
+    "requirements": [
+      "should expand article",
+      "should load more articles",
+      "should have load more button",
+      "should have two visible articles"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.tablatest",
+    "name": "tabla",
+    "group": "barn",
+    "requirements": [
+      "should show the menu and the schedule",
+      "should show schedule of today"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.footertest",
+    "name": "footer",
+    "group": "svtse",
+    "requirements": [
+      "link columns should be on the same horizontal in medium",
+      "should have links in footer",
+      "link columns should be on the same horizontal in large",
+      "footer should have four link columns",
+      "footer should exist",
+      "should only have one footer",
+      "link columns should be two over two the same horizontal in small",
+      "link columns should be two over two the same horizontal in xsmall"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.scribblelive.livearticlerightcolumntest",
+    "name": "live article right column",
+    "group": "svtse",
+    "requirements": [
+      "should have related video that can play video",
+      "should have related list",
+      "should have related articles",
+      "should have tags"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.kanal5singlechanneltest",
+    "name": "kanal5 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.svtwsinglechanneltest",
+    "name": "svtw single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.scribblelive.livearticleliveeventtest",
+    "name": "live article live event",
+    "group": "svtse",
+    "requirements": [
+      "should show poll",
+      "should have newest post first"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.blogs.mvhblogpagetest",
+    "name": "m vh blog page",
+    "group": "atv",
+    "requirements": [
+      "should have link to next page",
+      "should have local menu",
+      "should have footer",
+      "should have posts",
+      "should have svt header"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.footertest",
+    "name": "footer",
+    "group": "barn",
+    "requirements": [
+      "should have sv tpresent",
+      "should have four clickable links"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.votingtest",
+    "name": "voting",
+    "group": "barn",
+    "requirements": [
+      "should have expandable voting options if inactive",
+      "should show big icon on vote",
+      "should show voting options ordered by votes",
+      "should show image for voting options",
+      "should give possibility to vote",
+      "should have more than one voting option"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.teaserboxbarntest",
+    "name": "teaser box barn",
+    "group": "barn",
+    "requirements": ["should show pop up on click"]
+  },
+  {
+    "key": "se.svt.test.barn.play.personalizingtest",
+    "name": "personalizing",
+    "group": "barn",
+    "requirements": ["should center last watched title in character list"]
+  },
+  {
+    "key": "se.svt.test.atv.recipe.newrecipearticletest",
+    "name": "new recipe article",
+    "group": "atv",
+    "requirements": [
+      "should only have share info in small mode",
+      "should belong to aprogram",
+      "should have characteristics",
+      "should show time to prepare",
+      "should have header with image name and ingress",
+      "should have chef",
+      "should have share and print info",
+      "should have related objects",
+      "should be present",
+      "should show number of portions",
+      "should have ingredients",
+      "should have cooking info"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.blogs.pslblogpagetest",
+    "name": "p sl blog page",
+    "group": "atv",
+    "requirements": [
+      "should have global footer",
+      "should have expandable posts",
+      "should have possibility to play video in feed",
+      "should have top module with featured articles",
+      "should be able to load more posts",
+      "should have posts",
+      "should have svt header",
+      "should have local menu"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.svt1singlechanneltest",
+    "name": "svt1 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.sjuansinglechanneltest",
+    "name": "sjuan single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.mainviewresponsivenesstest",
+    "name": "main view responsiveness",
+    "group": "svtse",
+    "requirements": [
+      "should display two complete channels in xsmall",
+      "should display three complete channels in large",
+      "should display two complete channels in small",
+      "should display two complete channels in medium"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.characterlisttest",
+    "name": "character list",
+    "group": "barn",
+    "requirements": [
+      "should have text present under some of the titles",
+      "should have text present under centered title",
+      "should have correct item centered in list",
+      "should not have text present under most of the titles",
+      "should have character list list displayed",
+      "should shift characters when clicking on arrows"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.svtksinglechanneltest",
+    "name": "svtk single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.tablasearchtest",
+    "name": "tabla search",
+    "group": "svtse",
+    "requirements": [
+      "nonsense search should return empty result",
+      "search term should be highlighted",
+      "ur links should be valid",
+      "pagination buttons should exist",
+      "pagination without javascript should work",
+      "pagination should work",
+      "tabla page should contain search box",
+      "search input should not be visible in small mode",
+      "search should return non empty result",
+      "performing asearch should return non empty list",
+      "search should return at least one valid result"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.footertest",
+    "name": "footer",
+    "group": "atv",
+    "requirements": [
+      "should return footer containing only one logo",
+      "should have clickable logo that directs to svt first page"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.svtworldtest",
+    "name": "svt world",
+    "group": "svtse",
+    "requirements": [
+      "should update tv table according to selected time offset",
+      "should keep time offset when navigating between days"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.fourofourpagebarntest",
+    "name": "four ofour page barn",
+    "group": "barn",
+    "requirements": [
+      "should have correct text",
+      "should have footer",
+      "should have correct divs",
+      "should have header"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.futurebroadcaststest",
+    "name": "future broadcasts",
+    "group": "atv",
+    "requirements": [
+      "should verify that future broadcast has buttons for next episodes",
+      "should verify that atitle page has future broadcasts",
+      "should verify that ahit has adate and an icon for channel",
+      "should verify that ahit has atitle and adescription",
+      "should verify that click on next button loads more elements to page",
+      "should verify that future broadcast has buttons for prev episodes",
+      "should verify that click on prev button loads more elements to page"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.taggloptest",
+    "name": "tagg lop",
+    "group": "svtse",
+    "requirements": ["verify existence of tagglop links in article and separate tagg lop"]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.mainviewtest",
+    "name": "main view",
+    "group": "svtse",
+    "requirements": [
+      "the listing comes up with menu",
+      "should have all channels in main view",
+      "should have menu and navigation bar",
+      "viewing listing from yesterday should hide aside listings",
+      "should have working navigation bar",
+      "the listing comes up with four columns",
+      "viewing listing from today should display aside listings",
+      "should have tabla for three weeks",
+      "no more than three past entries should be visible"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.historylisttest",
+    "name": "history list",
+    "group": "barn",
+    "requirements": [
+      "should update history list when watching multiple videos",
+      "should get history list when watching video",
+      "should not have history list from beginning"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.barnkanalen.slowflowtest",
+    "name": "slow flow",
+    "group": "barn",
+    "requirements": ["should display correct number of posts"]
+  },
+  {
+    "key": "se.svt.test.svtse.frontpage.moreonsvtareatest",
+    "name": "more on svt area",
+    "group": "svtse",
+    "requirements": ["more on svt area should work according to spec"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.frameworktest",
+    "name": "framework",
+    "group": "barn",
+    "requirements": [
+      "should have framework blocks on ablock page",
+      "should have framework blocks on atitle page"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.external.wordpresstest",
+    "name": "word press",
+    "group": "atv",
+    "requirements": [
+      "should have aclickable menu",
+      "should have title",
+      "should return menu items using the widget dispatcher"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.global.http404test",
+    "name": "http404",
+    "group": "atv",
+    "requirements": ["should have404 with menu and footer"]
+  },
+  {
+    "key": "se.svt.test.barn.play.loadmetricstest",
+    "name": "load metrics",
+    "group": "barn",
+    "requirements": ["should load play start page under5 sec"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.searchtest",
+    "name": "search",
+    "group": "barn",
+    "requirements": [
+      "should stay on page if not found and hit return",
+      "should stay on page if no input and hit return",
+      "should toggle search field to search icon in small window mode"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.featuredepisodetest",
+    "name": "featured episode",
+    "group": "barn",
+    "requirements": [
+      "should show404 page when expired episode",
+      "should show404 page when non existing episode id",
+      "should be present and displayed with info and image"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.smoketest",
+    "name": "smoke",
+    "group": "barn",
+    "requirements": ["test some pages under barnkanalen"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.videoplayertest",
+    "name": "video player",
+    "group": "barn",
+    "requirements": ["should be possible on title page"]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.polltest",
+    "name": "poll",
+    "group": "atv",
+    "requirements": [
+      "should show voting results when closed",
+      "should give error message when already voted",
+      "should be displayed",
+      "should have link to poll result",
+      "should give possibility to vote",
+      "should be active or closed and open or hidden",
+      "should show total number of votes",
+      "should show voting options when active",
+      "should show correct vignette"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.anchorlinktest",
+    "name": "anchor link",
+    "group": "barn",
+    "requirements": ["test that one teaser can be anchor linked to another teaser on the same page"]
+  },
+  {
+    "key": "se.svt.test.barn.barnkanalen.fastflowtest",
+    "name": "fast flow",
+    "group": "barn",
+    "requirements": [
+      "should have video posts",
+      "should have more button",
+      "should display correct number of posts"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.vtmatest",
+    "name": "v tma",
+    "group": "svtse",
+    "requirements": [
+      "all tests",
+      "all tests on tv tabla"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.bolibompaopeninnewwindowtest",
+    "name": "bolibompa open in new window",
+    "group": "barn",
+    "requirements": ["open bolibompa in new window"]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.bolibompaspelhusetteasertest",
+    "name": "bolibompa spelhuset teaser",
+    "group": "barn",
+    "requirements": [
+      "verify one plus one teaser group",
+      "verify one teaser group"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.bolibompahusetteasertest",
+    "name": "bolibompahuset teaser",
+    "group": "barn",
+    "requirements": [
+      "verify two plus one teaser group",
+      "verify one plus two teaser group"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.episodetest",
+    "name": "episode",
+    "group": "atv",
+    "requirements": [
+      "verify that live label exists",
+      "verify that headline reflects live",
+      "verify that start contains live broadcast"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.play.episodemodaltest",
+    "name": "episode modal",
+    "group": "barn",
+    "requirements": [
+      "should not be displayed from the beginning",
+      "should be displayed when clicking on episode in list under category list",
+      "should be displayed when clicking on episode in list under character list",
+      "should be closeable",
+      "should have title",
+      "should contain video player",
+      "should display info regarding expire date"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.scribblelive.livearticlearchivedeventtest",
+    "name": "live article archived event",
+    "group": "svtse",
+    "requirements": [
+      "should have oldest post first",
+      "should show poll results",
+      "should be able to load more posts"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.globalautocompletetest",
+    "name": "global autocomplete",
+    "group": "svtse",
+    "requirements": [
+      "auto complete exist and links are correct",
+      "auto complete no result should show up"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.recipe.recipearticletest",
+    "name": "recipe article",
+    "group": "atv",
+    "requirements": [
+      "should have header with image vignette and headers",
+      "should show number of portions",
+      "should have ingredients",
+      "should have characteristics",
+      "should belong to aprogram",
+      "should have related objects",
+      "should have chef",
+      "should have share info",
+      "should have cooking info",
+      "should be present",
+      "should show time to prepare"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.kidsblocktest",
+    "name": "kids block",
+    "group": "barn",
+    "requirements": [
+      "should have icon image in block header",
+      "should have correct style on third block",
+      "should have correct number of block navigation elements",
+      "should have correct title on second block",
+      "should have block navigation",
+      "should have correct number of blocks on tested page"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.svtworldtest",
+    "name": "s vt world",
+    "group": "atv",
+    "requirements": [
+      "should have menu with seven tabs",
+      "should have aside container with articles",
+      "should have main container with articles",
+      "should have link to english translation",
+      "should have link to schedule page",
+      "should have content list top with article"
+    ]
+  },
+  {
+    "key": "se.svt.test.nss.analysistest",
+    "name": "analysis",
+    "group": "nss",
+    "requirements": [
+      "should have analysis vignette",
+      "should have text content",
+      "should have headline",
+      "should have person image",
+      "should have grey background",
+      "should have quotes as image",
+      "should open article when clicked"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.recipe.recipesearchtest",
+    "name": "recipe search",
+    "group": "atv",
+    "requirements": [
+      "should show ten recipes",
+      "should be possible with text search",
+      "should show more recipes when clicking on more button",
+      "should be possible when choosing check box alternatives",
+      "should be possible when choosing dropdown alternatives",
+      "should have search field",
+      "should have search alternatives"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.tittarservicetest",
+    "name": "tittarservice",
+    "group": "atv",
+    "requirements": [
+      "should have aside container with articles on news page",
+      "should have main container with articles on news page",
+      "should have correct components on ask us page",
+      "should have featured top on news page",
+      "should have correct components on opinions page",
+      "should have correct components on find answers page",
+      "should have aside container with articles on start page",
+      "should have correct components on start page"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.programinfotest",
+    "name": "program info",
+    "group": "svtse",
+    "requirements": [
+      "links and more program information should be visible",
+      "program info should expand and close on click"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.featuredtoptest",
+    "name": "featured top",
+    "group": "atv",
+    "requirements": [
+      "should verify that featured top contains articles",
+      "should verify that featured top articles contains images"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.widgets.mediagallerytest",
+    "name": "media gallery",
+    "group": "atv",
+    "requirements": [
+      "should not have carousel present when all images are shown from the beginning",
+      "should open article and change image when clicking on large image",
+      "should change active image and large displayed image on thumbnail click",
+      "should have equal number of large images as thumbnails",
+      "should have number of pictures written in footer when not standalone",
+      "should show caption text in footer when video and in an article",
+      "should change thumbnails in carousel when clicking on arrows",
+      "should show statistics of in footer when image and in an article",
+      "should have video player and change image when clicking on it",
+      "should have thumbnails"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.barnkanalen.sitenavigationtest",
+    "name": "site navigation",
+    "group": "barn",
+    "requirements": [
+      "should have header with navigation elements",
+      "should have header link to games page",
+      "should have header link to crafts page"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.videoplayerinfeedtest",
+    "name": "video player in feed",
+    "group": "atv",
+    "requirements": ["should have video player with correct attributes"]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.tv8singlechanneltest",
+    "name": "tv8 single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.atv.external.templateresolvertest",
+    "name": "template resolver",
+    "group": "atv",
+    "requirements": [
+      "should return statistics",
+      "should return view port",
+      "should return doc type data",
+      "should return app icons",
+      "should return head includes",
+      "should return foot includes"
+    ]
+  },
+  {
+    "key": "se.svt.test.barn.escenic.bolibompaurltest",
+    "name": "bolibompa ur l",
+    "group": "barn",
+    "requirements": [
+      "should redirect to bolibompa with trailing slash",
+      "should not redirect for bolibompa subsections"
+    ]
+  },
+  {
+    "key": "se.svt.test.atv.umbrella.umbrellasectionpagetest",
+    "name": "umbrella section page",
+    "group": "atv",
+    "requirements": [
+      "should have right column with articles",
+      "should have grid with current titles",
+      "should have main section with articles",
+      "should have all related sites section",
+      "should have logo in header",
+      "should have background theme",
+      "humor should have all related sites section",
+      "should have featured top section with articles",
+      "should have clickable menu"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.tabla.singlechanneltest.barnkanalensinglechanneltest",
+    "name": "barnkanalen single channel",
+    "group": "svtse",
+    "requirements": ["should navigate to different single views"]
+  },
+  {
+    "key": "se.svt.test.atv.programpages.videopagetest",
+    "name": "video page",
+    "group": "atv",
+    "requirements": [
+      "should have episode title",
+      "verify article view",
+      "should have tv guide",
+      "should have episode meta",
+      "should have video player that can play video",
+      "should have related content",
+      "should have tab menu",
+      "should have video list",
+      "should have title rights"
+    ]
+  },
+  {
+    "key": "se.svt.test.svtse.scribblelive.scribbleliveheadertest",
+    "name": "scribble live header",
+    "group": "svtse",
+    "requirements": ["template should have proper containers"]
+  }
+]

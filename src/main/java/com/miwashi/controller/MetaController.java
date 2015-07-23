@@ -1,5 +1,6 @@
 package com.miwashi.controller;
 
+import com.miwashi.TestStatusApplication;
 import com.miwashi.model.*;
 import com.miwashi.repositories.BrowserRepository;
 import com.miwashi.repositories.PlatformRepository;
@@ -33,8 +34,8 @@ public class MetaController {
     @Autowired
     PlatformRepository platformRepository;
 
-    @RequestMapping(value = "/groups/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/groups/all", notes = "Returns a status")
+    @RequestMapping(value = "/meta/groups", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/meta/groups", notes = "Returns a status")
     public Collection<Group> getAllGroups() {
         Map<String,Group> result =  new HashMap<String, Group>();
 
@@ -48,8 +49,8 @@ public class MetaController {
         return result.values();
     }
 
-    @RequestMapping(value = "/subgroups/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/subgroups/all", notes = "Returns a status")
+    @RequestMapping(value = "/meta/subgroups", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/meta/subgroups", notes = "Returns a status")
     public Collection<Group> getAllSubGroups() {
         Map<String,Group> result =  new HashMap<String, Group>();
 
@@ -61,8 +62,8 @@ public class MetaController {
         return result.values();
     }
 
-    @RequestMapping(value = "/testsubjects/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/testsubjects/all", notes = "Returns a status")
+    @RequestMapping(value = "/meta/testsubjects", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/meta/testsubjects", notes = "Returns a status")
     public Collection<Subject> getAllSubjects() {
         Map<String,Subject> result =  new HashMap<String, Subject>();
 
@@ -72,17 +73,12 @@ public class MetaController {
                 Subject aSubject;
                 String key = aRquirement.getTestSubjectKey();
                 if (result.containsKey(key)) {
-                    System.out.println("1a");
                     aSubject = result.get(key);
-                    System.out.println("2a");
                 } else {
-                    System.out.println("1b");
                     aSubject = new Subject(aRquirement.getTestSubject());
-                    System.out.println("2b");
                     aSubject.setKey(key);
-                    System.out.println("2c");
+                    aSubject.setGroup(aRquirement.getTestGroup());
                     result.put(key, aSubject);
-                    System.out.println("2d");
                 }
                 aSubject.add(aRquirement);
             }catch(Throwable any){
@@ -99,5 +95,12 @@ public class MetaController {
         });
 
         return result.values();
+    }
+
+    @RequestMapping(value = "/meta/incomplete", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/meta/incomplete", notes = "Returns a status")
+    public Collection<ResultReport> getAllIncomplete() {
+        Map<String, ResultReport> incomplete = TestStatusApplication.getIncompleteReports();
+        return incomplete.values();
     }
 }

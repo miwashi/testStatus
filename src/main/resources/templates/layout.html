@@ -11,7 +11,7 @@
     <div class="container">
 
         <div class="banner">
-            <img id="logo" th:src="@{/img/logo.jpg}"/>
+            <img id="logo" th:src="@{/img/logo.jpg}" style="float:left; padding-right: 20px;"/>
         </div>
 
         <h1 layout:fragment="header">
@@ -24,7 +24,11 @@
 
         </div>
 
-        <p class="footer">All Rights Reserved Miwashi Inc.</p>
+        <p class="footer">
+            All Rights Reserved Miwashi Inc.
+
+            <a href="/api">API</a>
+        </p>
     </div>
 </body>
 </html>

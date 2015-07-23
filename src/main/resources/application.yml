@@ -21,8 +21,11 @@ spring:
   profiles:
     default: ${ENV:dev}
 
-#  thymeleaf:
-#    cache: false;
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
 
 info:
   app:

@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Subject {
-    private String name;
-    private Map<String, String> requirements = new HashMap<String,String>();
     private String key;
+    private String name;
+    private String group;
+
+    private Map<String, String> requirements = new HashMap<String,String>();
+
 
     public Subject(String name) {
         this.name = name;
@@ -34,5 +37,17 @@ public class Subject {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }
