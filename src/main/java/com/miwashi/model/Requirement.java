@@ -24,6 +24,18 @@ public class Requirement {
     @JoinColumn(name = "REQURIEMENT_ID", nullable = false)
     private Collection<Result> results = new ArrayList<Result>();
 
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "GROUP_ID")
+    private Group group;
+
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "SUBGROUP_ID")
+    private Group subGroup;
+
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "SUJBECT_ID")
+    private Subject subject;
+
     @Transient
     private Result lastResult;
 
@@ -66,6 +78,15 @@ public class Requirement {
     }
 
     public Result getLastResult() {
+
+        long latest = 0;
+        lastResult = null;
+        for(Result result : results){
+            if(latest < result.getStartTime().getTime()){
+                lastResult = result;
+                latest = result.getStartTime().getTime();
+            }
+        }
         return lastResult;
     }
 
@@ -85,72 +106,87 @@ public class Requirement {
         return testRequiement;
     }
 
-    public String getTestSubjectKey(){
-        String testSubject = name;
-        if(testSubject.indexOf(".")<0){
-            return testSubject;
-        }
-        testSubject = testSubject.substring(0, testSubject.lastIndexOf("."));
-        testSubject = testSubject.toLowerCase();
-        return testSubject;
-    }
-
-    public String getTestSubject(){
-        String testSubject = "";
-        if(name.indexOf(".")<0){
-            return name;
-        }
-        testSubject = name.substring(0, name.lastIndexOf("."));
-        if(testSubject.indexOf(".")>0) {
-            testSubject = testSubject.substring(testSubject.lastIndexOf("."));
-        }
-        testSubject = testSubject.replace("Test","");
-        testSubject = testSubject.replaceAll("\\.", "");
-        testSubject = testSubject.replaceAll("(.)([A-Z])", "$1 $2");
-        testSubject = testSubject.toLowerCase();
-        return testSubject;
-    }
-
-    public String getTestGroup(){
-        String testGroup = "";
-        if(name.indexOf(".")<0){
-            return name;
-        }
-        testGroup = name;
-        testGroup = testGroup.replace("se.svt.test.","");
-        if(testGroup.indexOf(".")>0){
-            testGroup = testGroup.substring(0, testGroup.indexOf("."));
-        }
-        return testGroup;
-    }
-
-    public String getTestSubGroup(){
-        String testGroup = "";
-        if(name.indexOf(".")<0){
-            return name;
-        }
-        testGroup = name;
-        testGroup = testGroup.replace("se.svt.test.","");
-        if(testGroup.indexOf(".")>0){
-            testGroup = testGroup.substring(0, testGroup.lastIndexOf("."));
-        }
-        if(testGroup.indexOf(".")>0){
-            testGroup = testGroup.substring(0, testGroup.lastIndexOf("."));
-        }
-        return testGroup;
-    }
-
     public Date lastTested(){
-        if(lastResult==null){
+        if(getLastResult()==null){
             return null;
         }
-        return lastResult.getStartTime();
+        return getLastResult().getStartTime();
     }
 
     public String lastTestedStr(){
-        if((lastResult==null) || (lastResult.getStartTime()==null)){
+        if((getLastResult()==null) || (getLastResult().getStartTime()==null)){
             return "n/a";
         }
-        return ApplicationConfig.TIME_STAMP.format(lastResult.getStartTime());
+        return ApplicationConfig.TIME_STAMP.format(getLastResult().getStartTime());
+    }
+
+    public Group getSubGroup() {
+        return subGroup;
+    }
+
+    public void setSubGroup(Group subGroup) {
+        this.subGroup = subGroup;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public boolean isTested(){
+        return results==null?false:results.size()>0;
+    }
+
+    public boolean isUnstable(){
+        boolean isUnstable = false;
+        int numberOfTests = 0;
+        int numberOfSuccesses = 0;
+        for(Result result : results){
+            numberOfTests++;
+            if(result.getStatus()){
+                numberOfSuccesses++;
+            }
+        }
+        isUnstable = ((numberOfTests >0)&&(numberOfSuccesses > 0) &&(numberOfSuccesses!=numberOfTests));
+        return isUnstable;
+    }
+
+    public boolean isSuccess(){
+        boolean isSuccess = true;
+        for(Result result : results){
+            isSuccess = isSuccess && result.getStatus();
+        }
+        return isSuccess;
+    }
+
+    public boolean isFailed(){
+        boolean isFailed = true;
+        for(Result result : results){
+            isFailed = isFailed && !result.getStatus();
+        }
+        return isFailed;
+    }
+
+    public int getSuccessrate(){
+        int runs = 0;
+        int fails = 0;
+        for(Result result : results){
+            runs++;
+            if(!result.getStatus()){
+                fails++;
+            }
+        }
+        return 100 - (runs==0?0:Math.round((100 * fails) / runs));
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }

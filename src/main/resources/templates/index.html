@@ -5,7 +5,7 @@
         layout:decorator="layout"
         >
 <head>
-    <title th:text="${numberOfTests}">Index</title>
+    <title th:text="${stats.today.starts}">Index</title>
 </head>
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
@@ -15,7 +15,7 @@
         <style>
             table { border-collapse: collapse; border: solid thick; }
             colgroup, tbody { border: solid medium; }
-            td { border: solid thin; height: 1.4em; width: 20em; text-align: center; padding: 0; }
+            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
         </style>
 
         <h1>Today's testing</h1>
@@ -32,74 +32,48 @@
             </th>
             <tr>
                 <td>Today:</td>
-                <td th:text="${numberOfTestsToday}">500</td>
-                <td th:text="${numberOfCompletedTestsToday}">500</td>
-                <td th:text="${numberOfFailedTestsToday}">500</td>
+                <td th:text="${stats.today.starts}">500</td>
+                <td th:text="${stats.today.completeWithMissing}">500</td>
+                <td th:text="${stats.today.failShare}">500</td>
             </tr>
             <tr>
                 <td>Last 24 hours:</td>
-                <td th:text="${numberOfTestsLast24Hours}">500</td>
-                <td th:text="${numberOfCompletedTestsLast24Hours}">500</td>
-                <td th:text="${numberOfFailedTestsLast24Hours}">500</td>
+                <td th:text="${stats.last24Hours.starts}">500</td>
+                <td th:text="${stats.last24Hours.completeWithMissing}">500</td>
+                <td th:text="${stats.last24Hours.failShare}">500</td>
             </tr>
             <tr>
                 <td>Last Hour:</td>
-                <td th:text="${numberOfTestsLastHour}">500</td>
-                <td th:text="${numberOfCompletedTestsLastHour}">500</td>
-                <td th:text="${numberOfFailedTestsLastHour}">500</td>
+                <td th:text="${stats.lastHour.starts}">500</td>
+                <td th:text="${stats.lastHour.completeWithMissing}">500</td>
+                <td th:text="${stats.lastHour.failShare}">500</td>
             </tr>
             <tr>
                 <td>Last Week:</td>
-                <td th:text="${numberOfTestsLastWeek}">500</td>
-                <td th:text="${numberOfCompletedTestsLastWeek}">500</td>
-                <td th:text="${numberOfFailedTestsLastWeek}">500</td>
+                <td th:text="${stats.lastWeek.starts}">500</td>
+                <td th:text="${stats.lastWeek.completeWithMissing}">500</td>
+                <td th:text="${stats.lastWeek.failShare}">500</td>
             </tr>
             <tr>
                 <td>Since startup:</td>
-                <td th:text="${numberOfTests}">500</td>
-                <td th:text="${numberOfCompletedTests}">500</td>
-                <td th:text="${numberOfFailedTests}">500</td>
+                <td th:text="${stats.total.starts}">500</td>
+                <td th:text="${stats.total.completeWithMissing}">500</td>
+                <td th:text="${stats.total.failShare}">500</td>
             </tr>
+
+            <th:block th:each="hourly : ${stats.hourly}">
+                <tr >
+                    <td th:text="${hourly.caption}"></td>
+                    <td th:text="${hourly.starts}"></td>
+                    <td th:text="${hourly.completeWithMissing}"></td>
+                    <td th:text="${hourly.failShare}"></td>
+                </tr>
+            </th:block>
+
             </tbody>
+
         </table>
-    </section>
 
-    <section>
-        <style>
-            table { border-collapse: collapse; border: solid thick; }
-            colgroup, tbody { border: solid medium; }
-            td { border: solid thin; height: 1.4em; width: 20em; text-align: center; padding: 0; }
-        </style>
-
-        <h1>Today's test runs</h1>
-        <table>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-
-            <tbody>
-            <tr>
-                <td>Today:</td>
-                <td th:text="${numberOfTests}">500</td>
-            </tr>
-            <tr>
-                <td>Last 24 hours:</td>
-                <td th:text="${numberOfCompletedTests}">500</td>
-            </tr>
-            <tr>
-                <td>Last Hour:</td>
-                <td th:text="${numberOfCompletedTests}">500</td>
-            </tr>
-            <tr>
-                <td>Last Week:</td>
-                <td th:text="${numberOfCompletedTests}">500</td>
-            </tr>
-            <tr>
-                <td>Since startup:</td>
-                <td th:text="${numberOfCompletedTests}">500</td>
-            </tr>
-            </tbody>
-        </table>
     </section>
 
 </div>

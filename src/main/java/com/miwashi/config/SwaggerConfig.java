@@ -23,6 +23,7 @@ public class SwaggerConfig {
                         ,"/requirement.*"
                         ,"/settings.*"
                         ,"/requirements.*"
+                        ,"/group.*"
                         ,"/meta.*"
                         //,"/users.*"
                         //,"/.*"

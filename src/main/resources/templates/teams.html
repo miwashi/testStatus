@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout"
+        >
+<head>
+    <title>Teams</title>
+</head>
+<body>
+<h1 layout:fragment="header">SVT Test summary page</h1>
+<div layout:fragment="content">
+
+    <section>
+        <style>
+            table { border-collapse: collapse; border: solid thick; }
+            colgroup, tbody { border: solid medium; }
+            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
+        </style>
+
+        <h1>Today's testing</h1>
+        <table>
+            <colgroup><col/><col/><col/></colgroup>
+            <colgroup><col/><col/><col/></colgroup>
+            <colgroup><col/><col/><col/></colgroup>
+
+            <tbody>
+            <th>
+                <td>requirements</td>
+                <td>failed requirements</td>
+                <td>unstable requirements</td>
+                <td>since</td>
+            </th>
+            <th:block th:each="team : ${teams}">
+                <tr >
+
+                    <td ><a th:href="'/team/' + ${team.id}" th:text="${team.name}"></a></td>
+                    <td th:text="${team.tested}"></td>
+                    <td th:text="${team.fails}"></td>
+                    <td th:text="${team.unstable}"></td>
+                    <td th:text="${team.since}"></td>
+                </tr>
+            </th:block>
+
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+</body>
+</html>

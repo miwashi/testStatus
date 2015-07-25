@@ -146,4 +146,75 @@ public class ResultReport {
     public void setSize(String size) {
         this.size = size;
     }
+
+    public boolean isFailed() {
+        return "success".equalsIgnoreCase(status);
+    }
+
+    public String getTestRequirement(){
+        String testRequiement = "";
+        if(name.indexOf(".")<0){
+            return name;
+        }
+        testRequiement = name.substring(name.lastIndexOf("."));
+        testRequiement = testRequiement.replaceAll("\\.", "");
+        testRequiement = testRequiement.replaceAll("(.)([A-Z])", "$1 $2");
+        testRequiement = testRequiement.toLowerCase();
+        return testRequiement;
+    }
+
+    public String getTestSubjectKey(){
+        String testSubject = name;
+        if(testSubject.indexOf(".")<0){
+            return testSubject;
+        }
+        testSubject = testSubject.substring(0, testSubject.lastIndexOf("."));
+        testSubject = testSubject.toLowerCase();
+        return testSubject;
+    }
+
+    public String getTestSubject(){
+        String testSubject = "";
+        if(name.indexOf(".")<0){
+            return name;
+        }
+        testSubject = name.substring(0, name.lastIndexOf("."));
+        if(testSubject.indexOf(".")>0) {
+            testSubject = testSubject.substring(testSubject.lastIndexOf("."));
+        }
+        testSubject = testSubject.replace("Test","");
+        testSubject = testSubject.replaceAll("\\.", "");
+        testSubject = testSubject.replaceAll("(.)([A-Z])", "$1 $2");
+        testSubject = testSubject.toLowerCase();
+        return testSubject;
+    }
+
+    public String getTestGroup(){
+        String testGroup = "";
+        if(name.indexOf(".")<0){
+            return name;
+        }
+        testGroup = name;
+        testGroup = testGroup.replace("se.svt.test.","");
+        if(testGroup.indexOf(".")>0){
+            testGroup = testGroup.substring(0, testGroup.indexOf("."));
+        }
+        return testGroup;
+    }
+
+    public String getTestSubGroup(){
+        String testGroup = "";
+        if(name.indexOf(".")<0){
+            return name;
+        }
+        testGroup = name;
+        testGroup = testGroup.replace("se.svt.test.","");
+        if(testGroup.indexOf(".")>0){
+            testGroup = testGroup.substring(0, testGroup.lastIndexOf("."));
+        }
+        if(testGroup.indexOf(".")>0){
+            testGroup = testGroup.substring(0, testGroup.lastIndexOf("."));
+        }
+        return testGroup;
+    }
 }

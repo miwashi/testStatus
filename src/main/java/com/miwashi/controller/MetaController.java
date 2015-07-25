@@ -7,15 +7,10 @@ import com.miwashi.repositories.PlatformRepository;
 import com.miwashi.repositories.RequirementRepository;
 import com.miwashi.repositories.ResultRepository;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.*;
 
 @Configuration
@@ -43,7 +38,7 @@ public class MetaController {
         allRequiements.forEach( aRquirement -> {
             String requrement = aRquirement.getName();
 
-            result.put(aRquirement.getTestGroup(),  new Group(aRquirement.getTestGroup()));
+            result.put(aRquirement.getGroup().getName(),  aRquirement.getGroup());
         });
 
         return result.values();
@@ -56,7 +51,7 @@ public class MetaController {
 
         Iterable<Requirement> allRequiements = requirementRepository.findAll();
         allRequiements.forEach( aRquirement -> {
-            result.put(aRquirement.getTestSubGroup(),  new Group(aRquirement.getTestSubGroup()));
+            result.put(aRquirement.getGroup().getName(),  aRquirement.getGroup());
         });
 
         return result.values();
@@ -69,29 +64,15 @@ public class MetaController {
 
         Iterable<Requirement> allRequiements = requirementRepository.findAll();
         allRequiements.forEach( aRquirement -> {
-            try {
-                Subject aSubject;
-                String key = aRquirement.getTestSubjectKey();
-                if (result.containsKey(key)) {
-                    aSubject = result.get(key);
-                } else {
-                    aSubject = new Subject(aRquirement.getTestSubject());
-                    aSubject.setKey(key);
-                    aSubject.setGroup(aRquirement.getTestGroup());
-                    result.put(key, aSubject);
-                }
-                aSubject.add(aRquirement);
-            }catch(Throwable any){
-                System.out.println("******************************");
-                System.out.println("******************************");
-                System.out.println("******************************");
-                System.out.println("******************************");
-                System.out.println(aRquirement.getTestSubjectKey());
-                System.out.println(any);
-                System.out.println("******************************");
-                System.out.println("******************************");
-                System.out.println("******************************");
+            Subject aSubject;
+            String key = aRquirement.getSubject().getKey();
+            if (result.containsKey(key)) {
+                aSubject = result.get(key);
+            } else {
+                aSubject = aRquirement.getSubject();
+                result.put(key, aSubject);
             }
+            aSubject.add(aRquirement);
         });
 
         return result.values();
@@ -102,5 +83,13 @@ public class MetaController {
     public Collection<ResultReport> getAllIncomplete() {
         Map<String, ResultReport> incomplete = TestStatusApplication.getIncompleteReports();
         return incomplete.values();
+    }
+
+    @RequestMapping(value = "/meta/stats", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/meta/stats", notes = "Returns a status")
+    public Stats getStats() {
+        Stats response = TestStatusApplication.getStats();
+
+        return response;
     }
 }
