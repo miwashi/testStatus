@@ -33,7 +33,7 @@ info:
     version: ${VERSION:unknown}
 
 server:
-  port: ${port:8080}
+  port: ${port:8090}
   
 configuration:
     projectName: test-status

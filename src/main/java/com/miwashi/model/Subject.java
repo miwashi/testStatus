@@ -104,6 +104,7 @@ public class Subject {
         public void setSuccessRate(int successRate) {
             this.successRate = successRate;
         }
+        
     }
 
     public String getName() {
@@ -141,6 +142,50 @@ public class Subject {
 
             requirements.put(requirement.getName(),requirementRow);
         }
+    }
+    
+    public int getNumberOfRequirements(){
+    	return requirements.size();
+    }
+    
+    public int getNumberOfFailedRequirements(){
+    	int numFails = 0;
+    	for(RequirementRow row : requirements.values()){
+    		if(row.failed){
+    			numFails++;
+    		}
+    	}
+    	return numFails;
+    }
+    
+    public String getNumberOfFailedRequirementsShare(){
+    	int numFails = 0;
+    	for(RequirementRow row : requirements.values()){
+    		if(row.failed){
+    			numFails++;
+    		}
+    	}
+    	return numFails + "%";
+    }
+    
+    public int getNumberOfUnstableRequirements(){
+    	int numUnstable = 0;
+    	for(RequirementRow row : requirements.values()){
+    		if(row.unstable){
+    			numUnstable++;
+    		}
+    	}
+    	return numUnstable;
+    }
+    
+    public String getNumberOfUnstableRequirementsShare(){
+    	int numUnstable = 0;
+    	for(RequirementRow row : requirements.values()){
+    		if(row.unstable){
+    			numUnstable++;
+    		}
+    	}
+    	return numUnstable + "%";
     }
 
     public void setKey(String key) {

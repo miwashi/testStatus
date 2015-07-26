@@ -20,45 +20,48 @@
 
         <h1>Today's testing</h1>
         <table>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-
+            <colgroup><col/><col/><col/><col/></colgroup>
             <tbody>
             <th>
-                <td>STARTED</td>
-                <td>COMPLETED</td>
-                <td>FAILED</td>
+                <td>Started</td>
+                <td>Completed</td>
+                <td>Failed</td>
+                <td>Last test</td>
             </th>
             <tr>
                 <td>Today:</td>
                 <td th:text="${stats.today.starts}">500</td>
                 <td th:text="${stats.today.completeWithMissing}">500</td>
                 <td th:text="${stats.today.failShare}">500</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Last 24 hours:</td>
                 <td th:text="${stats.last24Hours.starts}">500</td>
                 <td th:text="${stats.last24Hours.completeWithMissing}">500</td>
                 <td th:text="${stats.last24Hours.failShare}">500</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Last Hour:</td>
                 <td th:text="${stats.lastHour.starts}">500</td>
                 <td th:text="${stats.lastHour.completeWithMissing}">500</td>
                 <td th:text="${stats.lastHour.failShare}">500</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Last Week:</td>
                 <td th:text="${stats.lastWeek.starts}">500</td>
                 <td th:text="${stats.lastWeek.completeWithMissing}">500</td>
                 <td th:text="${stats.lastWeek.failShare}">500</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Since startup:</td>
                 <td th:text="${stats.total.starts}">500</td>
                 <td th:text="${stats.total.completeWithMissing}">500</td>
                 <td th:text="${stats.total.failShare}">500</td>
+                <td></td>
             </tr>
 
             <th:block th:each="hourly : ${stats.hourly}">
@@ -67,6 +70,7 @@
                     <td th:text="${hourly.starts}"></td>
                     <td th:text="${hourly.completeWithMissing}"></td>
                     <td th:text="${hourly.failShare}"></td>
+                    <td></td>
                 </tr>
             </th:block>
 

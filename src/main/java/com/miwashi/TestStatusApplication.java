@@ -130,6 +130,14 @@ public class TestStatusApplication {
         stats.resetDay();
     }
 
+    @Scheduled(fixedRate = 1000)
+    public void sendTestData(){
+    	Map<String, String> data = UDPClient.getRandomTest();
+    	UDPClient udpClient = new UDPClient();
+    	udpClient.beforeTest(data);
+    	udpClient.afterTest(data);
+    }
+    
     @Scheduled(fixedRate = 500)
     public void handleResultReports() {
         List<ResultReport> toBeHandled = new ArrayList<ResultReport>();
