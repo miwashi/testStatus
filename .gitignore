@@ -12,3 +12,5 @@
 *.log
 /.gradle/
 /.settings/
+
+*.log
