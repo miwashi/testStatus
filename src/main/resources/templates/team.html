@@ -12,13 +12,7 @@
 <div layout:fragment="content">
 
     <section>
-        <style>
-            table { border-collapse: collapse; border: solid thick; }
-            colgroup, tbody { border: solid medium; }
-            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
-        </style>
-
-        <h1>Today's testing</h1>
+		<h1>Today's testing</h1>
         <table>
             <colgroup><col/><col/><col/></colgroup>
             <colgroup><col/><col/><col/></colgroup>
@@ -33,7 +27,7 @@
             </th>
             <th:block th:each="subject : ${team.subjects}">
                 <tr >
-                	<td>
+                	<td class="rowheader">
                 		<a th:href="'/subject/' + ${subject.id}" th:text="${subject.name}"></a>
                 	</td>
                 	<td th:text="${subject.numberOfRequirements}"></td>

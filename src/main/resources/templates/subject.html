@@ -12,13 +12,7 @@
 <div layout:fragment="content">
 
     <section>
-        <style>
-            table { border-collapse: collapse; border: solid thick; }
-            colgroup, tbody { border: solid medium; }
-            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
-        </style>
-
-        <h1>Today's testing</h1>
+		<h1>Today's testing</h1>
         <table>
             <colgroup><col/><col/><col/></colgroup>
             <colgroup><col/><col/><col/></colgroup>
@@ -34,7 +28,7 @@
             	
                 <th:block th:each="requirement : ${subject.requirements}">
 	                <tr >
-	                	<td><a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.readableName}"></a></td>
+	                	<td class="rowheader"><a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.readableName}"></a></td>
 	                	<td th:text="${requirement.succeeded}"></td>
 	                	<td th:text="${requirement.failed}"></td>
 	                	<td th:text="${requirement.unstable}"></td>

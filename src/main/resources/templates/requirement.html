@@ -5,40 +5,38 @@
         layout:decorator="layout"
 >
     <head>
-        <title>Index</title>
+        <title>Requirement summary page</title>
     </head>
     <body>
-        <h1 layout:fragment="header">SVT Test summary page</h1>
+        <h1 class="header" layout:fragment="header" th:text="'SVT Test requirement summary page'">SVT Test summary page</h1>
 		<div layout:fragment="content">
 
     <section>
         <style>
-            table { border-collapse: collapse; border: solid thick; }
-            colgroup, tbody { border: solid medium; }
-            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
+            
         </style>
 
-        <h1>Today's testing</h1>
-        <h2 th:text="${requirement.testRequirement}"></h2>
-        <table>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-
+        <h1 th:text="'Todays testing for requirement: ' + ${requirement.testRequirement}">Today's testing for requirement:</h1>
+        
+        <table class="requirementsummary">
+            <colgroup><col/><col/><col/><col/><col/></colgroup>
             <tbody>
             <th>
-                <td>requirements</td>
-                <td>failed requirements</td>
-                <td>unstable requirements</td>
-                <td>last tested</td>
+                <td>platform</td>
+                <td>browser</td>
+                <td>success</td>
+                <td>time</td>
             </th>
             
+            <th:block th:each="result : ${requirement.results}">
                 <tr >
-                	<td>
-                		
-                	</td>
-                	<td></td>
+                	<td class="rowheader"></td>
+                	<td th:text="${result.platform.name}"></td>
+                	<td th:text="${result.browser.name}"></td>
+                	<td th:text="${result.status}"></td>
+                	<td th:text="${result.startTimeStr}"></td>
                 </tr>
+            </th:block>
             
 
 

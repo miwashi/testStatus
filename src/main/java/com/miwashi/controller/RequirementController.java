@@ -72,12 +72,7 @@ public class RequirementController {
     @RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/requirement/{id}", notes = "Returns a status")
     public Requirement getRequirement(@PathParam(value = "Path id") @PathVariable final Long id) {
-    	Requirement requirement = null;
-        Iterable<Requirement> requirementIter = requirementRepository.findById(id);
-        if(requirementIter.iterator().hasNext()){
-        	requirement = requirementIter.iterator().next();
-        }
-
+    	Requirement requirement = findRequirement(id);
         return requirement;
     }
 
@@ -96,13 +91,41 @@ public class RequirementController {
     public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id) {
     	ModelAndView mav = new ModelAndView("requirement");
     	
+    	Requirement requirement = findRequirement(id);
+    	mav.addObject("title", "Requirement!");
+    	mav.addObject("header", "Requirement!");
+        mav.addObject("requirement", requirement);
+        return mav;
+        
+    }
+    
+    @RequestMapping(value = "/requirement/key/{key}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public ModelAndView getRequirementById(@PathParam(value = "Path key") @PathVariable final String key) {
+    	ModelAndView mav = new ModelAndView("requirement");
+    	
+    	Requirement requirement = findRequirement(key);
+    	mav.addObject("title", "Requirement!");
+    	mav.addObject("header", "Requirement!");
+        mav.addObject("requirement", requirement);
+        return mav;
+        
+    }
+    
+    private Requirement findRequirement(long id){
     	Requirement requirement = null;
         Iterable<Requirement> requirementIter = requirementRepository.findById(id);
         if(requirementIter.iterator().hasNext()){
         	requirement = requirementIter.iterator().next();
         }
-        mav.addObject("requirement", requirement);
-        return mav;
-        
+        return requirement;
+    }
+    
+    private Requirement findRequirement(String key){
+    	Requirement requirement = null;
+        Iterable<Requirement> requirementIter = requirementRepository.findByKey(key);
+        if(requirementIter.iterator().hasNext()){
+        	requirement = requirementIter.iterator().next();
+        }
+        return requirement;
     }
 }

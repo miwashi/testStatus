@@ -5,20 +5,14 @@
         layout:decorator="layout"
         >
 <head>
-    <title th:text="${stats.today.starts}">Index</title>
+    <title th:text="'Tests started: ' + ${stats.today.starts}">Index</title>
 </head>
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
 <div layout:fragment="content">
 
     <section>
-        <style>
-            table { border-collapse: collapse; border: solid thick; }
-            colgroup, tbody { border: solid medium; }
-            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
-        </style>
-
-        <h1>Today's testing</h1>
+		<h1>Today's testing</h1>
         <table>
             <colgroup><col/><col/><col/><col/></colgroup>
             <tbody>
@@ -29,35 +23,35 @@
                 <td>Last test</td>
             </th>
             <tr>
-                <td>Today:</td>
+                <td class="rowheader">Today:</td>
                 <td th:text="${stats.today.starts}">500</td>
                 <td th:text="${stats.today.completeWithMissing}">500</td>
                 <td th:text="${stats.today.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Last 24 hours:</td>
+                <td class="rowheader">Last 24 hours:</td>
                 <td th:text="${stats.last24Hours.starts}">500</td>
                 <td th:text="${stats.last24Hours.completeWithMissing}">500</td>
                 <td th:text="${stats.last24Hours.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Last Hour:</td>
+                <td class="rowheader">Last Hour:</td>
                 <td th:text="${stats.lastHour.starts}">500</td>
                 <td th:text="${stats.lastHour.completeWithMissing}">500</td>
                 <td th:text="${stats.lastHour.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Last Week:</td>
+                <td class="rowheader">Last Week:</td>
                 <td th:text="${stats.lastWeek.starts}">500</td>
                 <td th:text="${stats.lastWeek.completeWithMissing}">500</td>
                 <td th:text="${stats.lastWeek.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Since startup:</td>
+                <td class="rowheader">Since startup:</td>
                 <td th:text="${stats.total.starts}">500</td>
                 <td th:text="${stats.total.completeWithMissing}">500</td>
                 <td th:text="${stats.total.failShare}">500</td>
@@ -66,7 +60,7 @@
 
             <th:block th:each="hourly : ${stats.hourly}">
                 <tr >
-                    <td th:text="${hourly.caption}"></td>
+                    <td class="rowheader" th:text="${hourly.caption}"></td>
                     <td th:text="${hourly.starts}"></td>
                     <td th:text="${hourly.completeWithMissing}"></td>
                     <td th:text="${hourly.failShare}"></td>

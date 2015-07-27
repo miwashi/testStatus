@@ -164,8 +164,8 @@ public class TestStatusApplication {
         Group aSubGroup = loadGroup(resultReport.getTestSubGroup());
         Subject aSubject = loadSubject(resultReport.getTestSubject(), resultReport.getTestSubjectKey());
 
-        Requirement requirement = new Requirement(resultReport.getName());
-        Iterable<Requirement> requirements = requirementRepository.findByName(requirement.getName());
+        Requirement requirement = new Requirement(resultReport.getNameAsKey());
+        Iterable<Requirement> requirements = requirementRepository.findByKey(requirement.getKey());
         if(requirements.iterator().hasNext()){
             requirement = requirements.iterator().next();
         }

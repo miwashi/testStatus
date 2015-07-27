@@ -36,7 +36,7 @@ public class MetaController {
 
         Iterable<Requirement> allRequiements = requirementRepository.findAll();
         allRequiements.forEach( aRquirement -> {
-            String requrement = aRquirement.getName();
+            String requrement = aRquirement.getKey();
 
             result.put(aRquirement.getGroup().getName(),  aRquirement.getGroup());
         });

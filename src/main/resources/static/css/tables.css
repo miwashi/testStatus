@@ -1,0 +1,48 @@
+table{
+	background-color: white;
+	color: gray;
+	font-family: "Times New Roman", Times, serif;
+	font-style: normal;
+	font-size: 0.875em; /* 14px/16=0.875em */
+	width: 100%;
+	height: 50px;
+	vertical-align: bottom;
+	text-align: left;
+	padding: 15px;
+}
+
+td {
+	text-align: left;
+}
+
+td.rowheader{
+	white-space: nowrap;
+}
+
+table.requirementsummary {
+	background-color: black;
+    color: white;
+	border: 3px solid red;
+	border-collapse: collapse;
+	border: solid thick;
+	colgroup, tbody { border: solid medium; }
+}
+
+table.requirementsummary td {
+	background-color: white;
+	color: black;
+	border: solid thin; 
+	height: 1.4em; 
+	width: 10em; 
+	vertical-align: bottom;
+	text-align: left; 
+	padding: 2px;
+}
+
+td {
+	border: solid thin; 
+	height: 1.4em; 
+	width: 10em; 
+	text-align: left; 
+	padding: 0;
+}

@@ -47,7 +47,7 @@ public class ResultController {
     @RequestMapping(value = "/api/result/register", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/result/register", notes = "Returns a status")
     public void registerResult(
-            @ApiParam(value = "Class and Method") @RequestParam(required = true, defaultValue = "") final String name
+            @ApiParam(value = "Class and Method") @RequestParam(required = true, defaultValue = "") final String key
             ,@ApiParam(value = "Result of test of requriement") @RequestParam(required = false, defaultValue = "false") final Boolean status
             ,@ApiParam(value = "Firefox, IE, Opera, Chrome") @RequestParam(required = false, defaultValue = "firefox") String browser
             ,@ApiParam(value = "Mac,Windows,Linux") @RequestParam(required = false, defaultValue = "linux") String platform
@@ -55,8 +55,8 @@ public class ResultController {
         Browser aBrowser = loadBrowser(browser);
         Platform aPlatform = loadPlatform(platform);
 
-        Requirement requirement = new Requirement(name);
-        Iterable<Requirement> requirements = requirementRepository.findByName(name);
+        Requirement requirement = new Requirement(key);
+        Iterable<Requirement> requirements = requirementRepository.findByKey(key);
         if(requirements.iterator().hasNext()){
             requirement = requirements.iterator().next();
         }

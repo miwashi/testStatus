@@ -42,7 +42,7 @@ public class Subject {
 
     public class RequirementRow{
     	private long id; 
-    	private String name;
+    	private String key;
         private int successRate;
         private String readableName;
         private boolean failed;
@@ -50,8 +50,8 @@ public class Subject {
         private boolean unstable;
         private int testsRun;
 
-        public RequirementRow(String name){
-            this.name = name;
+        public RequirementRow(String key){
+            this.key = key;
         }
 
         public String toString(){
@@ -134,12 +134,10 @@ public class Subject {
 
     public void add(Requirement requirement){
         RequirementRow requirementRow = null;
-        if(requirements.containsKey(requirement.getName())){
-            requirementRow = requirements.get(requirement.getName());
+        if(requirements.containsKey(requirement.getKey())){
+            requirementRow = requirements.get(requirement.getKey());
         }else{
-            requirementRow = new RequirementRow(requirement.getName());
-
-            String readableRequirement = requirement.getTestRequirement();
+            requirementRow = new RequirementRow(requirement.getKey());
             int numTests = (requirement.getResults()==null?0:requirement.getResults().size());
             requirementRow.setId(requirement.getId());
             requirementRow.setTestsRun(numTests);
@@ -153,7 +151,7 @@ public class Subject {
             subject = Character.toUpperCase(subject.charAt(0)) + subject.substring(1);
             requirementRow.setReadableName(subject);
 
-            requirements.put(requirement.getName(),requirementRow);
+            requirements.put(requirement.getKey(),requirementRow);
         }
     }
     

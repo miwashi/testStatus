@@ -138,6 +138,11 @@ public class ResultReport {
     public String getName() {
         return name;
     }
+    
+    public String getNameAsKey() {
+        //return name==null?"":name.toLowerCase();
+        return name;
+    }
 
     public String getSize() {
         return size;

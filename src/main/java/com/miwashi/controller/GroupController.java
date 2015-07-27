@@ -124,6 +124,43 @@ public class GroupController {
         return mav;
     }
 
+    @RequestMapping("/team/all")
+    public ModelAndView getAllTeams() {
+        ModelAndView mav = new ModelAndView("teams");
+
+        Collection<Group> groups = new ArrayList<Group>();
+        Iterable<Group> groupsIter = groupRepository.findAll();
+        groupsIter.forEach( group -> {
+            groups.add(group);
+
+            Iterable<Requirement> requirementsIter = null;
+            if(group.getName().indexOf(".")>=0){
+                requirementsIter = requirementRepository.findBySubGroupId(group.getId());
+            }else{
+                requirementsIter = requirementRepository.findByGroupId(group.getId());
+            }
+            requirementsIter.forEach( requirement -> {
+                group.setTested(group.getTested()+1);
+                if(requirement.isSuccess()){
+                    group.setSuccesses(group.getSuccesses() +1);
+                }
+                if(requirement.isFailed()){
+                    group.setFails(group.getFails() +1);
+                }
+                if(!requirement.isTested()){
+
+                }
+                if(requirement.isUnstable()){
+                    group.setUnstable(group.getUnstable() +1);
+                }
+            });
+
+        });
+        mav.addObject("teams", groups);
+
+        return mav;
+    }
+    
     @RequestMapping(value = "/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public ModelAndView getTeam(@PathParam(value = "Path id") @PathVariable final Long id) {
         ModelAndView mav = new ModelAndView("team");

@@ -3,3 +3,7 @@
     float: right;
     padding-right: 20px;
 }
+
+.header {
+	bgcolor: red;
+}

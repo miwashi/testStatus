@@ -18,7 +18,7 @@ public class Requirement {
     private long id;
 
     @Column(unique = true)
-    private String name = "name";
+    private String key = "key";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "REQURIEMENT_ID", nullable = false)
@@ -43,9 +43,9 @@ public class Requirement {
         super();
     }
 
-    public Requirement(String name){
+    public Requirement(String key){
         super();
-        this.name = name;
+        this.key = key;
     }
 
     public long getId() {
@@ -56,12 +56,12 @@ public class Requirement {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getKey() {
+        return key;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public Collection<Result> getResults() {
@@ -96,10 +96,10 @@ public class Requirement {
 
     public String getTestRequirement(){
         String testRequiement = "";
-        if(name.indexOf(".")<0){
-            return name;
+        if(key.indexOf(".")<0){
+            return key;
         }
-        testRequiement = name.substring(name.lastIndexOf("."));
+        testRequiement = key.substring(key.lastIndexOf("."));
         testRequiement = testRequiement.replaceAll("\\.", "");
         testRequiement = testRequiement.replaceAll("(.)([A-Z])", "$1 $2");
         testRequiement = testRequiement.toLowerCase();
