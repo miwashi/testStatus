@@ -181,6 +181,120 @@ public class Requirement {
         }
         return 100 - (runs==0?0:Math.round((100 * fails) / runs));
     }
+    
+    public int getNumberOfRuns(){
+    	return results.size();
+    }
+    
+    public int getNumberOfFailes(){
+    	int runs = 0;
+        int fails = 0;
+        for(Result result : results){
+            runs++;
+            if(!result.getStatus()){
+                fails++;
+            }
+        }
+        return fails;
+    }
+    
+    public int getLongestConsecutiveSuccess(){
+    	int longestRun = 0;
+    	int runs = 0;
+        int fails = 0;
+        for(Result result : results){
+            runs++;
+            if(result.getStatus()){
+            	runs++;
+            }else{
+            	if(runs > longestRun){
+            		longestRun = runs;
+            	}
+            	runs = 0;
+            }
+        }
+        return longestRun;
+    }
+    
+    public Date getFirstTested(){
+    	Date date = new Date();
+    	for(Result result : results){
+            Date testDate = result.getStartTime();
+            if(date.compareTo(testDate)>0){
+            	date = testDate;
+            }
+        }
+    	return date;
+    }
+    
+    public String firstTestedStr(){
+    	Date date = getFirstTested();
+    	return ApplicationConfig.TIME_STAMP.format(date);
+    }
+    
+    public Date getLastSuccess(){
+    	Date date = new Date();
+    	for(Result result : results){
+            Date testDate = result.getStartTime();
+            if(date.compareTo(testDate)>0){
+            	date = testDate;
+            }
+        }
+    	return date;
+    }
+    
+    public String getLastSuccessStr(){
+    	Date date = getLastSuccess();
+    	return ApplicationConfig.TIME_STAMP.format(date);
+    }
+    
+    public Date getFirstSuccess(){
+    	Date date = new Date();
+    	for(Result result : results){
+            Date testDate = result.getStartTime();
+            if(date.compareTo(testDate)>0){
+            	date = testDate;
+            }
+        }
+    	return date;
+    }
+    
+    public String getFirstSuccessStr(){
+    	Date date = getFirstSuccess();
+    	return ApplicationConfig.TIME_STAMP.format(date);
+    }
+    
+    public Date getLastFail(){
+    	Date date = new Date();
+    	for(Result result : results){
+            Date testDate = result.getStartTime();
+            if(date.compareTo(testDate)>0){
+            	date = testDate;
+            }
+        }
+    	return date;
+    }
+    
+    public String getLastFailStr(){
+    	Date date = getLastFail();
+    	return ApplicationConfig.TIME_STAMP.format(date);
+    }
+    
+    public Date getFirstFail(){
+    	Date date = new Date();
+    	for(Result result : results){
+            Date testDate = result.getStartTime();
+            if(date.compareTo(testDate)>0){
+            	date = testDate;
+            }
+        }
+    	return date;
+    }
+    
+    public String getFirstFailStr(){
+    	Date date = getFirstFail();
+    	return ApplicationConfig.TIME_STAMP.format(date);
+    }
 
     public Subject getSubject() {
         return subject;
