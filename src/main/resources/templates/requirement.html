@@ -5,28 +5,49 @@
         layout:decorator="layout"
 >
     <head>
-        <title th:text="${title}">Index</title>
+        <title>Index</title>
     </head>
     <body>
-        <h1 layout:fragment="header" th:text="${title}">Index</h1>
-        <div layout:fragment="content">
+        <h1 layout:fragment="header">SVT Test summary page</h1>
+		<div layout:fragment="content">
 
-            <table border="1" color="grey">
-                <tr><th colspan="1" align="left">Profiles</th> </tr>
-                <tr th:each="profile : ${profiles}">
-                    <td th:text="${profile.key}">1</td>
-                    <td th:text="${profile.value}">1</td>
+    <section>
+        <style>
+            table { border-collapse: collapse; border: solid thick; }
+            colgroup, tbody { border: solid medium; }
+            td { border: solid thin; height: 1.4em; width: 10em; text-align: center; padding: 0; }
+        </style>
+
+        <h1>Today's testing</h1>
+        <h2 th:text="${requirement.testRequirement}"></h2>
+        <table>
+            <colgroup><col/><col/><col/></colgroup>
+            <colgroup><col/><col/><col/></colgroup>
+            <colgroup><col/><col/><col/></colgroup>
+
+            <tbody>
+            <th>
+                <td>requirements</td>
+                <td>failed requirements</td>
+                <td>unstable requirements</td>
+                <td>last tested</td>
+            </th>
+            
+                <tr >
+                	<td>
+                		
+                	</td>
+                	<td></td>
                 </tr>
-            </table>
+            
 
 
-            <table border="1" align="left">
-                <tr><th colspan="2">Settings</th> </tr>
-                <tr th:each="setting : ${settings}">
-                    <td th:text="${setting.key}">1</td>
-                    <td th:text="${setting.value}">1</td>
-                </tr>
-            </table>
-        </div>
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
     </body>
 </html>

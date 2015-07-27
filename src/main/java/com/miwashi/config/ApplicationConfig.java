@@ -33,6 +33,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/teams").setViewName("teams");
         registry.addViewController("/team/*").setViewName("team");
+        registry.addViewController("/requirement/*").setViewName("requirement");
     }
 
 }

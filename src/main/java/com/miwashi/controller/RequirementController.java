@@ -72,10 +72,13 @@ public class RequirementController {
     @RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/requirement/{id}", notes = "Returns a status")
     public Requirement getRequirement(@PathParam(value = "Path id") @PathVariable final Long id) {
-        requirementRepository.findById(id);
+    	Requirement requirement = null;
+        Iterable<Requirement> requirementIter = requirementRepository.findById(id);
+        if(requirementIter.iterator().hasNext()){
+        	requirement = requirementIter.iterator().next();
+        }
 
-
-        return new Requirement("anyrec");
+        return requirement;
     }
 
     @RequestMapping(value = "/api/requirement", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
@@ -91,7 +94,7 @@ public class RequirementController {
     
     @RequestMapping(value = "/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id) {
-    	ModelAndView mav = new ModelAndView("team");
+    	ModelAndView mav = new ModelAndView("requirement");
     	
     	Requirement requirement = null;
         Iterable<Requirement> requirementIter = requirementRepository.findById(id);

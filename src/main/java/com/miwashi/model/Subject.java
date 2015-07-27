@@ -41,7 +41,7 @@ public class Subject {
     }
 
     public class RequirementRow{
-    	private int id; 
+    	private long id; 
     	private String name;
         private int successRate;
         private String readableName;
@@ -58,7 +58,11 @@ public class Subject {
             return name;
         }
 
-        public int getId() {
+        public void setId(long id) {
+			this.id = id;
+		}
+        
+        public long getId() {
 			return id;
 		}
         
@@ -137,7 +141,7 @@ public class Subject {
 
             String readableRequirement = requirement.getTestRequirement();
             int numTests = (requirement.getResults()==null?0:requirement.getResults().size());
-
+            requirementRow.setId(requirement.getId());
             requirementRow.setTestsRun(numTests);
             requirementRow.setUnstable(requirement.isUnstable());
             requirementRow.setFailed(requirement.isFailed());

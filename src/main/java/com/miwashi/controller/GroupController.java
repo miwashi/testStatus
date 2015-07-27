@@ -39,8 +39,8 @@ public class GroupController {
     @Autowired
     GroupRepository groupRepository;
 
-    @RequestMapping(value = "/api/group/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/api/group/all", notes = "Returns a status")
+    @RequestMapping(value = "/api/team/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/team/all", notes = "Returns a status")
     public List<Group> getAllRequirements() {
         List<Group> result =  new ArrayList<Group>();
 
@@ -52,8 +52,8 @@ public class GroupController {
         return result;
     }
 
-    @RequestMapping(value = "/api/group/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/api/group/{id}", notes = "Returns a status")
+    @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/team/{id}", notes = "Returns a status")
     public Group getGroup(@PathParam(value = "Path id") @PathVariable final Long id) {
         Group group = new Group();
         Iterable<Group> groups = groupRepository.findById(id);
