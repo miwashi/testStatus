@@ -8,7 +8,7 @@
     <title>Teams</title>
 </head>
 <body>
-<h1 layout:fragment="header" th:text="'Test sumary for ' + ${team.name}">SVT Test summary page</h1>
+<h1 layout:fragment="header" th:text="'Test sumary for (' + ${subject.name} + ')'">SVT Test summary page</h1>
 <div layout:fragment="content">
 
     <section>
@@ -31,17 +31,16 @@
                 <td>unstable requirements</td>
                 <td>last tested</td>
             </th>
-            <th:block th:each="subject : ${team.subjects}">
-                <tr >
-                	<td>
-                		<a th:href="'/subject/' + ${subject.id}" th:text="${subject.name}"></a>
-                	</td>
-                	<td th:text="${subject.numberOfRequirements}"></td>
-                	<td th:text="${subject.numberOfFailedRequirements}"></td>
-                	<td th:text="${subject.numberOfUnstableRequirements}"></td>
-                	<td></td>
-                </tr>
-            </th:block>
+            	
+                <th:block th:each="requirement : ${subject.requirements}">
+	                <tr >
+	                	<td><a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.readableName}"></a></td>
+	                	<td th:text="${requirement.succeeded}"></td>
+	                	<td th:text="${requirement.failed}"></td>
+	                	<td th:text="${requirement.unstable}"></td>
+	                	<td th:text="${requirement.testsRun}"></td>
+	                </tr>
+	            </th:block>
 
 
             </tbody>

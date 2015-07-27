@@ -16,4 +16,6 @@ public interface RequirementRepository extends CrudRepository<Requirement, Long>
     Iterable<Requirement> findByGroupId(@Param("GROUP_ID")long id);
 
     Iterable<Requirement> findBySubGroupId(@Param("SUBGROUP_ID")long id);
+    
+    Iterable<Requirement> findBySubjectId(@Param("SUBJECT_ID")long id);
 }

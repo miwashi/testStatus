@@ -18,13 +18,8 @@ public class SwaggerConfig {
 				.apiInfo(apiInfo())
 				.apiVersion(getApiVersion())
 				.includePatterns(
-						ApplicationConfig.getVersionedEndpointURL("/requirement.*")
-                        ,ApplicationConfig.getVersionedEndpointURL("/settings.*")
-                        ,"/requirement.*"
-                        ,"/settings.*"
-                        ,"/requirements.*"
-                        ,"/group.*"
-                        ,"/meta.*"
+						ApplicationConfig.getVersionedEndpointURL("/api.*")
+                        ,"/api.*"
                         //,"/users.*"
                         //,"/.*"
 						);

@@ -14,7 +14,11 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique = true)
+    public long getId() {
+		return id;
+	}
+
+	@Column(unique = true)
     private String key;
 
     private String name;
@@ -37,7 +41,8 @@ public class Subject {
     }
 
     public class RequirementRow{
-        private String name;
+    	private int id; 
+    	private String name;
         private int successRate;
         private String readableName;
         private boolean failed;
@@ -53,6 +58,10 @@ public class Subject {
             return name;
         }
 
+        public int getId() {
+			return id;
+		}
+        
         public String getName(){
             return name;
         }

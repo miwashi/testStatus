@@ -29,8 +29,8 @@ public class MetaController {
     @Autowired
     PlatformRepository platformRepository;
 
-    @RequestMapping(value = "/meta/groups", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/meta/groups", notes = "Returns a status")
+    @RequestMapping(value = "/api/meta/groups", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/meta/groups", notes = "Returns a status")
     public Collection<Group> getAllGroups() {
         Map<String,Group> result =  new HashMap<String, Group>();
 
@@ -44,8 +44,8 @@ public class MetaController {
         return result.values();
     }
 
-    @RequestMapping(value = "/meta/subgroups", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/meta/subgroups", notes = "Returns a status")
+    @RequestMapping(value = "/api/meta/subgroups", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/meta/subgroups", notes = "Returns a status")
     public Collection<Group> getAllSubGroups() {
         Map<String,Group> result =  new HashMap<String, Group>();
 
@@ -57,8 +57,8 @@ public class MetaController {
         return result.values();
     }
 
-    @RequestMapping(value = "/meta/testsubjects", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/meta/testsubjects", notes = "Returns a status")
+    @RequestMapping(value = "/api/meta/testsubjects", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/meta/testsubjects", notes = "Returns a status")
     public Collection<Subject> getAllSubjects() {
         Map<String,Subject> result =  new HashMap<String, Subject>();
 
@@ -78,15 +78,15 @@ public class MetaController {
         return result.values();
     }
 
-    @RequestMapping(value = "/meta/incomplete", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/meta/incomplete", notes = "Returns a status")
+    @RequestMapping(value = "/api/meta/incomplete", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/meta/incomplete", notes = "Returns a status")
     public Collection<ResultReport> getAllIncomplete() {
         Map<String, ResultReport> incomplete = TestStatusApplication.getIncompleteReports();
         return incomplete.values();
     }
 
-    @RequestMapping(value = "/meta/stats", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/meta/stats", notes = "Returns a status")
+    @RequestMapping(value = "/api/meta/stats", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/meta/stats", notes = "Returns a status")
     public Stats getStats() {
         Stats response = TestStatusApplication.getStats();
 
