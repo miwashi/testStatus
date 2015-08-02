@@ -3,6 +3,7 @@ package com.miwashi.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +15,15 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    public long getId() {
-		return id;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastTested;
+    
+    public Date getLastTested() {
+		return lastTested;
+	}
+
+	public void setLastTested(Date lastTested) {
+		this.lastTested = lastTested;
 	}
 
 	@Column(unique = true)
@@ -49,8 +57,17 @@ public class Subject {
         private boolean succeeded;
         private boolean unstable;
         private int testsRun;
+        private Date lastTested;
 
-        public RequirementRow(String key){
+        public Date getLastTested() {
+			return lastTested;
+		}
+
+		public void setLastTested(Date lastTested) {
+			this.lastTested = lastTested;
+		}
+
+		public RequirementRow(String key){
             this.key = key;
         }
 
@@ -119,6 +136,10 @@ public class Subject {
         }
         
     }
+    
+    public long getId() {
+		return id;
+	}
 
     public String getName() {
         return name;
@@ -146,7 +167,7 @@ public class Subject {
             requirementRow.setUnstable(requirement.isUnstable());
             requirementRow.setSucceeded(requirement.isSuccess());
             requirementRow.setSuccessRate(requirement.getSuccessrate());
-
+            requirementRow.setLastTested(requirement.getLastTested());
             String subject = requirement.getTestRequirement() + "!";
             subject = Character.toUpperCase(subject.charAt(0)) + subject.substring(1);
             requirementRow.setReadableName(subject);

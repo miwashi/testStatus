@@ -169,6 +169,7 @@ public class TestStatusApplication {
         if(requirements.iterator().hasNext()){
             requirement = requirements.iterator().next();
         }
+        requirement.setLastTested(new Date());
         requirement.setGroup(aGroup);
         requirement.setSubGroup(aSubGroup);
         requirement.setSubject(aSubject);
@@ -223,8 +224,9 @@ public class TestStatusApplication {
         if(groups.iterator().hasNext()){
             aGroup = groups.iterator().next();
         }else{
-            groupRepository.save(aGroup);
         }
+        aGroup.setLastTested(new Date());
+        groupRepository.save(aGroup);
         return aGroup;
     }
 
@@ -236,8 +238,9 @@ public class TestStatusApplication {
         if(groups.iterator().hasNext()){
             aSubject = groups.iterator().next();
         }else{
-            subjectRepository.save(aSubject);
         }
+        aSubject.setLastTested(new Date());
+        subjectRepository.save(aSubject);
         return aSubject;
     }
 

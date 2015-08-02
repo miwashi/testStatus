@@ -19,12 +19,15 @@
         <h1 th:text="'Todays testing for requirement: ' + ${requirement.testRequirement}">Today's testing for requirement:</h1>
         
         The requirement has been tested <span th:text="${requirement.numberOfRuns}"></span> times.
+        
+        The requirement is <span th:text="${requirement.unstable}?'un':''"></span>stable as it has a success ratio of <span th:text="${requirement.successrate}"></span>%.
+        
         Of these tests <span th:text="${requirement.numberOfFailes}"></span> failed which gives a 
         success ratio of <span th:text="${requirement.successrate}"></span>%.
         Last success was <span th:text="${requirement.lastSuccessStr}"></span>.
         Last failure was <span th:text="${requirement.lastFailStr}"></span>.
         Longest consecutive run was <span th:text="${requirement.longestConsecutiveSuccess}"></span> successes in a row. 
-        
+        The test first run <span th:text="${requirement.firstTested}"></span>, and last run <span th:text="${requirement.lastFailStr}"></span>.
         
         <table class="requirementsummary">
             <colgroup><col/><col/><col/><col/><col/></colgroup>

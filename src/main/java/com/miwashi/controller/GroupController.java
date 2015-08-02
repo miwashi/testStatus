@@ -31,13 +31,11 @@ public class GroupController {
     ResultRepository resultRepository;
 
     @Autowired
-    BrowserRepository browserRepository;
-
-    @Autowired
-    PlatformRepository platformRepository;
-
-    @Autowired
     GroupRepository groupRepository;
+    
+    @Autowired
+    SubjectRepository subjectRepository;
+    
 
     @RequestMapping(value = "/api/team/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/team/all", notes = "Returns a status")
@@ -84,6 +82,7 @@ public class GroupController {
             group.add(requirement.getSubject());
             requirement.getSubject().add(requirement);
         }
+        
         return group;
     }
 
@@ -120,6 +119,8 @@ public class GroupController {
 
         });
         mav.addObject("teams", groups);
+        
+        
 
         return mav;
     }
@@ -195,6 +196,23 @@ public class GroupController {
             requirement.getSubject().add(requirement);
         }
 
+        Collection<Subject> unstable = new ArrayList<Subject>();
+        Collection<Subject> faulty = new ArrayList<Subject>();
+        Collection<Subject> ok = new ArrayList<Subject>();
+        
+        for(Subject aSubject : group.getSubjects()){
+        	if(aSubject.getNumberOfFailedRequirements()>0){
+        		faulty.add(aSubject);
+        	}	
+        	if(aSubject.getNumberOfUnstableRequirements()>0){
+        		unstable.add(aSubject);
+        	}
+        	if((aSubject.getNumberOfFailedRequirements()) == 0 && (aSubject.getNumberOfUnstableRequirements()==0)){
+        		ok.add(aSubject);
+        	}
+        }
+        mav.addObject("failed", faulty);
+        mav.addObject("unstable", unstable);
         mav.addObject("team", group);
 
         return mav;

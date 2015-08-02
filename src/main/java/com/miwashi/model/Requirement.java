@@ -19,8 +19,19 @@ public class Requirement {
 
     @Column(unique = true)
     private String key = "key";
+    
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastTested;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    public Date getLastTested() {
+		return lastTested;
+	}
+
+	public void setLastTested(Date lastTested) {
+		this.lastTested = lastTested;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "REQURIEMENT_ID", nullable = false)
     private Collection<Result> results = new ArrayList<Result>();
 

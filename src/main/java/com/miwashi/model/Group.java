@@ -2,6 +2,7 @@ package com.miwashi.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +13,19 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastTested;
 
-    @Transient
+    public Date getLastTested() {
+		return lastTested;
+	}
+
+	public void setLastTested(Date lastTested) {
+		this.lastTested = lastTested;
+	}
+
+	@Transient
     private int tested = 0;
 
     @Column(unique = true)

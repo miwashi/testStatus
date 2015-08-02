@@ -5,5 +5,20 @@
 }
 
 .header {
-	bgcolor: red;
+	
+}
+
+div.subjectsarea {
+	background-color: red;
+	width: 100%;
+	height: 30px;
+}
+
+div.subjectbox {
+	background-color: white;
+	width: 50px;
+	height: 50px;
+	float: left;
+	display: box;
+	/* position: absolute; */
 }
