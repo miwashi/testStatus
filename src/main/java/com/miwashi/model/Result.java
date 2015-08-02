@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity(name = "RESULTS")
-public class Result {
+public class Result implements Comparable<Result>{
 
     @Column(name = "RESULT_ID")
 	@Id
@@ -154,5 +154,13 @@ public class Result {
             return 0;
         }
         return completionTime.getTime() - startTime.getTime();
+    }
+
+    @Override
+    public int compareTo(Result comparedResult) {
+        if((comparedResult==null)||(comparedResult.getStartTime()==null)||(this.getStartTime()==null)){
+            return 0;
+        }
+        return this.getStartTime().compareTo(comparedResult.getStartTime());
     }
 }

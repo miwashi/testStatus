@@ -60,6 +60,7 @@ configuration:
         delay: 5000
 
     storagedays: 5
+    storedresults: 30
 
     log:
       receivedresult: false

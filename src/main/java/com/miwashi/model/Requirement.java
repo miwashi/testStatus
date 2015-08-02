@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name="REQUIREMENTS")
 public class Requirement {
@@ -33,7 +34,7 @@ public class Requirement {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "REQURIEMENT_ID", nullable = false)
-    private Collection<Result> results = new ArrayList<Result>();
+    private List<Result> results = new ArrayList<Result>();
 
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "GROUP_ID")
@@ -75,11 +76,11 @@ public class Requirement {
         this.key = key;
     }
 
-    public Collection<Result> getResults() {
+    public List<Result> getResults() {
         return results;
     }
 
-    public void setResults(Collection<Result> results) {
+    public void setResults(List<Result> results) {
         this.results = results;
     }
 
