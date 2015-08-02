@@ -17,7 +17,7 @@ public class UDPClient {
 
     private Log log = LogFactory.getLog(UDPClient.class);
 
-    @Value("${configuration.log.senttestdata:false}")
+    @Value("${configuration.log.sendtestdata:false}")
     private boolean do_log_sent_testdata = false;
 
     @Value("${configuration.udp.port:6500}")

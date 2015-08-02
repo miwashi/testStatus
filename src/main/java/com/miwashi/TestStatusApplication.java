@@ -131,13 +131,13 @@ public class TestStatusApplication {
         stats.resetHour();
     }
 
-    @Scheduled(cron = "${configuration.schedule.dayly.cron}")
+    @Scheduled(cron = "${configuration.schedule.daily.cron}")
     public void daylyManagement(){
         stats.resetDay();
     }
 
 
-    @Scheduled(fixedRateString = "${configuration.schedule.handleresults.rate}", initialDelayString = "${configuration.schedule.dayly.delay}")
+    @Scheduled(fixedRateString = "${configuration.schedule.handleresults.rate}", initialDelayString = "${configuration.schedule.daily.delay}")
     public void handleResultReports() {
         List<ResultReport> toBeHandled = new ArrayList<ResultReport>();
         List<String> toBeDeleted = new ArrayList<String>();

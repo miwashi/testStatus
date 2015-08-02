@@ -3,47 +3,7 @@
 # spring.jpa.hibernate.naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
 # spring.jpa.database: H2
 # spring.jpa.show-sql: true
-
-configuration:
-    projectName: test-status
-
-    default:
-      browser: firefox
-      platform: linux
-
-    udp:
-      port: 6500
-      host: localhost
-
-    testdata: true
-
-    schedule:
-      cleanup:
-        rate: 1000
-        delay: 5000
-
-      testresult:
-        rate: 1000
-        delay: 5000
-
-      handleresults:
-        rate: 500
-        delay: 5000
-
-      hourly:
-        cron: "1 0 * * * *"
-        delay: 5000
-
-      dayly:
-        cron: "1 0 0 * * *"
-        delay: 5000
-
-    log:
-      receivedresult: true
-      senttestdatas: false
-
-
-
+---
 spring:
   mvc:
     favicon:
@@ -64,6 +24,48 @@ spring:
     encoding: UTF-8
     content-type: text/html
 
+configuration:
+    projectName: test-status-default
+
+    default:
+      browser: firefox
+      platform: linux
+
+    udp:
+      port: 6500
+      host: localhost
+
+    testdata: true
+
+    schedule:
+      cleanup:
+        rate: 1000
+        delay: 5000
+        cron: "1 0 * * * *"
+
+      testresult:
+        rate: 1000
+        delay: 5000
+
+      handleresults:
+        rate: 500
+        delay: 5000
+
+      hourly:
+        cron: "1 0 * * * *"
+        delay: 5000
+
+      daily:
+        cron: "1 0 0 * * *"
+        delay: 5000
+
+    storagedays: 5
+
+    log:
+      receivedresult: false
+      sendtestdata: false
+      deletions: true
+
 info:
   app:
     name: ${spring.application.name}
@@ -71,26 +73,6 @@ info:
 
 server:
   port: ${port:8090}
-
-# ***********************
-# ***********************
-# *******  DEV  *********
-# ***********************
-# ***********************
----
-spring:
-  profiles: dev
-
-configuration:
-  projectName: test-status-dev
-  testdata: true
-
-hibernate:
-  connection:
-    username: root
-    password: root
-    driver_class: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306:test
 
 # ***********************
 # ***********************
@@ -113,6 +95,10 @@ configuration:
   projectName: test-status-stage
   testdata: false
 
+  log:
+    receivedresult: false
+    sendtestdata: false
+
 # ***********************
 # ***********************
 # *******  PROD  ********
@@ -120,7 +106,7 @@ configuration:
 # ***********************
 ---
 spring:
-  profiles: false
+  profiles: prod
 
   jpa:
     show-sql: false
@@ -128,6 +114,10 @@ spring:
 configuration:
   projectName: test-status-prod
   testdata: false
+
+  log:
+    receivedresult: false
+    sendtestdata: false
 
 server:
   port: ${port:80}

@@ -11,6 +11,14 @@
         <h1 layout:fragment="header" th:text="${title}">Index</h1>
         <div layout:fragment="content">
 
+            <table border="1" align="left">
+                <tr><th colspan="2">APP</th> </tr>
+                <tr th:each="property : ${appProperties}">
+                    <td th:text="${property.key}">1</td>
+                    <td th:text="${property.value}">1</td>
+                </tr>
+            </table>
+
             <table border="1" color="grey">
                 <tr><th colspan="1" align="left">Profiles</th> </tr>
                 <tr th:each="profile : ${profiles}">
@@ -27,6 +35,17 @@
                     <td th:text="${setting.value}">1</td>
                 </tr>
             </table>
+
+            <table border="1" align="left">
+                <tr><th colspan="2">ENV</th> </tr>
+                <tr th:each="env : ${envs}">
+                    <td th:text="${env.key}">1</td>
+                    <td th:text="${env.value}">1</td>
+                </tr>
+            </table>
+
+
+
         </div>
     </body>
 </html>

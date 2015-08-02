@@ -63,8 +63,29 @@ public class ManagementController {
         }
         mav.addObject("profiles", profiles);
 
+        List<Setting> envVars = new ArrayList<Setting>();
+        Map<String, String> systemEnv = System.getenv();
+        for (String envName : systemEnv.keySet()) {
+            envVars.add(new Setting(envName, systemEnv.get(envName)));
+        }
+        mav.addObject("envs", envVars);
+
+        List<Setting> appProperties = new ArrayList<Setting>();
+        appProperties.add(getPropertyAsSetting("spring.profile"));
+        appProperties.add(getPropertyAsSetting("spring.profiles"));
+        appProperties.add(getPropertyAsSetting("configuration.projectName"));
+        appProperties.add(getPropertyAsSetting("configuration.default.browser"));
+        appProperties.add(getPropertyAsSetting("configuration.default.platform"));
+        appProperties.add(getPropertyAsSetting("configuration.log.receivedresult"));
+        appProperties.add(getPropertyAsSetting("configuration.log.sendtestdata"));
+        appProperties.add(getPropertyAsSetting("configuration.testdata"));
+        mav.addObject("appProperties", appProperties);
 
         return mav;
+    }
+
+    private Setting getPropertyAsSetting(String propertyName){
+        return new Setting(propertyName, env.getProperty(propertyName));
     }
 
 }
