@@ -4,16 +4,53 @@
 # spring.jpa.database: H2
 # spring.jpa.show-sql: true
 
+configuration:
+    projectName: test-status
+
+    default:
+      browser: firefox
+      platform: linux
+
+    udp:
+      port: 6500
+      host: localhost
+
+    testdata: true
+
+    schedule:
+      cleanup:
+        rate: 1000
+        delay: 5000
+
+      testresult:
+        rate: 1000
+        delay: 5000
+
+      handleresults:
+        rate: 500
+        delay: 5000
+
+      hourly:
+        cron: "1 0 * * * *"
+        delay: 5000
+
+      dayly:
+        cron: "1 0 0 * * *"
+        delay: 5000
+
+    log:
+      receivedresult: true
+      senttestdatas: false
+
+
+
 spring:
   mvc:
     favicon:
       enabled: false
 
   jpa:
-    hibernate:
-        show-sql: true
-
-    show-sql: true
+    show-sql: false
 
   application:
     name: test-status
@@ -34,24 +71,19 @@ info:
 
 server:
   port: ${port:8090}
-  
-configuration:
-    projectName: test-status
-    default:
-      browser: firefox
-      platform: linux
 
-org:
-  hibernate:
-    show-sql: true
-
-hibernate:
-  show-sql: true
-# *******  DEV  *******
-
+# ***********************
+# ***********************
+# *******  DEV  *********
+# ***********************
+# ***********************
 ---
 spring:
   profiles: dev
+
+configuration:
+  projectName: test-status-dev
+  testdata: true
 
 hibernate:
   connection:
@@ -60,16 +92,17 @@ hibernate:
     driver_class: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306:test
 
-
-configuration:
-  projectName: test-status-dev
-
-
+# ***********************
+# ***********************
 # *******  STAGE  *******
-
+# ***********************
+# ***********************
 ---
 spring:
   profiles: stage
+
+  jpa:
+    show-sql: false
 
   datasuorce:
     url: postgres://iyfgdecpmudmfo:yH4dXI2jVTgFQ8Js5n6djW4bgR@ec2-107-21-114-132.compute-1.amazonaws.com:5432/dtq22ng04anf3
@@ -78,15 +111,23 @@ spring:
 
 configuration:
   projectName: test-status-stage
+  testdata: false
 
-# *******  PROD  *******
-
+# ***********************
+# ***********************
+# *******  PROD  ********
+# ***********************
+# ***********************
 ---
 spring:
-  profiles: prod
+  profiles: false
+
+  jpa:
+    show-sql: false
 
 configuration:
   projectName: test-status-prod
+  testdata: false
 
 server:
   port: ${port:80}

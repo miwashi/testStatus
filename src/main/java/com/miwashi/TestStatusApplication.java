@@ -34,6 +34,12 @@ import java.util.concurrent.CountDownLatch;
 @ComponentScan
 public class TestStatusApplication {
 
+    @Value("${configuration.log.receivedresult:false}")
+    private boolean do_log_recievied_results = false;
+
+    @Value("${configuration.udp.port:6500}")
+    private int udpPort = 6500;
+
     private Log log = LogFactory.getLog(TestStatusApplication.class);
     private static Stats stats = new Stats();
 
@@ -120,25 +126,18 @@ public class TestStatusApplication {
      * "0 0 0 25 12 ?" = every Christmas Day at midnight
      * second, minute, hour, day of month, month, day(s) of week
      */
-    @Scheduled(cron = "1 0 * * * *")
+    @Scheduled(cron = "${configuration.schedule.hourly.cron}")
     public void hourlyManagement(){
         stats.resetHour();
     }
 
-    @Scheduled(cron = "1 0 0 * * *")
+    @Scheduled(cron = "${configuration.schedule.dayly.cron}")
     public void daylyManagement(){
         stats.resetDay();
     }
 
-    @Scheduled(fixedRate = 1000)
-    public void sendTestData(){
-    	Map<String, String> data = UDPClient.getRandomTest();
-    	UDPClient udpClient = new UDPClient();
-    	udpClient.beforeTest(data);
-    	udpClient.afterTest(data);
-    }
-    
-    @Scheduled(fixedRate = 500)
+
+    @Scheduled(fixedRateString = "${configuration.schedule.handleresults.rate}", initialDelayString = "${configuration.schedule.dayly.delay}")
     public void handleResultReports() {
         List<ResultReport> toBeHandled = new ArrayList<ResultReport>();
         List<String> toBeDeleted = new ArrayList<String>();
@@ -250,12 +249,13 @@ public class TestStatusApplication {
         final DatagramServer<byte[], byte[]> server = new DatagramServerSpec<byte[], byte[]>(NettyDatagramServer.class)
                 .env(env)
                 //.listen(SocketUtils.findAvailableTcpPort())
-                .listen(6500)
+                .listen(udpPort)
                 .codec(StandardCodecs.BYTE_ARRAY_CODEC)
                 .consumeInput(bytes -> {
                     String request = new String(bytes);
-                    log.info("received: " + request);
-
+                    if (do_log_recievied_results) {
+                        log.info("received: " + request);
+                    }
                     ResultReport result = new ResultReport(request);
                     stats.inc(result);
                     if (result.isCompleted()) {

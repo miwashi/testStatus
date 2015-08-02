@@ -1,5 +1,7 @@
 package com.miwashi;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 
 import java.io.*;
@@ -9,8 +11,20 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Value;
 
 public class UDPClient {
+
+    private Log log = LogFactory.getLog(UDPClient.class);
+
+    @Value("${configuration.log.senttestdata:false}")
+    private boolean do_log_sent_testdata = false;
+
+    @Value("${configuration.udp.port:6500}")
+    private int udpPort = 6500;
+
+    @Value("${configuration.udp.host:localhost}")
+    private String udpHost = "localhost";
 
 	private static String[][] DATA = new String[][]{
 		{"se.svt.test.atv.widgets.FooterTest.shouldHaveClickableLogoThatDirectsToSvtFirstPage","FAIL","firefox","linux"}
@@ -890,15 +904,17 @@ public class UDPClient {
         return json;
     }
 
-    protected String statServer = "localhost";
-    protected int statServerPort = 6500;
+    protected String statServer = udpHost;
+    protected int statServerPort = udpPort;
 
     protected void sendByUDP(String msg) {
         try {
             DatagramSocket sock = new DatagramSocket();
             InetAddress addr = InetAddress.getByName(statServer);
             byte[] message = (msg + "\n").getBytes();
-            System.out.println(new String(message));
+            if(do_log_sent_testdata) {
+                log.info("sending: " + new String(message));
+            }
             DatagramPacket packet = new DatagramPacket(message, message.length, addr, statServerPort);
             sock.send(packet);
             sock.close();
