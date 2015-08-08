@@ -1,6 +1,9 @@
 package com.miwashi.model;
 
 import javax.persistence.*;
+
+import org.joda.time.DateTime;
+
 import java.util.*;
 
 @Entity(name="GROUPS")
@@ -15,6 +18,9 @@ public class Group {
     private Date lastTested;
 
     public Date getLastTested() {
+    	if(lastTested==null){
+    		lastTested = new Date(0);
+    	}
 		return lastTested;
 	}
 
@@ -38,7 +44,7 @@ public class Group {
     private int unstable = 0;
 
     @Transient
-    private String since = "";
+    private String touched = "";
 
     @Transient
     private Map<String, Subject> subjects = new HashMap<String,Subject>();
@@ -59,6 +65,14 @@ public class Group {
         this.name = name;
     }
 
+    public String getTopName(){
+    	String result = name;
+    	if(name.indexOf('.')>=0){
+    		result = name.substring(0, name.indexOf('.'));
+    	}
+    	return result;
+    }
+    
     public long getId() {
         return id;
     }
@@ -66,41 +80,160 @@ public class Group {
     public int getSuccesses() {
         return successes;
     }
-
-    public void setSuccesses(int successes) {
-        this.successes = successes;
+    
+    public String getSuccessesRelative() {
+    	if(tested==0){
+    		return "";
+    	}
+        return "" + successes + " (" + (Math.round((100 * successes)/tested)) + "%)";
     }
 
     public int getFails() {
         return fails;
     }
-
-    public void setFails(int fails) {
-        this.fails = fails;
+    
+    public String getFailsRelative() {
+    	if(tested==0){
+    		return "";
+    	}
+        return "" + successes + " (" + (Math.round((100 * fails)/tested)) + "%)";
     }
 
     public int getUnstable() {
         return unstable;
     }
-
-    public void setUnstable(int unstable) {
-        this.unstable = unstable;
+    
+    public String getUnstableRelative() {
+    	if(tested==0){
+    		return "";
+    	}
+        return "" + successes + " (" + (Math.round((100 * unstable)/tested)) + "%)";
     }
 
-    public String getSince() {
-        return since;
+    public String getTouched() {
+    	if(lastTested == null){
+    		return "not touched";
+    	}
+    	
+    	DateTime now = DateTime.now();
+    	DateTime thisTime = new DateTime(lastTested.getTime());
+    	long duration = now.getMillis() - thisTime.getMillis();
+    	if(duration < 0){
+    		return "not touched";
+    	}
+    	long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+    	duration = duration - days * (1000 * 3600 * 24 );
+    	long hours = Math.floorDiv(duration, (1000 * 3600 ));
+    	duration = duration - days * (1000 * 3600);
+    	long minutes = Math.floorDiv(duration, (1000 * 60 ));
+    	duration = duration - days * (1000 * 60);
+    	long seconds = Math.floorDiv(duration, (1000));
+    	
+    	if(days>0){
+    		return days + " days ago!";
+    	}
+    	
+    	if(hours>0){
+    		return hours + " hour, " + ((hours>1)?"s":"") + " minutes ago!";
+    	}
+    	
+    	if(minutes>0){
+    		return minutes + " minute" + ((minutes>1)?"s":"") + " ago!";
+    	}
+    	
+        return seconds + " seconds ago!";
     }
-
-    public void setSince(String since) {
-        this.since = since;
+    
+    public long getTouchedDays(){
+    	if(lastTested == null){
+    		return Integer.MAX_VALUE;
+    	}
+    	
+    	DateTime now = DateTime.now();
+    	DateTime thisTime = new DateTime(lastTested.getTime());
+    	long duration = now.getMillis() - thisTime.getMillis();
+    	if(duration < 0){
+    		return Integer.MAX_VALUE;
+    	}
+    	long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+    	duration = duration - days * (1000 * 3600 * 24 );
+    	long hours = Math.floorDiv(duration, (1000 * 3600 ));
+    	duration = duration - days * (1000 * 3600);
+    	long minutes = Math.floorDiv(duration, (1000 * 60 ));
+    	duration = duration - days * (1000 * 60);
+    	long seconds = Math.floorDiv(duration, (1000));
+    	
+    	return days;
+    }
+    
+    public long getTouchedHours(){
+    	if(lastTested == null){
+    		return Integer.MAX_VALUE;
+    	}
+    	
+    	DateTime now = DateTime.now();
+    	DateTime thisTime = new DateTime(lastTested.getTime());
+    	long duration = now.getMillis() - thisTime.getMillis();
+    	if(duration < 0){
+    		return Integer.MAX_VALUE;
+    	}
+    	long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+    	duration = duration - days * (1000 * 3600 * 24 );
+    	long hours = Math.floorDiv(duration, (1000 * 3600 ));
+    	duration = duration - days * (1000 * 3600);
+    	long minutes = Math.floorDiv(duration, (1000 * 60 ));
+    	duration = duration - days * (1000 * 60);
+    	long seconds = Math.floorDiv(duration, (1000));
+    	
+    	return hours;
+    }
+    
+    public long getTouchedMinutes(){
+    	if(lastTested == null){
+    		return Integer.MAX_VALUE;
+    	}
+    	
+    	DateTime now = DateTime.now();
+    	DateTime thisTime = new DateTime(lastTested.getTime());
+    	long duration = now.getMillis() - thisTime.getMillis();
+    	if(duration < 0){
+    		return Integer.MAX_VALUE;
+    	}
+    	long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+    	duration = duration - days * (1000 * 3600 * 24 );
+    	long hours = Math.floorDiv(duration, (1000 * 3600 ));
+    	duration = duration - days * (1000 * 3600);
+    	long minutes = Math.floorDiv(duration, (1000 * 60 ));
+    	duration = duration - days * (1000 * 60);
+    	long seconds = Math.floorDiv(duration, (1000));
+    	
+    	return minutes;
+    }
+    
+    public long getTouchedSeconds(){
+    	if(lastTested == null){
+    		return Integer.MAX_VALUE;
+    	}
+    	
+    	DateTime now = DateTime.now();
+    	DateTime thisTime = new DateTime(lastTested.getTime());
+    	long duration = now.getMillis() - thisTime.getMillis();
+    	if(duration < 0){
+    		return Integer.MAX_VALUE;
+    	}
+    	long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+    	duration = duration - days * (1000 * 3600 * 24 );
+    	long hours = Math.floorDiv(duration, (1000 * 3600 ));
+    	duration = duration - days * (1000 * 3600);
+    	long minutes = Math.floorDiv(duration, (1000 * 60 ));
+    	duration = duration - days * (1000 * 60);
+    	long seconds = Math.floorDiv(duration, (1000));
+    	
+    	return seconds;
     }
 
     public int getTested() {
         return tested;
-    }
-
-    public void setTested(int tested) {
-        this.tested = tested;
     }
 
     public List<Subject> getSubjects() {
@@ -117,8 +250,68 @@ public class Group {
         });
         return result;
     }
+    
+    public int getNumberOfSubjects(){
+    	return subjects==null?0:subjects.size();
+    }
+    
+    public int getNumberOfFailedSubjects(){
+    	int numFails=0;
+    	for(Subject subject : subjects.values()){
+    		if(subject.isFailed()){
+    			numFails++;
+    		}
+    	}
+    	return numFails;
+    }
+    
+    public int getNumberOfUnstableSubjects(){
+    	int numUnstable=0;
+    	for(Subject subject : subjects.values()){
+    		if(subject.isUnstable()){
+    			numUnstable++;
+    		}
+    	}
+    	return numUnstable;
+    }
+    
+    public int getNumberOfRequirements(){
+    	return subjects==null?0:subjects.size();
+    }
+    
+    public int getNumberOfFailedRequirements(){
+    	return subjects==null?0:subjects.size();
+    }
+    
+    public int getNumberOfUnstableRequirements(){
+    	return subjects==null?0:subjects.size();
+    }
 
     public void add(Subject subject) {
         subjects.put(subject.getKey(), subject);
+    }
+    
+    public void resetStat(){
+    	fails = 0;
+    	successes = 0;
+    	unstable = 0;
+    	lastTested = null;
+    }
+    
+    public void addStat(Requirement requirement) {
+    	tested++;
+    	
+        if(requirement.isFailed()){
+        	fails++;
+        }
+        
+        if(requirement.isSuccess()){
+        	successes++;
+        }
+        
+        if(requirement.isUnstable()){
+        	unstable++;
+        }
+        lastTested = requirement.getLastTested();
     }
 }

@@ -44,7 +44,6 @@ public class GroupController {
         allGroups.forEach(aGroup -> {
             result.add(aGroup);
         });
-
         return result;
     }
 
@@ -64,19 +63,7 @@ public class GroupController {
             requirementsIter = requirementRepository.findByGroupId(group.getId());
         }
         for(Requirement requirement : requirementsIter){
-            group.setTested(group.getTested()+1);
-            if(requirement.isSuccess()){
-                group.setSuccesses(group.getSuccesses() +1);
-            }
-            if(requirement.isFailed()){
-                group.setFails(group.getFails() +1);
-            }
-            if(!requirement.isTested()){
-
-            }
-            if(requirement.isUnstable()){
-                group.setUnstable(group.getUnstable() +1);
-            }
+        	group.addStat(requirement);
             group.add(requirement.getSubject());
             requirement.getSubject().add(requirement);
         }
@@ -84,76 +71,32 @@ public class GroupController {
         return group;
     }
 
-    @RequestMapping("/teams")
-    public ModelAndView getTeams() {
-        ModelAndView mav = new ModelAndView("teams");
-
-        Collection<Group> groups = new ArrayList<Group>();
-        Iterable<Group> groupsIter = groupRepository.findAll();
-        groupsIter.forEach( group -> {
-            groups.add(group);
-
-            Iterable<Requirement> requirementsIter = null;
-            if(group.getName().indexOf(".")>=0){
-                requirementsIter = requirementRepository.findBySubGroupId(group.getId());
-            }else{
-                requirementsIter = requirementRepository.findByGroupId(group.getId());
-            }
-            requirementsIter.forEach( requirement -> {
-                group.setTested(group.getTested()+1);
-                if(requirement.isSuccess()){
-                    group.setSuccesses(group.getSuccesses() +1);
-                }
-                if(requirement.isFailed()){
-                    group.setFails(group.getFails() +1);
-                }
-                if(!requirement.isTested()){
-
-                }
-                if(requirement.isUnstable()){
-                    group.setUnstable(group.getUnstable() +1);
-                }
-            });
-
-        });
-        mav.addObject("teams", groups);
-        
-        
-
-        return mav;
-    }
-
     @RequestMapping("/team/all")
     public ModelAndView getAllTeams() {
         ModelAndView mav = new ModelAndView("teams");
-
+        
+        HashSet<String> topGroups = new HashSet<String>();
         List<Group> groups = new ArrayList<Group>();
+        
+        //Find all groups
         Iterable<Group> groupsIter = groupRepository.findAll();
         groupsIter.forEach( group -> {
             groups.add(group);
+            group.resetStat();
 
+            //Find requirements for every group
             Iterable<Requirement> requirementsIter = null;
             if(group.getName().indexOf(".")>=0){
                 requirementsIter = requirementRepository.findBySubGroupId(group.getId());
             }else{
                 requirementsIter = requirementRepository.findByGroupId(group.getId());
+                topGroups.add(group.getName());
             }
+            
+            //For every requirement belonging to a group, calculate group stats.
             requirementsIter.forEach( requirement -> {
-                group.setTested(group.getTested()+1);
-                if(requirement.isSuccess()){
-                    group.setSuccesses(group.getSuccesses() +1);
-                }
-                if(requirement.isFailed()){
-                    group.setFails(group.getFails() +1);
-                }
-                if(!requirement.isTested()){
-
-                }
-                if(requirement.isUnstable()){
-                    group.setUnstable(group.getUnstable() +1);
-                }
+            	group.addStat(requirement);
             });
-
         });
 
         Collections.sort(groups, new Comparator<Group>() {
@@ -165,8 +108,9 @@ public class GroupController {
                 return group1.getName().compareTo(group2.getName());
             }
         });
-
+        
         mav.addObject("teams", groups);
+        mav.addObject("topteams", topGroups);
 
         return mav;
     }
@@ -188,35 +132,28 @@ public class GroupController {
             requirementsIter = requirementRepository.findByGroupId(group.getId());
         }
         for(Requirement requirement : requirementsIter){
-            group.setTested(group.getTested()+1);
-            if(requirement.isSuccess()){
-                group.setSuccesses(group.getSuccesses() +1);
-            }
-            if(requirement.isFailed()){
-                group.setFails(group.getFails() +1);
-            }
-            if(!requirement.isTested()){
-
-            }
-            if(requirement.isUnstable()){
-                group.setUnstable(group.getUnstable() +1);
-            }
+        	group.addStat(requirement);
             group.add(requirement.getSubject());
             requirement.getSubject().add(requirement);
         }
 
         List<Subject> unstable = new ArrayList<Subject>();
-        Collections.sort(unstable, new Comparator<Subject>() {
-            @Override
-            public int compare(Subject subject1, Subject subject2) {
-                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
-                    return 0;
-                }
-                return subject1.getName().compareTo(subject2.getName());
-            }
-        });
-
         List<Subject> faulty = new ArrayList<Subject>();
+        List<Subject> ok = new ArrayList<Subject>();
+        for(Subject aSubject : group.getSubjects()){
+        	if(aSubject.isFailed()){
+        		faulty.add(aSubject);
+        	}	
+        	
+        	if(aSubject.isUnstable()){
+        		unstable.add(aSubject);
+        	}
+        	
+        	if(aSubject.isSucceeded()){
+        		ok.add(aSubject);
+        	}
+        }
+
         Collections.sort(faulty, new Comparator<Subject>() {
             @Override
             public int compare(Subject subject1, Subject subject2) {
@@ -226,8 +163,17 @@ public class GroupController {
                 return subject1.getName().compareTo(subject2.getName());
             }
         });
-
-        List<Subject> ok = new ArrayList<Subject>();
+        
+        Collections.sort(unstable, new Comparator<Subject>() {
+            @Override
+            public int compare(Subject subject1, Subject subject2) {
+                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+                    return 0;
+                }
+                return subject1.getName().compareTo(subject2.getName());
+            }
+        });
+        
         Collections.sort(ok, new Comparator<Subject>() {
             @Override
             public int compare(Subject subject1, Subject subject2) {
@@ -238,23 +184,11 @@ public class GroupController {
             }
         });
         
-        for(Subject aSubject : group.getSubjects()){
-        	if(aSubject.getNumberOfFailedRequirements()>0){
-        		faulty.add(aSubject);
-        	}	
-        	if(aSubject.getNumberOfUnstableRequirements()>0){
-        		unstable.add(aSubject);
-        	}
-        	if((aSubject.getNumberOfFailedRequirements()) == 0 && (aSubject.getNumberOfUnstableRequirements()==0)){
-        		ok.add(aSubject);
-        	}
-        }
-
-
         mav.addObject("failed", faulty);
         mav.addObject("unstable", unstable);
+        mav.addObject("ok", ok);
         mav.addObject("team", group);
-
+        
         return mav;
     }
 }

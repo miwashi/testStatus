@@ -13,34 +13,39 @@
 
     <section>
 		<h1>Today's testing</h1>
+		<th:block th:each="topteam : ${topteams}">
+		<h2 th:text="'Team: ' + ${topteam}"></h2>
         <table>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-            <colgroup><col/><col/><col/></colgroup>
-
-            <tbody>
-            <th>
-                <td>requirements</td>
-                <td>failed requirements</td>
-                <td>unstable requirements</td>
-                <td>since</td>
-            </th>
-            <th:block th:each="team : ${teams}">
-                <tr >
-
-                    <td ><a th:href="'/team/' + ${team.id}" th:text="${team.name}"></a></td>
-                    <td th:text="${team.tested}"></td>
-                    <td th:text="${team.fails}"></td>
-                    <td th:text="${team.unstable}"></td>
-                    <td th:text="${team.since}"></td>
-                </tr>
-            </th:block>
-
-
+        	<colgroup class="groupHeader"><col/></colgroup>
+            <colgroup class="numberOfRequirements"><col/><col/><col/></colgroup>
+            <colgroup class="date"><col/></colgroup>
+            <colgroup class="time"><col/></colgroup>
+            
+            <thead>
+	            <th>
+	                <td>Requirements</td>
+	                <td>failed</td>
+	                <td>unstable</td>
+	                <td>touched</td>
+	            </th>
+            </thead>
+	        
+	        <tbody>
+	            <th:block th:each="team : ${teams}">
+	                <tr th:if="${team.topName == topteam}">
+	                    <td class="rowHeader"><a th:href="'/team/' + ${team.id}" th:text="${team.name}"></a></td>
+	                    <td class="numberOfRequirements" th:text="${team.tested}"></td>
+	                    <td class="numberOfRequirements" th:text="${team.failsRelative}"></td>
+	                    <td class="numberOfRequirements" th:text="${team.unstableRelative}"></td>
+	                    <td th:text="${team.touched}"></td>
+	                    <td th:text="${team.topName +  '-' + topteam}"></td>
+	                </tr>
+	                
+	            </th:block>
             </tbody>
 
         </table>
-
+		</th:block>
     </section>
 
 </div>

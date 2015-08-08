@@ -35,7 +35,7 @@ configuration:
       port: 6500
       host: localhost
 
-    testdata: false
+    testdata: true
 
     schedule:
       cleanup:

@@ -1,0 +1,45 @@
+thead {
+	background-color: white;
+}
+
+tbody {
+	;
+}
+
+colgroup {
+	align : left;
+	nowrap;
+	valign: top;
+	font-weight : bold;	
+}
+
+colgroup.numberOfRequirements {
+	text-align: right;
+	width : 10%;
+	background-color : white;
+}
+
+td.numberOfRequirements {
+	text-align: right;
+	color: black;
+}
+
+td.rowheader {
+	white-space: nowrap;
+}
+
+colgroup.groupHeader {
+	width : 20%;
+	background-color : white;
+	text-align: left;
+}
+
+colgroup.date {
+	width : 10%;
+	background-color : white;
+}
+
+colgroup.time {
+	width : 10%;
+	background-color : blue;
+}

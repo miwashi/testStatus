@@ -190,6 +190,16 @@ public class Subject {
     	return numFails;
     }
     
+    public int getNumberOfSucceededRequirements(){
+    	int numFails = 0;
+    	for(RequirementRow row : requirements.values()){
+    		if(row.failed){
+    			numFails++;
+    		}
+    	}
+    	return numFails;
+    }
+    
     public String getNumberOfFailedRequirementsShare(){
     	int numFails = 0;
     	for(RequirementRow row : requirements.values()){
@@ -234,5 +244,22 @@ public class Subject {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+    
+    public boolean isUnstable(){
+    	boolean isUnstable = (this.getNumberOfUnstableRequirements()>0) && (this.getNumberOfFailedRequirements()==0);
+    	
+    	return isUnstable;
+    }
+    
+    public boolean isFailed(){
+    	boolean isFailed = (this.getNumberOfFailedRequirements()>0);
+    	
+    	return isFailed;
+    }
+    
+    public boolean isSucceeded(){
+    	boolean isSucceeded = (this.getNumberOfFailedRequirements()==0);
+    	return isSucceeded;
     }
 }
