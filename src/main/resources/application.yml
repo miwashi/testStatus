@@ -35,7 +35,7 @@ configuration:
       port: 6500
       host: localhost
 
-    testdata: true
+    testdata: false
 
     schedule:
       cleanup:
@@ -65,7 +65,7 @@ configuration:
     log:
       receivedresult: false
       sendtestdata: false
-      deletions: true
+      deletions: false
 
 info:
   app:
@@ -117,8 +117,8 @@ configuration:
   testdata: false
 
   log:
-    receivedresult: false
+    receivedresult: true
     sendtestdata: false
 
 server:
-  port: ${port:80}
+  port: ${port:8090}

@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.websocket.server.PathParam;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Configuration
 @RestController
@@ -129,7 +127,7 @@ public class GroupController {
     public ModelAndView getAllTeams() {
         ModelAndView mav = new ModelAndView("teams");
 
-        Collection<Group> groups = new ArrayList<Group>();
+        List<Group> groups = new ArrayList<Group>();
         Iterable<Group> groupsIter = groupRepository.findAll();
         groupsIter.forEach( group -> {
             groups.add(group);
@@ -157,6 +155,17 @@ public class GroupController {
             });
 
         });
+
+        Collections.sort(groups, new Comparator<Group>() {
+            @Override
+            public int compare(Group group1, Group group2) {
+                if (group1 == null || group2 == null || group1.getName() == null || group2.getName() == null) {
+                    return 0;
+                }
+                return group1.getName().compareTo(group2.getName());
+            }
+        });
+
         mav.addObject("teams", groups);
 
         return mav;
@@ -196,9 +205,38 @@ public class GroupController {
             requirement.getSubject().add(requirement);
         }
 
-        Collection<Subject> unstable = new ArrayList<Subject>();
-        Collection<Subject> faulty = new ArrayList<Subject>();
-        Collection<Subject> ok = new ArrayList<Subject>();
+        List<Subject> unstable = new ArrayList<Subject>();
+        Collections.sort(unstable, new Comparator<Subject>() {
+            @Override
+            public int compare(Subject subject1, Subject subject2) {
+                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+                    return 0;
+                }
+                return subject1.getName().compareTo(subject2.getName());
+            }
+        });
+
+        List<Subject> faulty = new ArrayList<Subject>();
+        Collections.sort(faulty, new Comparator<Subject>() {
+            @Override
+            public int compare(Subject subject1, Subject subject2) {
+                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+                    return 0;
+                }
+                return subject1.getName().compareTo(subject2.getName());
+            }
+        });
+
+        List<Subject> ok = new ArrayList<Subject>();
+        Collections.sort(ok, new Comparator<Subject>() {
+            @Override
+            public int compare(Subject subject1, Subject subject2) {
+                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+                    return 0;
+                }
+                return subject1.getName().compareTo(subject2.getName());
+            }
+        });
         
         for(Subject aSubject : group.getSubjects()){
         	if(aSubject.getNumberOfFailedRequirements()>0){
@@ -211,6 +249,8 @@ public class GroupController {
         		ok.add(aSubject);
         	}
         }
+
+
         mav.addObject("failed", faulty);
         mav.addObject("unstable", unstable);
         mav.addObject("team", group);

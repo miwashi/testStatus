@@ -1,10 +1,7 @@
 package com.miwashi.model;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity(name="GROUPS")
 public class Group {
@@ -106,8 +103,19 @@ public class Group {
         this.tested = tested;
     }
 
-    public Collection<Subject> getSubjects() {
-        return subjects.values();
+    public List<Subject> getSubjects() {
+        List<Subject> result = new ArrayList<Subject>();
+        result.addAll(subjects.values());
+        Collections.sort(result, new Comparator<Subject>() {
+            @Override
+            public int compare(Subject subject1, Subject subject2) {
+                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+                    return 0;
+                }
+                return subject1.getName().compareTo(subject2.getName());
+            }
+        });
+        return result;
     }
 
     public void add(Subject subject) {
