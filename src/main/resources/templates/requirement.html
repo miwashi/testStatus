@@ -5,7 +5,7 @@
         layout:decorator="layout"
 >
     <head>
-        <title>Requirement summary page</title>
+        <title th:text="'Req: ' + ${requirement.testRequirement}">Requirement summary page for</title>
     </head>
     <body>
         <h1 class="header" layout:fragment="header" th:text="'SVT Test requirement summary page'">SVT Test summary page</h1>

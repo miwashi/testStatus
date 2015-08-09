@@ -95,9 +95,11 @@ public class RequirementController {
     	mav.addObject("title", "Requirement!");
     	mav.addObject("header", "Requirement!");
         mav.addObject("requirement", requirement);
+        
         return mav;
         
     }
+    
     
     @RequestMapping(value = "/requirement/key/{key}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public ModelAndView getRequirementById(@PathParam(value = "Path key") @PathVariable final String key) {
