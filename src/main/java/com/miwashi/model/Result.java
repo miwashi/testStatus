@@ -2,9 +2,11 @@ package com.miwashi.model;
 
 
 import com.miwashi.config.ApplicationConfig;
+
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -162,5 +164,39 @@ public class Result implements Comparable<Result>{
             return 0;
         }
         return this.getStartTime().compareTo(comparedResult.getStartTime());
+    }
+    
+    public String getTouched() {
+        if(startTime == null){
+            return "not touched";
+        }
+
+        DateTime now = DateTime.now();
+        DateTime thisTime = new DateTime(startTime.getTime());
+        long duration = now.getMillis() - thisTime.getMillis();
+        if(duration < 0){
+            return "not touched";
+        }
+        long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+        duration = duration - days * (1000 * 3600 * 24 );
+        long hours = Math.floorDiv(duration, (1000 * 3600 ));
+        duration = duration - days * (1000 * 3600);
+        long minutes = Math.floorDiv(duration, (1000 * 60 ));
+        duration = duration - days * (1000 * 60);
+        long seconds = Math.floorDiv(duration, (1000));
+
+        if(days>0){
+            return days + " days ago!";
+        }
+
+        if(hours>0){
+            return hours + " hour, " + ((hours>1)?"s":"") + " minutes ago!";
+        }
+
+        if(minutes>0){
+            return minutes + " minute" + ((minutes>1)?"s":"") + " ago!";
+        }
+
+        return seconds + " seconds ago!";
     }
 }

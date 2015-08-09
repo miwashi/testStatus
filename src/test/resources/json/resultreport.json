@@ -1,0 +1,20 @@
+{
+	"jobName":"barnplay-regressiontest",
+	"buildId":"2015-08-09_16-58-13",
+	"type":"2",
+	"uuid":"7a2bb996-8996-4fe2-8a9b-c2dee5f68f06",
+	"version":"prod",
+	"buildNumber":"7928",
+	"platform":"linux",
+	"timeStamp":"1439132453071",
+	"gitCommit":"2b24b4b3db76d5d9b7d00d272502ab7d526b1c25",
+	"size":"any",
+	"grid":"http://svt-stoprod-seleniumgrid01:4444/wd/hub",
+	"browser":"firefox",
+	"name":"se.svt.test.barn.play.HistoryListTest.shouldGetHistoryListWhenWatchingVideo",
+	"host":"http://stage.svt.se",
+	"user":"jenkins",
+	"gitURL":"git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git",
+	"gitBranch":"origin/master",
+	"status":"SUCCESS"
+}

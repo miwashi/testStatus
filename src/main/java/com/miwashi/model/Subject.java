@@ -1,6 +1,9 @@
 package com.miwashi.model;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -135,6 +138,127 @@ public class Subject {
             this.successRate = successRate;
         }
         
+        public String getTouched() {
+            if(lastTested == null){
+                return "not touched";
+            }
+
+            DateTime now = DateTime.now();
+            DateTime thisTime = new DateTime(lastTested.getTime());
+            long duration = now.getMillis() - thisTime.getMillis();
+            if(duration < 0){
+                return "not touched";
+            }
+            long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+            duration = duration - days * (1000 * 3600 * 24 );
+            long hours = Math.floorDiv(duration, (1000 * 3600 ));
+            duration = duration - days * (1000 * 3600);
+            long minutes = Math.floorDiv(duration, (1000 * 60 ));
+            duration = duration - days * (1000 * 60);
+            long seconds = Math.floorDiv(duration, (1000));
+
+            if(days>0){
+                return days + " days ago!";
+            }
+
+            if(hours>0){
+                return hours + " hour, " + ((hours>1)?"s":"") + " minutes ago!";
+            }
+
+            if(minutes>0){
+                return minutes + " minute" + ((minutes>1)?"s":"") + " ago!";
+            }
+
+            return seconds + " seconds ago!";
+        }
+
+        public long getTouchedDays(){
+            if(lastTested == null){
+                return Integer.MAX_VALUE;
+            }
+
+            DateTime now = DateTime.now();
+            DateTime thisTime = new DateTime(lastTested.getTime());
+            long duration = now.getMillis() - thisTime.getMillis();
+            if(duration < 0){
+                return Integer.MAX_VALUE;
+            }
+            long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+            duration = duration - days * (1000 * 3600 * 24 );
+            long hours = Math.floorDiv(duration, (1000 * 3600 ));
+            duration = duration - days * (1000 * 3600);
+            long minutes = Math.floorDiv(duration, (1000 * 60 ));
+            duration = duration - days * (1000 * 60);
+            long seconds = Math.floorDiv(duration, (1000));
+
+            return days;
+        }
+
+        public long getTouchedHours(){
+            if(lastTested == null){
+                return Integer.MAX_VALUE;
+            }
+
+            DateTime now = DateTime.now();
+            DateTime thisTime = new DateTime(lastTested.getTime());
+            long duration = now.getMillis() - thisTime.getMillis();
+            if(duration < 0){
+                return Integer.MAX_VALUE;
+            }
+            long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+            duration = duration - days * (1000 * 3600 * 24 );
+            long hours = Math.floorDiv(duration, (1000 * 3600 ));
+            duration = duration - days * (1000 * 3600);
+            long minutes = Math.floorDiv(duration, (1000 * 60 ));
+            duration = duration - days * (1000 * 60);
+            long seconds = Math.floorDiv(duration, (1000));
+
+            return hours;
+        }
+
+        public long getTouchedMinutes(){
+            if(lastTested == null){
+                return Integer.MAX_VALUE;
+            }
+
+            DateTime now = DateTime.now();
+            DateTime thisTime = new DateTime(lastTested.getTime());
+            long duration = now.getMillis() - thisTime.getMillis();
+            if(duration < 0){
+                return Integer.MAX_VALUE;
+            }
+            long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+            duration = duration - days * (1000 * 3600 * 24 );
+            long hours = Math.floorDiv(duration, (1000 * 3600 ));
+            duration = duration - days * (1000 * 3600);
+            long minutes = Math.floorDiv(duration, (1000 * 60 ));
+            duration = duration - days * (1000 * 60);
+            long seconds = Math.floorDiv(duration, (1000));
+
+            return minutes;
+        }
+
+        public long getTouchedSeconds(){
+            if(lastTested == null){
+                return Integer.MAX_VALUE;
+            }
+
+            DateTime now = DateTime.now();
+            DateTime thisTime = new DateTime(lastTested.getTime());
+            long duration = now.getMillis() - thisTime.getMillis();
+            if(duration < 0){
+                return Integer.MAX_VALUE;
+            }
+            long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+            duration = duration - days * (1000 * 3600 * 24 );
+            long hours = Math.floorDiv(duration, (1000 * 3600 ));
+            duration = duration - days * (1000 * 3600);
+            long minutes = Math.floorDiv(duration, (1000 * 60 ));
+            duration = duration - days * (1000 * 60);
+            long seconds = Math.floorDiv(duration, (1000));
+
+            return seconds;
+        }
     }
     
     public long getId() {
@@ -261,5 +385,127 @@ public class Subject {
     public boolean isSucceeded(){
     	boolean isSucceeded = (this.getNumberOfFailedRequirements()==0);
     	return isSucceeded;
+    }
+
+    public String getTouched() {
+        if(lastTested == null){
+            return "not touched";
+        }
+
+        DateTime now = DateTime.now();
+        DateTime thisTime = new DateTime(lastTested.getTime());
+        long duration = now.getMillis() - thisTime.getMillis();
+        if(duration < 0){
+            return "not touched";
+        }
+        long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+        duration = duration - days * (1000 * 3600 * 24 );
+        long hours = Math.floorDiv(duration, (1000 * 3600 ));
+        duration = duration - days * (1000 * 3600);
+        long minutes = Math.floorDiv(duration, (1000 * 60 ));
+        duration = duration - days * (1000 * 60);
+        long seconds = Math.floorDiv(duration, (1000));
+
+        if(days>0){
+            return days + " days ago!";
+        }
+
+        if(hours>0){
+            return hours + " hour, " + ((hours>1)?"s":"") + " minutes ago!";
+        }
+
+        if(minutes>0){
+            return minutes + " minute" + ((minutes>1)?"s":"") + " ago!";
+        }
+
+        return seconds + " seconds ago!";
+    }
+
+    public long getTouchedDays(){
+        if(lastTested == null){
+            return Integer.MAX_VALUE;
+        }
+
+        DateTime now = DateTime.now();
+        DateTime thisTime = new DateTime(lastTested.getTime());
+        long duration = now.getMillis() - thisTime.getMillis();
+        if(duration < 0){
+            return Integer.MAX_VALUE;
+        }
+        long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+        duration = duration - days * (1000 * 3600 * 24 );
+        long hours = Math.floorDiv(duration, (1000 * 3600 ));
+        duration = duration - days * (1000 * 3600);
+        long minutes = Math.floorDiv(duration, (1000 * 60 ));
+        duration = duration - days * (1000 * 60);
+        long seconds = Math.floorDiv(duration, (1000));
+
+        return days;
+    }
+
+    public long getTouchedHours(){
+        if(lastTested == null){
+            return Integer.MAX_VALUE;
+        }
+
+        DateTime now = DateTime.now();
+        DateTime thisTime = new DateTime(lastTested.getTime());
+        long duration = now.getMillis() - thisTime.getMillis();
+        if(duration < 0){
+            return Integer.MAX_VALUE;
+        }
+        long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+        duration = duration - days * (1000 * 3600 * 24 );
+        long hours = Math.floorDiv(duration, (1000 * 3600 ));
+        duration = duration - days * (1000 * 3600);
+        long minutes = Math.floorDiv(duration, (1000 * 60 ));
+        duration = duration - days * (1000 * 60);
+        long seconds = Math.floorDiv(duration, (1000));
+
+        return hours;
+    }
+
+    public long getTouchedMinutes(){
+        if(lastTested == null){
+            return Integer.MAX_VALUE;
+        }
+
+        DateTime now = DateTime.now();
+        DateTime thisTime = new DateTime(lastTested.getTime());
+        long duration = now.getMillis() - thisTime.getMillis();
+        if(duration < 0){
+            return Integer.MAX_VALUE;
+        }
+        long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+        duration = duration - days * (1000 * 3600 * 24 );
+        long hours = Math.floorDiv(duration, (1000 * 3600 ));
+        duration = duration - days * (1000 * 3600);
+        long minutes = Math.floorDiv(duration, (1000 * 60 ));
+        duration = duration - days * (1000 * 60);
+        long seconds = Math.floorDiv(duration, (1000));
+
+        return minutes;
+    }
+
+    public long getTouchedSeconds(){
+        if(lastTested == null){
+            return Integer.MAX_VALUE;
+        }
+
+        DateTime now = DateTime.now();
+        DateTime thisTime = new DateTime(lastTested.getTime());
+        long duration = now.getMillis() - thisTime.getMillis();
+        if(duration < 0){
+            return Integer.MAX_VALUE;
+        }
+        long days = Math.floorDiv(duration, (1000 * 3600 * 24 ));
+        duration = duration - days * (1000 * 3600 * 24 );
+        long hours = Math.floorDiv(duration, (1000 * 3600 ));
+        duration = duration - days * (1000 * 3600);
+        long minutes = Math.floorDiv(duration, (1000 * 60 ));
+        duration = duration - days * (1000 * 60);
+        long seconds = Math.floorDiv(duration, (1000));
+
+        return seconds;
     }
 }

@@ -1,3 +1,15 @@
+td.warn {
+	background-color : red;
+}
+
+td.success {
+	background-color : lightgreen;
+}
+
+td.fail {
+	background-color : red;
+}
+
 thead {
 	background-color: white;
 }

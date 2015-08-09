@@ -44,8 +44,8 @@
                 	<td class="rowheader"></td>
                 	<td th:text="${result.platform.name}"></td>
                 	<td th:text="${result.browser.name}"></td>
-                	<td th:text="${result.status}"></td>
-                	<td th:text="${result.startTimeStr}"></td>
+                	<td th:class="${result.status}? 'success' : 'fail'" th:text="${result.status}"></td>
+                	<td  th:text="${result.touched}"></td>
                 </tr>
             </th:block>
             

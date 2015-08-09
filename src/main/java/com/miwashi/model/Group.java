@@ -18,10 +18,7 @@ public class Group {
     private Date lastTested;
 
     public Date getLastTested() {
-    	if(lastTested==null){
-    		lastTested = new Date(0);
-    	}
-		return lastTested;
+    	return lastTested;
 	}
 
 	public void setLastTested(Date lastTested) {

@@ -37,8 +37,7 @@
 	                    <td class="numberOfRequirements" th:text="${team.tested}"></td>
 	                    <td class="numberOfRequirements" th:text="${team.failsRelative}"></td>
 	                    <td class="numberOfRequirements" th:text="${team.unstableRelative}"></td>
-	                    <td th:text="${team.touched}"></td>
-	                    <td th:text="${team.topName +  '-' + topteam}"></td>
+	                    <td th:class="${team.touchedDays>0}? 'warn' : 'ok'" th:text="${team.touched}"></td>
 	                </tr>
 	                
 	            </th:block>

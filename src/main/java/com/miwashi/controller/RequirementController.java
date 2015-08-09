@@ -1,6 +1,7 @@
 package com.miwashi.controller;
 
 import com.miwashi.model.Browser;
+import com.miwashi.model.Group;
 import com.miwashi.model.Platform;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
@@ -12,6 +13,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.websocket.server.PathParam;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Configuration
@@ -92,6 +97,18 @@ public class RequirementController {
     	ModelAndView mav = new ModelAndView("requirement");
     	
     	Requirement requirement = findRequirement(id);
+    	
+    	List<Result> results = requirement.getResults();
+    	Collections.sort(results, new Comparator<Result>() {
+            @Override
+            public int compare(Result result1, Result result2) {
+                if (result1 == null || result2 == null || result1.getStartTime() == null || result2.getStartTime() == null) {
+                    return 0;
+                }
+                return result2.getStartTime().compareTo(result1.getStartTime());
+            }
+        });
+    	
     	mav.addObject("title", "Requirement!");
     	mav.addObject("header", "Requirement!");
         mav.addObject("requirement", requirement);

@@ -31,7 +31,7 @@
                 <td>failed</td>
                 <td>unstable</td>
                 <td>test run</td>
-                <td>last tested</td>
+                <td>touched</td>
             </th>
             	
                 <th:block th:each="requirement : ${subject.requirements}">
@@ -41,7 +41,7 @@
 	                	<td th:text="${requirement.failed}"></td>
 	                	<td th:text="${requirement.unstable} + ' (' + ${requirement.successRate} + '%)'"></td>
 	                	<td th:text="${requirement.testsRun}"></td>
-	                	<td th:text="${requirement.lastTested}"></td>
+	                	<td th:class="${requirement.touchedDays>0}? 'warn' : 'ok'" th:text="${requirement.touched}"></td>
 	                </tr>
 	            </th:block>
 
