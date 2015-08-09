@@ -17,6 +17,8 @@
 		<p>
 		The team <strong><span th:text="${team.name}">team</span></strong>
 		is currently testing <span th:text="${team.tested}">requirements</span> requirements!
+		Of these <span th:text="${team.numberOfFailedRequirements}">requirements</span> has failed 
+		rendering a successrate of <span th:text="${team.numberOfSucceededRequirementsRatio}">requirements</span>.
 		</p>
 					
 		<p>					

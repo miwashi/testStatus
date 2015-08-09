@@ -279,12 +279,28 @@ public class Group {
     	return subjects==null?0:subjects.size();
     }
     
+    public int getNumberOfSucceededRequirements(){
+    	return subjects==null?0:subjects.size();
+    }
+    
+    public String getNumberOfSucceededRequirementsRatio(){
+    	return "30%";
+    }
+    
     public int getNumberOfFailedRequirements(){
     	return subjects==null?0:subjects.size();
     }
     
+    public String getNumberOfFailedRequirementsRatio(){
+    	return "30%";
+    }
+    
     public int getNumberOfUnstableRequirements(){
     	return subjects==null?0:subjects.size();
+    }
+    
+    public String getNumberOfUnstableRequirementsRatio(){
+    	return "30%";
     }
 
     public void add(Subject subject) {

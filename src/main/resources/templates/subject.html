@@ -5,7 +5,7 @@
         layout:decorator="layout"
         >
 <head>
-    <title>Teams</title>
+    <title th:text="'Test sumary for (' + ${subject.name} + ')'">Subject</title>
 </head>
 <body>
 <h1 layout:fragment="header" th:text="'Test sumary for (' + ${subject.name} + ')'">SVT Test summary page</h1>
@@ -13,6 +13,13 @@
 
     <section>
 		<h1>Today's testing</h1>
+		<p>
+			<span th:text="${subject.name}"></span> has <span th:text="${subject.numberOfRequirements}">5</span> requirements.
+			Of these <span th:text="${subject.numberOfUnstableRequirements}">5</span> are unstable, 
+			and <span th:text="${subject.numberOfFailedRequirements}">5</span> has failed.
+		</p> 
+		
+		
         <table>
             <colgroup><col/><col/><col/></colgroup>
             <colgroup><col/><col/><col/></colgroup>
