@@ -63,6 +63,9 @@ public class TestStatusApplication {
 
     @Autowired
     SubjectRepository subjectRepository;
+    
+    @Autowired
+    JobRepository jobRepository;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -157,6 +160,7 @@ public class TestStatusApplication {
     }
 
     private void handleResult(ResultReport resultReport) {
+    	Job aJob = loadJob(resultReport.getBuildId(), resultReport.getJobName(), resultReport);
         Browser aBrowser = loadBrowser(resultReport.getBrowser());
         Platform aPlatform = loadPlatform(resultReport.getPlatform());
         Group aGroup = loadGroup(resultReport.getTestGroup());
@@ -177,6 +181,7 @@ public class TestStatusApplication {
         Result result = new Result(resultReport.getStatus());
         result.setBrowser(aBrowser);
         result.setPlatform(aPlatform);
+        result.setJob(aJob);
         result.setCompletionTime(resultReport.getCompleteTime());
         result.setStartTime(resultReport.getStartTime());
         requirement.add(result);
@@ -241,6 +246,25 @@ public class TestStatusApplication {
         aSubject.setLastTested(new Date());
         subjectRepository.save(aSubject);
         return aSubject;
+    }
+    
+    private Job loadJob(String key, String name, ResultReport resultReport){
+        name = name.toLowerCase();
+
+        Iterable<Job> jobs = jobRepository.findByKey(key);
+        Job aJob = new Job(key, name);
+        if(jobs.iterator().hasNext()){
+        	aJob = jobs.iterator().next();
+        }else{
+        	aJob.setBuildNumber(resultReport.getBuildNumber());
+            aJob.setGitBranch(resultReport.getGitBranch());
+            aJob.setGitCommit(resultReport.getGitCommit());
+            aJob.setGitURL(resultReport.getGitURL());
+            aJob.setGrid(resultReport.getGrid());
+            aJob.setHost(resultReport.getHost());
+        }
+        jobRepository.save(aJob);
+        return aJob;
     }
 
     @Bean

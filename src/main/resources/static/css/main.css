@@ -14,6 +14,25 @@ div.subjectsarea {
 	height: 30px;
 }
 
+div.infobox {
+	background-color: white;
+	width: 600px;
+	height: 100px;
+	
+	background: no-repeat url(//s.ytimg.com/yt/imgbin/www-refreshbg-vflC3wnbM.png) 0 0;
+	background-color: #EBEBEB;
+	background-repeat: repeat;
+	padding: 5px;
+	border: 1px;
+	border-left: 5px;
+	border-left-style: solid;
+	border-left-color: grey;
+	
+	/* float: left; */
+	display: box;
+	/* position: absolute; */
+}
+
 div.subjectbox {
 	background-color: white;
 	width: 50px;

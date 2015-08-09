@@ -13,7 +13,131 @@ import java.util.StringTokenizer;
 public class ResultReport {
 
     private String size;
-    private String type;
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(String timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getGrid() {
+		return grid;
+	}
+
+	public void setGrid(String grid) {
+		this.grid = grid;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getBuildId() {
+		return buildId;
+	}
+
+	public void setBuildId(String buildId) {
+		this.buildId = buildId;
+	}
+
+	public String getBuildNumber() {
+		return buildNumber;
+	}
+
+	public void setBuildNumber(String buildNumber) {
+		this.buildNumber = buildNumber;
+	}
+
+	public String getJobName() {
+		return jobName;
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+
+	public String getGitCommit() {
+		return gitCommit;
+	}
+
+	public void setGitCommit(String gitCommit) {
+		this.gitCommit = gitCommit;
+	}
+
+	public String getGitBranch() {
+		return gitBranch;
+	}
+
+	public void setGitBranch(String gitBranch) {
+		this.gitBranch = gitBranch;
+	}
+
+	public String getGitURL() {
+		return gitURL;
+	}
+
+	public void setGitURL(String gitURL) {
+		this.gitURL = gitURL;
+	}
+
+	public String getExceptionMessage() {
+		return exceptionMessage;
+	}
+
+	public void setExceptionMessage(String exceptionMessage) {
+		this.exceptionMessage = exceptionMessage;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setBrowser(String browser) {
+		this.browser = browser;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+
+	private String type;
     private String uuid;
     private String name;
     private String timeStamp;

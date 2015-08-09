@@ -28,6 +28,10 @@ public class Result implements Comparable<Result>{
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "BROWSER_ID")
     private Browser browser;
+    
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "JOB_ID")
+    private Job job;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date timeStamp;
@@ -106,6 +110,14 @@ public class Result implements Comparable<Result>{
         this.browser = browser;
     }
 
+    public void setJob(Job job) {
+		this.job = job;
+	}
+    
+    public Job getJob(){
+    	return job;
+    }
+    
     public Platform getPlatform() {
         return platform;
     }

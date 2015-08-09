@@ -218,13 +218,12 @@ public class Requirement {
     	int runs = 0;
         int fails = 0;
         for(Result result : results){
-            runs++;
             if(result.getStatus()){
             	runs++;
-            }else{
-            	if(runs > longestRun){
+            	if(runs>longestRun){
             		longestRun = runs;
             	}
+            }else{
             	runs = 0;
             }
         }
@@ -439,5 +438,13 @@ public class Requirement {
         long seconds = Math.floorDiv(duration, (1000));
 
         return seconds;
+    }
+    
+    public int getDuration(){
+    	int duration = 0;
+    	for(Result result : results){
+    		duration += result.getDuration();
+    	}
+    	return Math.floorDiv(duration, results.size());
     }
 }

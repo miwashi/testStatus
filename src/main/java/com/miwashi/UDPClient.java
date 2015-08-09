@@ -853,33 +853,34 @@ public class UDPClient {
     private UUID uuid = UUID.randomUUID();
 
     public void beforeTest(Map<String, String> data) {
-        String msg = toJson("1",uuid.toString(), data);
+        String msg = toJson("1",uuid.toString(), data, 0);
         sendByUDP(msg);
     }
 
     public void afterTest(Map<String, String> data) {
-        String msg = toJson("2",uuid.toString(), data);
+    	int delay = (new Random()).nextInt(1000);
+        String msg = toJson("2",uuid.toString(), data, delay);
         sendByUDP(msg);
     }
 
-    public String toJson(String type, String uuid, Map<String, String> data) {
-        long timeStamp = DateTime.now().getMillis() ;
+    public String toJson(String type, String uuid, Map<String, String> data, int delay) {
+        long timeStamp = DateTime.now().getMillis() + delay;
         String browser = System.getProperty("browser","any");
-        String version = System.getProperty("version","any");
+        String version = "prod";
         String platform = System.getProperty("platform","any");
         String size = System.getProperty("size","any");
-        String host = System.getProperty("host","default");
-        String grid = System.getProperty("grid","default");
-        String user = System.getProperty("user.name");
+        String host = "http://stage.svt.se";
+        String grid = "http://svt-stoprod-seleniumgrid01:4444/wd/hub";
+        String user = "jenkins";
 
         Map<String, String> env = System.getenv();
-        String buildNumber = env.get("BUILD_NUMBER");
-        String buildId = env.get("BUILD_ID");
+        String buildNumber = "7928";
+        String buildId = "2015-08-09_16-58-13";
         String buildUrl = env.get("BUILD_URL");
-        String jobName = env.get("JOB_NAME");
-        String gitCommit = env.get("GIT_COMMIT");
-        String gitURL = env.get("GIT_URL");
-        String gitBranch = env.get("GIT_BRANCH");
+        String jobName = "barnplay-regressiontest";
+        String gitCommit = "2b24b4b3db76d5d9b7d00d272502ab7d526b1c25";
+        String gitURL = "git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git";
+        String gitBranch = "origin/master";
 
         Map<String,String> status = new HashMap<String, String>();
         status.put("type", type);

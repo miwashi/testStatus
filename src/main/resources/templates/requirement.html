@@ -8,27 +8,28 @@
         <title th:text="'Req: ' + ${requirement.testRequirement}">Requirement summary page for</title>
     </head>
     <body>
-        <h1 class="header" layout:fragment="header" th:text="'SVT Test requirement summary page'">SVT Test summary page</h1>
+        <h1 class="header" layout:fragment="header" th:text="'Requirement summary page'">SVT Test summary page</h1>
 		<div layout:fragment="content">
 
     <section>
-        <style>
-            
-        </style>
-
-        <h1 th:text="'Todays testing for requirement: ' + ${requirement.testRequirement}">Today's testing for requirement:</h1>
+        <h1>Today's testing for requirement: "<i><span th:text="${requirement.testRequirement}"></span></i>".</h1>
         
+        
+        <div class="infobox">
         The requirement has been tested <span th:text="${requirement.numberOfRuns}"></span> times.
         
         The requirement is <span th:text="${requirement.unstable}?'un':''"></span>stable as it has a success ratio of <span th:text="${requirement.successrate}"></span>%.
         
-        Of these tests <span th:text="${requirement.numberOfFailes}"></span> failed which gives a 
+        Of these <span th:text="${requirement.numberOfRuns}"></span> runs <span th:text="${requirement.numberOfFailes}"></span> failed which gives a 
         success ratio of <span th:text="${requirement.successrate}"></span>%.
         Last success was <span th:text="${requirement.lastSuccessStr}"></span>.
         Last failure was <span th:text="${requirement.lastFailStr}"></span>.
         Longest consecutive run was <span th:text="${requirement.longestConsecutiveSuccess}"></span> successes in a row. 
         The test first run <span th:text="${requirement.firstTested}"></span>, and last run <span th:text="${requirement.lastFailStr}"></span>.
+        The average duration when testing the requirement is <span th:text="${requirement.duration}"></span> ms.
+        </div>
         
+        <h2>Test Results:</h2>
         <table class="requirementsummary">
             <colgroup><col/><col/><col/><col/><col/></colgroup>
             <tbody>
@@ -36,7 +37,11 @@
                 <td>platform</td>
                 <td>browser</td>
                 <td>success</td>
-                <td>time</td>
+                <td>duration</td>
+                <td>touched</td>
+                <td>job</td>
+                <td>jobid</td>
+                <td>host</td>
             </th>
             
             <th:block th:each="result : ${requirement.results}">
@@ -45,7 +50,11 @@
                 	<td th:text="${result.platform.name}"></td>
                 	<td th:text="${result.browser.name}"></td>
                 	<td th:class="${result.status}? 'success' : 'fail'" th:text="${result.status}"></td>
+                	<td th:text="${result.duration} + ' ms'"></td>
                 	<td  th:text="${result.touched}"></td>
+                	<td  th:text="${result.job.name}"></td>
+                	<td  th:text="${result.job.key}"></td>
+                	<td  th:text="${result.job.host}"></td>
                 </tr>
             </th:block>
             
