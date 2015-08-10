@@ -8,14 +8,14 @@
     <title th:text="'Test sumary for (' + ${subject.name} + ')'">Subject</title>
 </head>
 <body>
-<h1 layout:fragment="header" th:text="'Test sumary for (' + ${subject.name} + ')'">SVT Test summary page</h1>
+<h1 layout:fragment="header">Test summary for <i>"<span th:text="${subject.name}"></span>"</i></h1>
 <div layout:fragment="content">
 
     <section>
 		<h1>Today's testing</h1>
 		<p>
-			"<span th:text="${subject.name}"></span>" has <span th:text="${subject.numberOfRequirements}">5</span> requirements.
-			Of these <span th:text="${subject.numberOfUnstableRequirements}">5</span> are unstable, 
+			<strong><span th:text="${subject.name}"></span></strong> has <span th:text="${subject.numberOfRequirements}">5</span> requirements.
+			Of these <span th:text="${subject.numberOfRequirements}">5</span> requirements <span th:text="${subject.numberOfUnstableRequirements}">5</span> are unstable, 
 			and <span th:text="${subject.numberOfFailedRequirements}">5</span> has failed.
 		</p> 
 		
@@ -27,20 +27,20 @@
 
             <tbody>
             <th>
-                <td>success</td>
-                <td>failed</td>
-                <td>unstable</td>
-                <td>test run</td>
+            	<td>status</td>
+                <td>ratio</td>
+                <td>run</td>
+                <td>duration</td>
                 <td>touched</td>
             </th>
             	
                 <th:block th:each="requirement : ${subject.requirements}">
-	                <tr >
+	                <tr th:class="${requirement.succeeded}?'verified':(${requirement.failed}?'failed':'unstable')">
 	                	<td class="rowheader"><a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.readableName}"></a></td>
-	                	<td th:text="${requirement.succeeded}"></td>
-	                	<td th:text="${requirement.failed}"></td>
-	                	<td th:text="${requirement.unstable} + ' (' + ${requirement.successRate} + '%)'"></td>
+	                	<td th:text="${requirement.succeeded}?'verified':(${requirement.failed}?'failed':'unstable')"></td>
+	                	<td th:text="${requirement.successRate} + '%'"></td>
 	                	<td th:text="${requirement.testsRun}"></td>
+	                	<td th:text="${requirement.duration}"></td>
 	                	<td th:class="${requirement.touchedDays>0}? 'warn' : 'ok'" th:text="${requirement.touched}"></td>
 	                </tr>
 	            </th:block>

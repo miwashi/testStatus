@@ -11,3 +11,15 @@ table{
 	padding: 0px;
 	border: solid;
 }
+
+tr.verified {
+	background-color : lightgreen;
+}
+
+tr.failed {
+	background-color : pink;
+}
+
+tr.unstable {
+	background-color : yellow;
+}

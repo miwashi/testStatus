@@ -12,8 +12,11 @@
 		<div layout:fragment="content">
 
     <section>
-        <h1>Today's testing for requirement: "<i><span th:text="${requirement.testRequirement}"></span></i>".</h1>
-        
+        <h1>
+        	<i><span th:text="${requirement.testRequirement}"></span></i> in 
+        	<span th:text="${requirement.subject.name}"></span>
+        	(<span th:text="${requirement.group.name}"></span>).
+        </h1>
         
         <div class="infobox">
         The requirement has been tested <span th:text="${requirement.numberOfRuns}"></span> times.
@@ -45,7 +48,7 @@
             </th>
             
             <th:block th:each="result : ${requirement.results}">
-                <tr >
+                <tr th:class="${result.status}? 'verified' : 'failed'" >
                 	<td class="rowheader"></td>
                 	<td th:text="${result.platform.name}"></td>
                 	<td th:text="${result.browser.name}"></td>

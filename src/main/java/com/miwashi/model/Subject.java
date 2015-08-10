@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -61,8 +62,17 @@ public class Subject {
         private boolean unstable;
         private int testsRun;
         private Date lastTested;
+        private int duration;
 
-        public Date getLastTested() {
+        public int getDuration() {
+			return duration;
+		}
+
+		public void setDuration(int duration) {
+			this.duration = duration;
+		}
+
+		public Date getLastTested() {
 			return lastTested;
 		}
 
@@ -273,8 +283,10 @@ public class Subject {
         this.name = name;
     }
 
-    public Collection<RequirementRow> getRequirements() {
-        return requirements.values();
+    public List<RequirementRow> getRequirements() {
+    	List<RequirementRow> result = new ArrayList<RequirementRow>();
+    	result.addAll(requirements.values());
+        return result;
     }
 
     public void add(Requirement requirement){
@@ -295,6 +307,7 @@ public class Subject {
             String subject = requirement.getTestRequirement() + "!";
             subject = Character.toUpperCase(subject.charAt(0)) + subject.substring(1);
             requirementRow.setReadableName(subject);
+            requirementRow.duration = requirement.getDuration();
 
             requirements.put(requirement.getKey(),requirementRow);
         }
@@ -507,5 +520,13 @@ public class Subject {
         long seconds = Math.floorDiv(duration, (1000));
 
         return seconds;
+    }
+    
+    public int getDuration(){
+    	int duration = 0;
+    	for(RequirementRow row : getRequirements()){
+    		duration += row.getDuration();
+    	}
+    	return duration;
     }
 }

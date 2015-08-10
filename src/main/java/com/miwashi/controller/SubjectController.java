@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Configuration
@@ -76,6 +78,18 @@ public class SubjectController {
             	subject.add(requirement);
             }
         }
+        
+        List<Subject.RequirementRow> results = subject.getRequirements();
+    	Collections.sort(results, new Comparator<Subject.RequirementRow>() {
+            @Override
+            public int compare(Subject.RequirementRow req1, Subject.RequirementRow req2) {
+                if (req1 == null || req2 == null || req1.getLastTested() == null || req2.getLastTested() == null) {
+                    return 0;
+                }
+                return req2.getLastTested().compareTo(req1.getLastTested());
+            }
+        });
+        
         mav.addObject("subject", subject);
         
         return mav;

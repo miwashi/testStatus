@@ -42,7 +42,7 @@
 		<h2>Failed test Subjects</h2>
 		<table>
             <colgroup class="groupHeader"><col/></colgroup>
-            <colgroup class="numberOfRequirements"><col/><col/><col/></colgroup>
+            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
             <colgroup class="date"><col/></colgroup>
             <colgroup class="time"><col/></colgroup>
             <tbody>
@@ -50,6 +50,7 @@
                 <td>requirements</td>
                 <td>failed</td>
                 <td>unstable</td>
+                <td>duration</td>
                 <td>touched</td>
             </th>
             <th:block th:each="subject : ${failed}">
@@ -60,6 +61,7 @@
                 	<td th:text="${subject.numberOfRequirements}"></td>
                 	<td th:text="${subject.numberOfFailedRequirements}"></td>
                 	<td th:text="${subject.numberOfUnstableRequirements}"></td>
+                	<td th:text="${subject.duration} + ' ms'"></td>
                 	<td th:class="${subject.touchedDays>0}? 'warn' : 'ok'" th:text="${subject.touched}"></td>
                 </tr>
             </th:block>
@@ -70,7 +72,7 @@
      	<h2>Unstable test Subjects</h2>
         <table>
             <colgroup class="groupHeader"><col/></colgroup>
-            <colgroup class="numberOfRequirements"><col/><col/><col/></colgroup>
+            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
             <colgroup class="date"><col/></colgroup>
             <colgroup class="time"><col/></colgroup>
             <tbody>
@@ -78,6 +80,7 @@
                 <td>requirements</td>
                 <td>failed</td>
                 <td>unstable</td>
+                <td>duration</td>
                 <td>touched</td>
             </th>
             <th:block th:each="subject : ${unstable}">
@@ -88,6 +91,7 @@
                 	<td th:text="${subject.numberOfRequirements}"></td>
                 	<td th:text="${subject.numberOfFailedRequirements}"></td>
                 	<td th:text="${subject.numberOfUnstableRequirements}"></td>
+                	<td th:text="${subject.duration} + ' ms'"></td>
                 	<td th:class="${subject.touchedDays>0}? 'warn' : 'ok'" th:text="${subject.touched}"></td>
                 </tr>
             </th:block>
@@ -101,7 +105,7 @@
      	<h2>Succeeded test Subjects</h2>
         <table>
             <colgroup class="groupHeader"><col/></colgroup>
-            <colgroup class="numberOfRequirements"><col/><col/><col/></colgroup>
+            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
             <colgroup class="date"><col/></colgroup>
             <colgroup class="time"><col/></colgroup>
             <tbody>
@@ -109,6 +113,7 @@
                 <td>requirements</td>
                 <td>failed</td>
                 <td>unstable</td>
+                <td>duration</td>
                 <td>touched</td>
             </th>
             <th:block th:each="subject : ${ok}">
@@ -119,6 +124,7 @@
                 	<td th:text="${subject.numberOfRequirements}"></td>
                 	<td th:text="${subject.numberOfFailedRequirements}"></td>
                 	<td th:text="${subject.numberOfUnstableRequirements}"></td>
+                	<td th:text="${subject.duration} + ' ms'"></td>
                 	<td th:class="${subject.touchedDays>0}? 'warn' : 'ok'" th:text="${subject.touched}"></td>
                 </tr>
             </th:block>
