@@ -847,6 +847,7 @@ public class UDPClient {
 		data.put("status",status);
 		data.put("browser",browserName);
 		data.put("platform",platformName);
+		data.put("version","prod");
 		
 		return data;
 	}
@@ -874,9 +875,12 @@ public class UDPClient {
         String user = "jenkins";
 
         Map<String, String> env = System.getenv();
-        String buildNumber = "7928";
+        String buildNumber = "6760";
         String buildId = "2015-08-09_16-58-13";
-        String buildUrl = env.get("BUILD_URL");
+        String buildUrl = "https://barnjenkins.svti.svt.se​/job/escenic-barnkanalen--regressiontest/6760/";
+        String jenkinsUrl = "https://barnjenkins.svti.svt.se​/";
+        String nodeName = "master";
+        String buildTag = "jenkins-escenic-barnkanalen--regressiontest-6760";
         String jobName = "barnplay-regressiontest";
         String gitCommit = "2b24b4b3db76d5d9b7d00d272502ab7d526b1c25";
         String gitURL = "git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git";
@@ -893,6 +897,11 @@ public class UDPClient {
         status.put("user",user);
         status.put("buildId",buildId);
         status.put("buildNumber",buildNumber);
+        status.put("jobName",jobName);
+        status.put("buildUrl",buildUrl);
+        status.put("jenkinsUrl",jenkinsUrl);
+        status.put("nodeName",nodeName);
+        status.put("buildTag",buildTag);
         status.put("jobName",jobName);
         status.put("gitCommit",gitCommit);
         status.put("gitBranch",gitBranch);
