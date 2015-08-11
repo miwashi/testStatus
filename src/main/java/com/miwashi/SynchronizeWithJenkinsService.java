@@ -45,7 +45,7 @@ public class SynchronizeWithJenkinsService {
     public void synchronize(){
         Iterable<Job> jobsIterable = jobRepository.findAll();
         for(Job job : jobsIterable){
-        	String url = url = job.getBuildUrl() + "api/json";
+        	String url = job.getBuildUrl() + "api/json";
         	try {
 				JSONObject obj = readJsonFromUrl(url);
 				if(obj.has("result")){
