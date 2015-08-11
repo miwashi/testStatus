@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout"
+        >
+<head>
+    <title>Job</title>
+</head>
+<body>
+<h1 layout:fragment="header">SVT job summary page</h1>
+<div layout:fragment="content">
+
+    <section>
+		<h1>Today's testing</h1>
+    </section>
+
+	<table>
+		<tbody>
+			<tr><td>job Id</td><td th:text="${job.id}"></td></tr>
+			<tr><td>buildUrl</td><td><a th:href="${job.buildUrl} + 'api/json'" th:text="${job.name}"></a></td></tr>
+			<tr><td>job Key</td><td th:text="${job.key}"></td></tr>
+			<tr><td>host</td><td th:text="${job.host}"></td></tr>
+			<tr><td>buildNumber</td><td th:text="${job.buildNumber}"></td></tr>
+			<tr><td>jenkinsUrl</td><td th:text="${job.jenkinsUrl}"></td></tr>
+			<tr><td>job Key</td><td th:text="${job.key}"></td></tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>

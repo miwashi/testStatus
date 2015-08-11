@@ -22,27 +22,44 @@ public class JobController {
 
     @RequestMapping(value = "/api/job/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/job/all", notes = "Returns a status")
-    public List<Job> getAll() {
-    	List<Job> jobs = new ArrayList<Job>();
-        Iterable<Job> groups = jobRepository.findAll();
-        if(groups.iterator().hasNext()){
-            jobs.add(groups.iterator().next());
-        }
-        return jobs;
+    public List<Job> getAllJobs() {
+    	return findJobs();
+    }
+    
+    @RequestMapping(value = "/api/job/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public Job getJob(@PathParam(value = "Path id") @PathVariable final Long id) {
+        return findJobsById(id);
     }
 
     @RequestMapping("/job/all")
-    public ModelAndView getAllTeams() {
+    public ModelAndView getAllJobsAsMav() {
         ModelAndView mav = new ModelAndView("jobs");
-        
-        List<Job> jobs = new ArrayList<Job>();
-        Iterable<Job> groups = jobRepository.findAll();
-        if(groups.iterator().hasNext()){
-            jobs.add(groups.iterator().next());
-        }
-        
-        mav.addObject("jobs", jobs);
-        
+        mav.addObject("jobs", findJobs());
         return mav;
+    }
+    
+    @RequestMapping(value = "/job/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public ModelAndView getJobAsMav(@PathParam(value = "Path id") @PathVariable final Long id) {
+        ModelAndView mav = new ModelAndView("job");
+        mav.addObject("job",findJobsById(id));
+        return mav;
+    }
+    
+    private Job findJobsById(long id){
+    	Job job = null;
+        Iterable<Job> persitentJobs = jobRepository.findById(id);
+        if(persitentJobs.iterator().hasNext()){
+        	job = persitentJobs.iterator().next();
+        }
+        return job;
+    }
+    
+    private List<Job> findJobs(){
+    	List<Job> jobs = new ArrayList<Job>();
+        Iterable<Job> persitentJobs = jobRepository.findAll();
+        for(Job job : persitentJobs){
+        	jobs.add(job);
+        }
+        return jobs;
     }
 }

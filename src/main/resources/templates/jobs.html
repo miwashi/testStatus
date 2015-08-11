@@ -22,9 +22,9 @@
            <colgroup class="time"><col/></colgroup>
            <tbody>
            <th>
-               <td>requirements</td>
-               <td>failed</td>
-               <td>unstable</td>
+               <td>jobId</td>
+               <td>name</td>
+               <td>Jenkins says</td>
                <td>duration</td>
                <td>touched</td>
            </th>
@@ -34,6 +34,9 @@
                		<a th:href="'/job/' + ${job.id}" th:text="${job.name}"></a>
                	</td>
                	<td th:text="${job.key}"></td>
+               	<td th:text="${job.name}"></td>
+               	<td th:text="${job.jenkinsResult} + ' (' + ${job.jenkinsDuration} + 's)'"></td>
+               	<td><a th:href="${job.buildUrl}"><span th:text="${job.name}"></span></a></td>               	
                </tr>
            </th:block>
 	    </tbody>

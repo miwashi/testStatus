@@ -157,6 +157,9 @@ public class ResultReport {
     private String exceptionMessage;
     private DateTime completeTime = null;
     private DateTime startTime;
+	private String buildTag;
+	private String buildUrl;
+	private String jenkinsUrl;
 
     public ResultReport(String msg){
 
@@ -189,6 +192,9 @@ public class ResultReport {
         gitBranch = json.has("gitBranch")?json.get("gitBranch").getAsString():"";
         gitURL = json.has("gitURL")?json.get("gitURL").getAsString():"";
         exceptionMessage = json.has("exceptionMessage")?json.get("exceptionMessage").getAsString():"";
+        buildTag = json.has("buildTag")?json.get("buildTag").getAsString():"";
+        buildUrl = json.has("buildUrl")?json.get("buildUrl").getAsString():"";
+        jenkinsUrl = json.has("jenkinsUrl")?json.get("jenkinsUrl").getAsString():"";
 
         long time = Long.parseLong(timeStamp);
         startTime = new DateTime(time);
@@ -235,7 +241,33 @@ public class ResultReport {
         this.status = status;
     }
 
-    public DateTime getCompleteTime() {
+    
+    
+    public String getBuildTag() {
+		return buildTag;
+	}
+
+	public void setBuildTag(String buildTag) {
+		this.buildTag = buildTag;
+	}
+
+	public String getBuildUrl() {
+		return buildUrl;
+	}
+
+	public void setBuildUrl(String buildUrl) {
+		this.buildUrl = buildUrl;
+	}
+
+	public String getJenkinsUrl() {
+		return jenkinsUrl;
+	}
+
+	public void setJenkinsUrl(String jenkinsUrl) {
+		this.jenkinsUrl = jenkinsUrl;
+	}
+
+	public DateTime getCompleteTime() {
         return completeTime;
     }
 

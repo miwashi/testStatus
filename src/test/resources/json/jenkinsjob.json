@@ -1,0 +1,85 @@
+{
+	actions:[
+		{
+			causes:[
+				{
+					shortDescription:"Started by user anonymous",
+					userId:null,
+					userName:"anonymous"
+				}
+			]
+		},
+		{
+			buildsByBranchName:{
+				refs/remotes/origin/master:{
+					buildNumber:2,
+					buildResult:null,
+					marked:{
+						SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
+						branch:[
+							{
+								SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
+								name:"refs/remotes/origin/master"
+							}
+						]
+					},
+					revision:{
+						SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
+						branch:[
+							{
+								SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
+								name:"refs/remotes/origin/master"
+							}
+						]
+					}
+				}
+			},
+			lastBuiltRevision:{
+				SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
+				branch:[
+					{
+						SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
+						name:"refs/remotes/origin/master"
+					}
+				]
+			},
+			remoteUrls:[
+				"git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git"
+			],
+			scmName:""
+		},
+		{
+			
+		},
+		{
+			
+		}
+	],
+	artifacts:[
+		
+	],
+	building:false,
+	description:null,
+	displayName:"#2",
+	duration:1134866,
+	estimatedDuration:567468,
+	executor:null,
+	fullDisplayName:"test-util #2",
+	id:"2",
+	keepLog:false,
+	number:2,
+	queueId:2,
+	result:"FAILURE",
+	timestamp:1439248454308,
+	url:"http://localhost:8080/job/test-util/2/",
+	builtOn:"",
+	changeSet:{
+		items:[
+			
+		],
+		kind:"git"
+	},
+	culprits:[
+		
+	]
+}

@@ -38,6 +38,9 @@ configuration:
     testdata: true
 
     schedule:
+      synchwithjenkins:
+        rate: 10000
+        
       cleanup:
         rate: 1000
         delay: 5000

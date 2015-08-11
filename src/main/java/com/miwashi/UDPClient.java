@@ -25,6 +25,20 @@ public class UDPClient {
 
     @Value("${configuration.udp.host:localhost}")
     private String udpHost = "localhost";
+    
+    
+    private static String[][] DATA_BUILD = new String[][]{
+    	{"6760","2015-08-09_16-58-04","https://barnjenkins.svti.svt.se​/job/escenic-barnkanalen--regressiontest/6760/","https://barnjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6760","barnplay-regressiontest"}
+    	,{"6761","2015-08-09_16-58-05","https://nssjenkins.svti.svt.se​/job/escenic-nss--regressiontest/6761/","https://nssjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6761","nss-regressiontest"}
+    	,{"6762","2015-08-09_16-58-06","https://programjenkins.svti.svt.se​/job/escenic-program--regressiontest/6762/","https://programjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6762","program-regressiontest"}
+    	,{"6763","2015-08-09_16-58-07","https://sportjenkins.svti.svt.se​/job/escenic-sport--regressiontest/6763/","https://sportjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6763","sport-regressiontest"}
+    	,{"6764","2015-08-09_16-58-08","https://barnjenkins.svti.svt.se​/job/escenic-barnkanalen--regressiontest/6764/","https://barnjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6764","barn-regressiontest"}
+    	,{"6765","2015-08-09_16-58-09","https://atvjenkins.svti.svt.se​/job/escenic-atv--regressiontest/6765/","https://atvjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6765","atv-regressiontest"}
+    	,{"6766","2015-08-09_16-58-10","https://atvjenkins.svti.svt.se​/job/escenic-atv--regressiontest/6766/","https://atvjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6766","atv-regressiontest-nodata"}
+    	,{"6767","2015-08-09_16-58-11","https://nssjenkins.svti.svt.se​/job/escenic-nss--regressiontest/6767/","https://nssjenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6767","nss-regressiontest-nodata"}
+    	,{"6768","2015-08-09_16-58-12","https://svtsejenkins.svti.svt.se​/job/escenic-svtse--regressiontest/6768/","https://svtsejenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6768","svtse-regressiontest"}
+    	,{"6769","2015-08-09_16-58-13","https://svtsejenkins.svti.svt.se​/job/escenic-svtse--regressiontest/6769/","https://svtsejenkins.svti.svt.se​/","master","jenkins-escenic-barnkanalen--regressiontest-6769","svtse-regressiontest-nodata"}
+    };
 
 	private static String[][] DATA = new String[][]{
 		{"se.svt.test.atv.widgets.FooterTest.shouldHaveClickableLogoThatDirectsToSvtFirstPage","FAIL","firefox","linux"}
@@ -875,13 +889,16 @@ public class UDPClient {
         String user = "jenkins";
 
         Map<String, String> env = System.getenv();
-        String buildNumber = "6760";
-        String buildId = "2015-08-09_16-58-13";
-        String buildUrl = "https://barnjenkins.svti.svt.se​/job/escenic-barnkanalen--regressiontest/6760/";
-        String jenkinsUrl = "https://barnjenkins.svti.svt.se​/";
-        String nodeName = "master";
-        String buildTag = "jenkins-escenic-barnkanalen--regressiontest-6760";
-        String jobName = "barnplay-regressiontest";
+        int row = (new Random()).nextInt(DATA_BUILD.length);
+        String buildNumber = DATA_BUILD[row][0];//"6760";
+        String buildId = DATA_BUILD[row][1];//"2015-08-09_16-58-13";
+        String buildUrl = DATA_BUILD[row][2];//"https://barnjenkins.svti.svt.se​/job/escenic-barnkanalen--regressiontest/6760/";
+        String jenkinsUrl = DATA_BUILD[row][3];//"https://barnjenkins.svti.svt.se​/";
+        String nodeName = DATA_BUILD[row][4];//"master";
+        String buildTag = DATA_BUILD[row][5];//"jenkins-escenic-barnkanalen--regressiontest-6760";
+        String jobName = DATA_BUILD[row][6];//"barnplay-regressiontest";
+
+        
         String gitCommit = "2b24b4b3db76d5d9b7d00d272502ab7d526b1c25";
         String gitURL = "git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git";
         String gitBranch = "origin/master";

@@ -262,6 +262,13 @@ public class TestStatusApplication {
             aJob.setGitURL(resultReport.getGitURL());
             aJob.setGrid(resultReport.getGrid());
             aJob.setHost(resultReport.getHost());
+            aJob.setBrowser(resultReport.getBrowser());
+            aJob.setBuildTag(resultReport.getBuildTag());
+            aJob.setBuildUrl(resultReport.getBuildUrl());
+            aJob.setJenkinsUrl(resultReport.getJenkinsUrl());
+            aJob.setPlatform(resultReport.getPlatform());
+            aJob.setSize(resultReport.getSize());
+            aJob.setUser(resultReport.getUser());
         }
         jobRepository.save(aJob);
         return aJob;

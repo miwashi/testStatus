@@ -21,7 +21,99 @@ public class Job {
     private String gitURL = "";
     private String gitBranch = "";
     
-    public Job(){
+    private String jenkinsResult = "unknown";
+    private String jenkinsDuration = "unknown";
+    
+    public String getJenkinsDuration() {
+		return jenkinsDuration;
+	}
+
+	public void setJenkinsDuration(String jenkinsDuration) {
+		this.jenkinsDuration = jenkinsDuration;
+	}
+
+	private String nodeName = "";
+    private String jenkinsUrl = "";
+    private String platform = "";
+	private String size = "";
+	private String buildTag = "";
+	private String browser = "";
+	private String buildUrl = "";
+	private String user = "";
+	
+    public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+
+	public String getJenkinsUrl() {
+		return jenkinsUrl;
+	}
+
+	public void setJenkinsUrl(String jenkinsUrl) {
+		this.jenkinsUrl = jenkinsUrl;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getBuildTag() {
+		return buildTag;
+	}
+
+	public void setBuildTag(String buildTag) {
+		this.buildTag = buildTag;
+	}
+
+	public String getBrowser() {
+		return browser;
+	}
+
+	public void setBrowser(String browser) {
+		this.browser = browser;
+	}
+
+	public String getBuildUrl() {
+		return buildUrl;
+	}
+
+	public void setBuildUrl(String buildUrl) {
+		this.buildUrl = buildUrl;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getJenkinsResult() {
+		return jenkinsResult;
+	}
+
+	public void setJenkinsResult(String jenkinsResult) {
+		this.jenkinsResult = jenkinsResult;
+	}
+
+	public Job(){
         super();
     }
 
