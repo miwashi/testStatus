@@ -55,7 +55,7 @@
                 	<td th:class="${result.status}? 'success' : 'fail'" th:text="${result.status}"></td>
                 	<td th:text="${result.duration} + ' ms'"></td>
                 	<td  th:text="${result.touched}"></td>
-                	<td  th:text="${result.job.name}"></td>
+                	<td><a th:text="${result.job.name} + ' ( build: ' + ${result.job.buildNumber} + ')'" th:href="${result.job.buildUrl}"></a></td>
                 	<td  th:text="${result.job.key}"></td>
                 	<td  th:text="${result.job.host}"></td>
                 </tr>

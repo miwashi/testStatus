@@ -31,8 +31,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-
-
+//Progressbar
+//http://localhost:8080/job/test-util/lastBuild/api/xml?depth=1&xpath=*/executor/progress/text()
+/**
+ * http://localhost:8080//job/test-util/api/json?tree=builds[number,status,timestamp,id,result]
+ * http://localhost:8080/job/test-util/lastBuild/api/json
+ * http://localhost:8080//job/test-util/lastBuild/api/json?tree=result,timestamp,estimatedDuration
+ * 
+ * http://localhost:8080/computer/(master)/api/json
+ * 
+ * @author miwa01
+ *
+ */
 @Service
 public class SynchronizeWithJenkinsService {
 

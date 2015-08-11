@@ -60,6 +60,16 @@ public class JobController {
         for(Job job : persitentJobs){
         	jobs.add(job);
         }
+        Collections.sort(jobs, new Comparator<Job>() {
+            @Override
+            public int compare(Job job1, Job job2) {
+                if (job1 == null || job2 == null || job1.getBuildTag() == null || job2.getBuildTag() == null) {
+                    return 0;
+                }
+                return job2.getBuildTag().compareTo(job1.getBuildTag());
+            }
+        });
+        
         return jobs;
     }
 }

@@ -18,12 +18,15 @@
 	<table>
 		<tbody>
 			<tr><td>job Id</td><td th:text="${job.id}"></td></tr>
-			<tr><td>buildUrl</td><td><a th:href="${job.buildUrl} + 'api/json'" th:text="${job.name}"></a></td></tr>
+			<tr><td>job name</td><td><a th:href="${job.buildUrl} + 'api/json'" th:text="${job.name}"></a></td></tr>
 			<tr><td>job Key</td><td th:text="${job.key}"></td></tr>
 			<tr><td>host</td><td th:text="${job.host}"></td></tr>
 			<tr><td>buildNumber</td><td th:text="${job.buildNumber}"></td></tr>
 			<tr><td>jenkinsUrl</td><td th:text="${job.jenkinsUrl}"></td></tr>
+			<tr><td>buildUrl</td><td th:text="${job.buildUrl}"></td></tr>
 			<tr><td>job Key</td><td th:text="${job.key}"></td></tr>
+			<tr><td>job result</td><td th:text="${job.jenkinsResult}"></td></tr>
+			<tr><td>job duration</td><td th:text="${job.jenkinsDuration}"></td></tr>
 		</tbody>
 	</table>
 </div>
