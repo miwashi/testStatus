@@ -48,7 +48,7 @@ public class ResultController {
     @ApiOperation(value = "/api/result/register", notes = "Returns a status")
     public void registerResult(
             @ApiParam(value = "Class and Method") @RequestParam(required = true, defaultValue = "") final String key
-            ,@ApiParam(value = "Result of test of requriement") @RequestParam(required = false, defaultValue = "false") final Boolean status
+            ,@ApiParam(value = "Result of test of requriement") @RequestParam(required = false, defaultValue = "false") final String status
             ,@ApiParam(value = "Firefox, IE, Opera, Chrome") @RequestParam(required = false, defaultValue = "firefox") String browser
             ,@ApiParam(value = "Mac,Windows,Linux") @RequestParam(required = false, defaultValue = "linux") String platform
         ){

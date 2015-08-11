@@ -2,6 +2,7 @@ package com.miwashi;
 
 import com.miwashi.model.*;
 import com.miwashi.repositories.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.context.annotation.ComponentScan;
+
 import reactor.io.encoding.StandardCodecs;
 import reactor.net.netty.udp.NettyDatagramServer;
 import reactor.net.udp.DatagramServer;
@@ -27,6 +29,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @SpringBootApplication
 @ConfigurationProperties
@@ -45,7 +50,7 @@ public class TestStatusApplication {
 
     private static final String DEFAULT_BROWSER = "firefox";
     private static final String DEFAULT_PLATFORM = "linux";
-
+    
     @Autowired
     RequirementRepository requirementRepository;
 
@@ -269,6 +274,7 @@ public class TestStatusApplication {
             aJob.setPlatform(resultReport.getPlatform());
             aJob.setSize(resultReport.getSize());
             aJob.setUser(resultReport.getUser());
+            aJob.setTimeStamp(new Date(resultReport.getStartTime().getMillis()));
         }
         jobRepository.save(aJob);
         return aJob;

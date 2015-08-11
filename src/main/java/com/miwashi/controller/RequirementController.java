@@ -1,11 +1,39 @@
 package com.miwashi.controller;
 
-import com.miwashi.model.Browser;
-import com.miwashi.model.Group;
-import com.miwashi.model.Platform;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.websocket.server.PathParam;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.miwashi.model.JenkinsResult;
+import com.miwashi.model.Job;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
 import com.miwashi.repositories.BrowserRepository;
+import com.miwashi.repositories.JobRepository;
 import com.miwashi.repositories.PlatformRepository;
 import com.miwashi.repositories.RequirementRepository;
 import com.miwashi.repositories.ResultRepository;
@@ -13,20 +41,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.websocket.server.PathParam;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 @Configuration
 @RestController
@@ -49,6 +63,9 @@ public class RequirementController {
 
     @Autowired
     PlatformRepository platformRepository;
+    
+    @Autowired
+    JobRepository jobRepository;
 
     @RequestMapping(value = "/api/requirement/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/requirement/all", notes = "Returns a status")
@@ -76,9 +93,37 @@ public class RequirementController {
 
     @RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/requirement/{id}", notes = "Returns a status")
-    public Requirement getRequirement(@PathParam(value = "Path id") @PathVariable final Long id) {
+    public Map<String, Object>  getRequirement(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
+    	Map<String, Object> result = new HashMap<String,Object>();
     	Requirement requirement = findRequirement(id);
-        return requirement;
+        
+    	result.put("title", "Requirement!");
+    	result.put("header", "Requirement!");
+    	result.put("requirement", requirement);
+    	
+    	String url = "";
+    	if(requirement!=null && requirement.getLastResult()!=null && requirement.getLastResult().getJob()!=null){
+        	url = requirement.getLastResult().getJob().getResultReportUrl();
+    	}
+    	
+    	if(buildId != null){
+    		Iterable<Job> jobIter = jobRepository.findByKey(buildId);
+    		if(jobIter.iterator().hasNext()){
+    			Job job = jobIter.iterator().next();
+    			url = job.getResultReportUrl();
+    		}
+    	}
+    	
+    	try {
+			JSONObject obj = readJsonFromUrl(url);
+			result.put("jenkinsresult",JenkinsResult.parseResultFor(obj, requirement.getKey()));
+    	} catch (JSONException | IOException e) {
+			//Ignore for now
+			System.out.println(e);
+			System.out.println("Faild to load json from " + url);
+		}
+    	
+    	return result;
     }
 
     @RequestMapping(value = "/api/requirement", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
@@ -93,29 +138,41 @@ public class RequirementController {
     }
     
     @RequestMapping(value = "/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id) {
+    public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
     	ModelAndView mav = new ModelAndView("requirement");
     	
     	Requirement requirement = findRequirement(id);
     	
-    	List<Result> results = requirement.getResults();
-    	Collections.sort(results, new Comparator<Result>() {
-            @Override
-            public int compare(Result result1, Result result2) {
-                if (result1 == null || result2 == null || result1.getStartTime() == null || result2.getStartTime() == null) {
-                    return 0;
-                }
-                return result2.getStartTime().compareTo(result1.getStartTime());
-            }
-        });
+    	
     	
     	mav.addObject("title", "Requirement!");
     	mav.addObject("header", "Requirement!");
         mav.addObject("requirement", requirement);
         
+        String url = "";
+    	if(requirement!=null && requirement.getLastResult()!=null && requirement.getLastResult().getJob()!=null){
+        	url = requirement.getLastResult().getJob().getResultReportUrl();
+    	}
+    	
+    	if(buildId != null){
+    		Iterable<Job> jobIter = jobRepository.findByKey(buildId);
+    		if(jobIter.iterator().hasNext()){
+    			Job job = jobIter.iterator().next();
+    			url = job.getResultReportUrl();
+    		}
+    	}
+    	try {
+			JSONObject obj = readJsonFromUrl(url);
+			mav.addObject("jenkinsresult",JenkinsResult.parseResultFor(obj, requirement.getKey()));
+		} catch (JSONException | IOException e) {
+			//Ignore for now
+			System.out.println(e);
+			System.out.println("Faild to load json from " + url);
+		}
         return mav;
         
     }
+    
     
     
     @RequestMapping(value = "/requirement/key/{key}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
@@ -136,6 +193,19 @@ public class RequirementController {
         if(requirementIter.iterator().hasNext()){
         	requirement = requirementIter.iterator().next();
         }
+        
+        if(requirement!=null){
+	        List<Result> results = requirement.getResults();
+	    	Collections.sort(results, new Comparator<Result>() {
+	            @Override
+	            public int compare(Result result1, Result result2) {
+	                if (result1 == null || result2 == null || result1.getStartTime() == null || result2.getStartTime() == null) {
+	                    return 0;
+	                }
+	                return result2.getStartTime().compareTo(result1.getStartTime());
+	            }
+	        });
+        }
         return requirement;
     }
     
@@ -147,4 +217,25 @@ public class RequirementController {
         }
         return requirement;
     }
+    
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+          BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+          String jsonText = readAll(rd);
+          JSONObject json = new JSONObject(jsonText);
+          return json;
+        } finally {
+          is.close();
+        }
+      }
+    
+    private static String readAll(Reader rd) throws IOException {
+	    StringBuilder sb = new StringBuilder();
+	    int cp;
+	    while ((cp = rd.read()) != -1) {
+	      sb.append((char) cp);
+	    }
+	    return sb.toString();
+	  }
 }

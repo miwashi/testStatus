@@ -161,7 +161,7 @@ public class Requirement {
         int numberOfSuccesses = 0;
         for(Result result : results){
             numberOfTests++;
-            if(result.getStatus()){
+            if(result.isSuccess()){
                 numberOfSuccesses++;
             }
         }
@@ -172,7 +172,7 @@ public class Requirement {
     public boolean isSuccess(){
         boolean isSuccess = true;
         for(Result result : results){
-            isSuccess = isSuccess && result.getStatus();
+            isSuccess = isSuccess && result.isSuccess();
         }
         return isSuccess;
     }
@@ -180,7 +180,7 @@ public class Requirement {
     public boolean isFailed(){
         boolean isFailed = true;
         for(Result result : results){
-            isFailed = isFailed && !result.getStatus();
+            isFailed = isFailed && result.isFail();
         }
         return isFailed;
     }
@@ -190,7 +190,7 @@ public class Requirement {
         int fails = 0;
         for(Result result : results){
             runs++;
-            if(!result.getStatus()){
+            if(!result.isSuccess()){
                 fails++;
             }
         }
@@ -206,7 +206,7 @@ public class Requirement {
         int fails = 0;
         for(Result result : results){
             runs++;
-            if(!result.getStatus()){
+            if(result.isFail()){
                 fails++;
             }
         }
@@ -218,7 +218,7 @@ public class Requirement {
     	int runs = 0;
         int fails = 0;
         for(Result result : results){
-            if(result.getStatus()){
+            if(result.isSuccess()){
             	runs++;
             	if(runs>longestRun){
             		longestRun = runs;

@@ -37,7 +37,7 @@ public class Result implements Comparable<Result>{
     private Date timeStamp;
 
     @Column(name = "STATUS")
-    private boolean status;
+    private String status;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date startTime;
@@ -51,17 +51,39 @@ public class Result implements Comparable<Result>{
     }
 
     public Result(String status){
-        this.status = "success".equalsIgnoreCase(status);
-        this.timeStamp = new Date();
-    }
-
-
-    public Result(boolean status){
         this.status = status;
         this.timeStamp = new Date();
     }
+    
+    public boolean isSuccess(){
+    	return "success".equalsIgnoreCase(status);
+    }
 
-    public Result(long requirementId, Boolean status) {
+    public boolean isSkip(){
+    	return "skipped".equalsIgnoreCase(status);
+    }
+    
+    public boolean isFail(){
+    	return "failure".equalsIgnoreCase(status) || "fail".equalsIgnoreCase(status) || "failed".equalsIgnoreCase(status);
+    }
+    
+    public boolean isStarted(){
+    	return "started".equalsIgnoreCase(status);
+    }
+    
+    public boolean isUnknown(){
+    	boolean notUnknown = false;
+    	
+    	notUnknown = notUnknown || "success".equalsIgnoreCase(status);
+    	notUnknown = notUnknown || "failure".equalsIgnoreCase(status);
+    	notUnknown = notUnknown || "skipped".equalsIgnoreCase(status);
+    	notUnknown = notUnknown || "started".equalsIgnoreCase(status);
+    	
+    	return !notUnknown;
+    }
+
+
+    public Result(long requirementId, String status) {
         this.requirementId = requirementId;
         this.status = status;
     }
@@ -86,11 +108,11 @@ public class Result implements Comparable<Result>{
         this.requirementId = requirementId;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public boolean getStatus(){
+    public String getStatus(){
         return status;
     }
 

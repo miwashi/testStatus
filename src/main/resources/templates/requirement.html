@@ -32,6 +32,12 @@
         The average duration when testing the requirement is <span th:text="${requirement.duration}"></span> ms.
         </div>
         
+        <div class="infobox">
+        	<span th:text="*{jenkinsresult}? ${jenkinsresult.status}:'Build information dont exist'"></span>
+        	<span th:text="*{jenkinsresult}? ${jenkinsresult.errorDetails}:''"></span>
+        	
+        </div>
+        
         <h2>Test Results:</h2>
         <table class="requirementsummary">
             <colgroup><col/><col/><col/><col/><col/></colgroup>
@@ -39,23 +45,25 @@
             <th>
                 <td>platform</td>
                 <td>browser</td>
-                <td>success</td>
+                <td>status</td>
                 <td>duration</td>
                 <td>touched</td>
                 <td>job</td>
+                <td>resultat</td>
                 <td>jobid</td>
                 <td>host</td>
             </th>
             
             <th:block th:each="result : ${requirement.results}">
-                <tr th:class="${result.status}? 'verified' : 'failed'" >
+                <tr th:class="${result.success}? 'verified' : (${result.fail}?'failed':'skipped')" >
                 	<td class="rowheader"></td>
                 	<td th:text="${result.platform.name}"></td>
                 	<td th:text="${result.browser.name}"></td>
-                	<td th:class="${result.status}? 'success' : 'fail'" th:text="${result.status}"></td>
+                	<td th:class="${result.success}? 'success' : 'fail'" th:text="${result.status}"></td>
                 	<td th:text="${result.duration} + ' ms'"></td>
                 	<td  th:text="${result.touched}"></td>
-                	<td><a th:text="${result.job.name} + ' ( build: ' + ${result.job.buildNumber} + ')'" th:href="${result.job.buildUrl}"></a></td>
+                	<td><a th:text="${result.job.name} + ' ( build: ' + ${result.job.buildNumber} + ')'" th:href="'?buildId=' + ${result.job.key}"></a></td>
+                	<td><a th:href="${result.job.resultReportUrl}">resultat</a></td>
                 	<td  th:text="${result.job.key}"></td>
                 	<td  th:text="${result.job.host}"></td>
                 </tr>

@@ -40,6 +40,14 @@ import java.util.Random;
  * 
  * http://localhost:8080/computer/(master)/api/json
  * 
+ * https://testjenkins.svti.svt.se/job/teamtest-bolibompa/1/testReport/api/json
+ * 
+ * http://nssjenkins.svti.svt.se:8080/job/news-regressiontests/lastCompletedBuild/testReport/api/json
+ * 
+ * Host name must be set in jenkins!
+ * 
+ * http://nssjenkins.svti.svt.se:8080/job/news-regressiontests/497/testReport/api/json
+ * 
  * @author miwa01
  *
  */
@@ -69,7 +77,7 @@ public class SynchronizeWithJenkinsService {
 				
 			} catch (JSONException | IOException e) {
 				//Ignore for now
-				System.out.println("Faild to load json from " + url);
+				//System.out.println("Faild to load json from " + url);
 			}
         }
     }

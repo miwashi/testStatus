@@ -63,10 +63,10 @@ public class JobController {
         Collections.sort(jobs, new Comparator<Job>() {
             @Override
             public int compare(Job job1, Job job2) {
-                if (job1 == null || job2 == null || job1.getBuildTag() == null || job2.getBuildTag() == null) {
+                if (job1 == null || job2 == null || job1.getTimeStamp() == null || job2.getTimeStamp() == null) {
                     return 0;
                 }
-                return job2.getBuildTag().compareTo(job1.getBuildTag());
+                return job2.getTimeStamp().compareTo(job1.getTimeStamp());
             }
         });
         

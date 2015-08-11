@@ -1,5 +1,7 @@
 package com.miwashi.model;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity(name = "JOBS")
@@ -12,6 +14,9 @@ public class Job {
 
     @Column(unique = true)
     private String key = "key";
+    
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date timeStamp;
 
     private String host = "";
     private String name = "";
@@ -41,7 +46,15 @@ public class Job {
 	private String buildUrl = "";
 	private String user = "";
 	
-    public String getNodeName() {
+	public Date getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Date timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getNodeName() {
 		return nodeName;
 	}
 
@@ -91,6 +104,15 @@ public class Job {
 
 	public String getBuildUrl() {
 		return buildUrl;
+	}
+	
+	public String getResultReportUrl(){
+		//return "http://nssjenkins.svti.svt.se:8080/job/news-regressiontests/497/testReport/api/json";
+		return buildUrl + "testReport/api/json";
+	}
+	
+	public String getLatestResultReportUrl(){
+		return jenkinsUrl + name + "/lastBuild/api/json";
 	}
 
 	public void setBuildUrl(String buildUrl) {
