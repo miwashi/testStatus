@@ -165,7 +165,7 @@ public class TestStatusApplication {
     }
 
     private void handleResult(ResultReport resultReport) {
-    	Job aJob = loadJob(resultReport.getBuildId(), resultReport.getJobName(), resultReport);
+    	Job aJob = loadJob(resultReport.getJobName() + "-" + resultReport.getBuildId(), resultReport.getJobName(), resultReport);
         Browser aBrowser = loadBrowser(resultReport.getBrowser());
         Platform aPlatform = loadPlatform(resultReport.getPlatform());
         Group aGroup = loadGroup(resultReport.getTestGroup());

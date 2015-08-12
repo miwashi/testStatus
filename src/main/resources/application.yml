@@ -72,7 +72,11 @@ configuration:
       receivedresult: false
       sendtestdata: false
       deletions: false
-
+      
+    jenkins:
+      apisuffix: /api/json
+      testreportsuffix: testReport
+      lastreportsuffix: lastBuild
 info:
   app:
     name: ${spring.application.name}
@@ -123,7 +127,7 @@ configuration:
   testdata: false
 
   log:
-    receivedresult: true
+    receivedresult: false
     sendtestdata: false
 
 server:

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.joda.time.DateTime;
 
+import com.miwashi.model.Subject.RequirementRow;
+
 import java.util.*;
 
 @Entity(name="GROUPS")
@@ -45,6 +47,9 @@ public class Group {
 
     @Transient
     private Map<String, Subject> subjects = new HashMap<String,Subject>();
+    
+    @Transient
+    private Map<String, Requirement> requirements = new HashMap<String,Requirement>();
 
     public Group(){
 
@@ -131,7 +136,7 @@ public class Group {
     	}
     	
     	if(hours>0){
-    		return hours + " hour, " + ((hours>1)?"s":"") + " minutes ago!";
+    		return hours + " hour'" + ((hours>1)?"s and ":"and") + minutes + " minutes ago!";
     	}
     	
     	if(minutes>0){

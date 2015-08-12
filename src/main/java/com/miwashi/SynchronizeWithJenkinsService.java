@@ -63,7 +63,10 @@ public class SynchronizeWithJenkinsService {
     public void synchronize(){
         Iterable<Job> jobsIterable = jobRepository.findAll();
         for(Job job : jobsIterable){
-        	String url = job.getBuildUrl() + "api/json";
+        	if(!"unknown".equalsIgnoreCase(job.getJenkinsDuration())){
+        		continue;
+        	}
+        	String url = job.getJobStatusUrl();
         	try {
 				JSONObject obj = readJsonFromUrl(url);
 				if(obj.has("result")){

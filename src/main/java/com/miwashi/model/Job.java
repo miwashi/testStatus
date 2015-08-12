@@ -101,18 +101,24 @@ public class Job {
 	public void setBrowser(String browser) {
 		this.browser = browser;
 	}
-
+ 
 	public String getBuildUrl() {
-		return buildUrl;
+		return ((buildUrl==null)?"":buildUrl) + (buildUrl.endsWith("/")?"":"/");
 	}
 	
+	//TODO Use properties
+	public String getJobStatusUrl(){
+		return getBuildUrl() + "api/json";
+	}
+	
+	//TODO Use properties
 	public String getResultReportUrl(){
-		//return "http://nssjenkins.svti.svt.se:8080/job/news-regressiontests/497/testReport/api/json";
-		return buildUrl + "testReport/api/json";
+		return getBuildUrl() + "testReport/api/json";
 	}
 	
+	//TODO Use properties
 	public String getLatestResultReportUrl(){
-		return jenkinsUrl + name + "/lastBuild/api/json";
+		return getBuildUrl()  + "lastBuild/api/json";
 	}
 
 	public void setBuildUrl(String buildUrl) {
