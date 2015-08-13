@@ -177,7 +177,6 @@ public class TestStatusApplication {
         if(requirements.iterator().hasNext()){
             requirement = requirements.iterator().next();
         }
-        requirement.setLastTested(new Date());
         requirement.setGroup(aGroup);
         requirement.setSubGroup(aSubGroup);
         requirement.setSubject(aSubject);

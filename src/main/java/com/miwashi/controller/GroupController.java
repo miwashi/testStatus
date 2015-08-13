@@ -48,24 +48,6 @@ public class GroupController {
         
         return result;
     }
-
-    @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/api/team/{id}", notes = "Returns a status")
-    public Map<String,Object> getTeamForApi(@PathParam(value = "Path id") @PathVariable final Long id) {
-    	Map<String,Object> result = new HashMap<String,Object>();
-        Group group = getGroup(id);
-        
-        result.put("team", group);
-        return result;
-    }
-    
-    @RequestMapping(value = "/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public ModelAndView getTeam(@PathParam(value = "Path id") @PathVariable final Long id) {
-        ModelAndView mav = new ModelAndView("team");
-        Group group = getGroup(id);
-        mav.addObject("team", group);
-        return mav;
-    }
     
     @RequestMapping("/team/all")
     public ModelAndView getAllTeams() {
@@ -79,45 +61,74 @@ public class GroupController {
         mav.addObject("topteams", topGroups);
         return mav;
     }
+
+    @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/team/{id}", notes = "Returns a status")
+    public Map<String,Object> getTeamForApi(@PathParam(value = "Path id") @PathVariable final Long id) {
+    	Map<String,Object> result = new HashMap<String,Object>();
+        Group group = findGroup(id);
+        List<Requirement> requirements = findRequirementsForGoup(group);
+        
+        for(Requirement requirement : requirements ){
+        	group.addStat(requirement);
+        }
+        
+        result.put("team", group);
+        result.put("requirements", requirements);
+        return result;
+    }
     
-    private Group getGroup(final Long id) {
+    @RequestMapping(value = "/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public ModelAndView getTeam(@PathParam(value = "Path id") @PathVariable final Long id) {
+        ModelAndView mav = new ModelAndView("team");
+        Group group = findGroup(id);
+        List<Requirement> requirements = findRequirementsForGoup(group);
+        
+        for(Requirement requirement : requirements ){
+        	group.addStat(requirement);
+        }
+        
+        mav.addObject("team", group);
+        mav.addObject("requirements", requirements);
+        return mav;
+    }
+    
+    private Group findGroup(final Long id) {
         Group group = new Group();
         Iterable<Group> groups = groupRepository.findById(id);
         if(groups.iterator().hasNext()){
             group = groups.iterator().next();
         }
-
-        //Find all requirments belonging to a group!
+        return group;
+    }
+    
+    private List<Requirement> findRequirementsForGoup(Group group){
+    	//Find all requirments belonging to a group!
         Iterable<Requirement> requirementsIter = null;
         if(group.getName().indexOf(".")>=0){
             requirementsIter = requirementRepository.findBySubGroupId(group.getId());
         }else{
             requirementsIter = requirementRepository.findByGroupId(group.getId());
         }
-        for(Requirement requirement : requirementsIter){
-        	Subject subjectOfRequirement = requirement.getSubject(); 
-        	//Add statistics from the requirement to the group
-        	group.addStat(requirement);
-        	
-        	//Add the subject from the requirement to the group
-            group.add(subjectOfRequirement);
-            
-            //Connect the found requirement to the subject serving the GUI.
-            subjectOfRequirement.add(requirement);
-        }
         
-        List<Subject> subjects = group.getSubjects();
-        Collections.sort(subjects, new Comparator<Subject>() {
+        List<Requirement> requirements = new ArrayList<Requirement>();
+        for(Requirement requirement : requirementsIter){
+        	requirements.add(requirement);
+        }
+        Collections.sort(requirements, new Comparator<Requirement>() {
             @Override
-            public int compare(Subject subject1, Subject subject2) {
-                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+            public int compare(Requirement subject1, Requirement subject2) {
+                if (subject1 == null || subject2 == null || subject1.getSubject()== null || subject2.getSubject() == null) {
                     return 0;
                 }
-                return subject1.getName().compareTo(subject2.getName());
+                int comparison = subject1.getSubject().getName().compareTo(subject2.getSubject().getName());
+        		if(comparison==0){
+        			return subject1.getTestRequirement().compareTo(subject2.getTestRequirement());
+        		}
+                return comparison;
             }
         });
-        
-        return group;
+        return requirements;
     }
 
     private Set<String> findTopGroups(){

@@ -129,19 +129,15 @@ public class Group {
     	long minutes = Math.floorDiv(duration, (1000 * 60 ));
     	duration = duration - days * (1000 * 60);
     	long seconds = Math.floorDiv(duration, (1000));
-    	
     	if(days>0){
     		return days + " days ago!";
     	}
-    	
     	if(hours>0){
     		return hours + " hour'" + ((hours>1)?"s and ":"and") + minutes + " minutes ago!";
     	}
-    	
     	if(minutes>0){
     		return minutes + " minute" + ((minutes>1)?"s":"") + " ago!";
     	}
-    	
         return seconds + " seconds ago!";
     }
     
@@ -329,6 +325,6 @@ public class Group {
         if(requirement.isUnstable()){
         	unstable++;
         }
-        lastTested = requirement.getLastTested();
+        lastTested = requirement.getLatestTestedDate();
     }
 }

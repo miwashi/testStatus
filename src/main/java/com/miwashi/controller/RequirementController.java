@@ -71,23 +71,6 @@ public class RequirementController {
     @ApiOperation(value = "/api/requirement/all", notes = "Returns a status")
     public List<Requirement> getAllRequirements() {
         List<Requirement> result =  new ArrayList<Requirement>();
-
-        Iterable<Requirement> allRequiements = requirementRepository.findAll();
-        allRequiements.forEach( aRquirement -> {
-            aRquirement.getResults().forEach(aResult ->{
-                if(aResult.getStartTime()!=null) {
-                    if (aRquirement.getLastResult() == null) {
-                        aRquirement.setLastResult(aResult);
-                    }
-                    if (aRquirement.getLastResult().getStartTime().getTime() > aResult.getStartTime().getTime()) {
-                        aRquirement.setLastResult(aResult);
-                    }
-                }
-            });
-
-            result.add(aRquirement);
-        });
-
         return result;
     }
 
@@ -102,8 +85,8 @@ public class RequirementController {
     	result.put("requirement", requirement);
     	
     	String url = "";
-    	if(requirement!=null && requirement.getLastResult()!=null && requirement.getLastResult().getJob()!=null){
-        	url = requirement.getLastResult().getJob().getResultReportUrl();
+    	if(requirement!=null && requirement.getLatestResult()!=null && requirement.getLatestResult().getJob()!=null){
+        	url = requirement.getLatestResult().getJob().getResultReportUrl();
     	}
     	
     	if(buildId != null){
@@ -150,8 +133,8 @@ public class RequirementController {
         mav.addObject("requirement", requirement);
         
         String url = "";
-    	if(requirement!=null && requirement.getLastResult()!=null && requirement.getLastResult().getJob()!=null){
-        	url = requirement.getLastResult().getJob().getResultReportUrl();
+    	if(requirement!=null && requirement.getLatestResult()!=null && requirement.getLatestResult().getJob()!=null){
+        	url = requirement.getLatestResult().getJob().getResultReportUrl();
     	}
     	
     	if(buildId != null){

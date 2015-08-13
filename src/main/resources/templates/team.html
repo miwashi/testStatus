@@ -18,52 +18,84 @@
 		<h1 th:text="'Todays testing for ' + ${team.name}">Today's testing</h1>
 		
 		<p>
-		The team <strong><span th:text="${team.name}">team</span></strong>
-		is currently testing <span th:text="${team.tested}">requirements</span> requirements!
-		Of these <span th:text="${team.numberOfFailedRequirements}">requirements</span> has failed 
-		rendering a successrate of <span th:text="${team.numberOfSucceededRequirementsRatio}">requirements</span>.
-		</p>
-					
-		<p>					
-		These requirements are distributed on <span th:text="${team.numberOfSubjects}">subjects</span> test subject(s),
-		and of these requirements <span th:text="${team.numberOfFailedRequirements}">subjects</span> 
-		has failed, <span th:text="${team.numberOfUnstableRequirements}">subjects</span> 
-		are considered unstable rendering <span th:text="${team.numberOfFailedSubjects}">subjects</span> 
-		subjects as failed and <span th:text="${team.numberOfUnstableSubjects}">subjects</span>
-		as failed
-		leaving <span th:text="${team.numberOfUnstableSubjects}">subjects</span> as working as should.
-		
+		<strong>Number of requirements:</strong> <span th:text="${team.tested}">requirements</span><br/>
+		<strong>Number of failed requirements:</strong> <span th:text="${team.numberOfFailedRequirements}">requirements</span><br/>
+		<strong>Successratio:</strong> <span th:text="${team.numberOfSucceededRequirementsRatio}">requirements</span><br/>
 		</p>
 		
-		<p>
-		Of <span th:text="${team.numberOfSubjects}">subjects</span> subjects, 
-		<span th:text="${team.numberOfUnstableSubjects}">subjects</span>
-		are considered unstable and <span th:text="${team.numberOfFailedSubjects}">subjects</span> has failed
-		partly or complete.
-		</p>
-		
-		<h2>Failed test Subjects</h2>
+		<h2>Failed requirements</h2>
 		<table>
-            <colgroup class="groupHeader"><col/></colgroup>
-            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
-            <colgroup class="date"><col/></colgroup>
-            <colgroup class="time"><col/></colgroup>
             <tbody>
-            <th><td>requirements</td><td>failed</td><td>unstable</td><td>duration</td><td>touched</td></th>
-            <th:block th:each="subject : ${team.subjects}">
-                <tr th:class="subject.succeeded?'succeeded_in_succeeded':'notsucceeded_in_succeeded'">
+            <th><td>latest test</td><td>history</td><td>successratio</td><td>duration</td><td></td></th>
+            <th:block th:each="requirement : ${requirements}">
+                <tr th:class="${requirement.failed}?'failed_in_failed':'notfailed_in_failed'">
                 	<td class="rowheader">
-                		<a th:href="'/subject/' + ${subject.id}" th:text="${subject.name}"></a>
+                		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ${requirement.testRequirement}"></a>
                 	</td>
-                	<td th:text="${subject.numberOfRequirements}"></td>
-                	<td th:text="${subject.numberOfFailedRequirements}"></td>
-                	<td th:text="${subject.numberOfUnstableRequirements}"></td>
-                	<td th:text="${subject.duration} + ' ms'"></td>
-                	<td th:class="${subject.touchedDays>0}? 'warn' : 'ok'" th:text="${subject.touched}"></td>
+					<td th:text="${requirement.notTestedSince}"></td>
+                	<td class="testlights">
+                		<table class="testlights"><tr class="testlights">
+                		<th:block th:each="light : ${requirement.testLights}">
+                		<td th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
+                		</th:block>
+                		</tr></table>
+                	</td>
+                	<td th:text="${requirement.failRate} + '%'"></td>
+                	<td th:text="${requirement.duration}"></td>
                 </tr>
             </th:block>
 		    </tbody>
         </table>
+        
+        <h2>Unstable requirements</h2>
+		<table>
+            <tbody>
+            <th><td>latest test</td><td>history</td><td>successratio</td><td>duration</td><td></td></th>
+            <th:block th:each="requirement : ${requirements}">
+                <tr th:class="${requirement.unstable}?'unstable_in_unstable':'notunstable_in_unstable'">
+                	<td class="rowheader">
+                		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ${requirement.testRequirement}"></a>
+                	</td>
+                	<td th:text="${requirement.notTestedSince}"></td>
+                	<td class="testlights">
+                		<table class="testlights"><tr class="testlights">
+                		<th:block th:each="light : ${requirement.testLights}">
+                		<td th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
+                		</th:block>
+                		</tr></table>
+                	</td>
+                	<td th:text="${requirement.failRate} + '%'"></td>
+                	<td th:text="${requirement.duration}"></td>
+                </tr>
+            </th:block>
+		    </tbody>
+        </table>
+        
+        <h2>Verified requirements</h2>
+		<table>
+            <tbody>
+            <th><td>latest test</td><td>history</td><td>successratio</td><td>duration</td><td></td></th>
+            <th:block th:each="requirement : ${requirements}">
+                <tr th:class="${requirement.success}?'succeeded_in_succeeded':'notsucceeded_in_succeeded'">
+                	<td class="rowheader">
+                		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ${requirement.testRequirement}"></a>
+                	</td>
+                	<td th:text="${requirement.notTestedSince}"></td>
+                	<td class="testlights">
+                		<table class="testlights"><tr class="testlights">
+                		<th:block th:each="light : ${requirement.testLights}">
+                		<td th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
+                		</th:block>
+                		</tr></table>
+                	</td>
+                	<td th:text="${requirement.failRate} + '%'"></td>
+                	<td th:text="${requirement.duration}"></td>
+                	
+                </tr>
+            </th:block>
+		    </tbody>
+        </table>
+        
      </section>
 </div>
 </body>

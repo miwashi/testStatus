@@ -12,6 +12,51 @@ table{
 	border: solid;
 }
 
+table.testlights{
+	width:100%;
+	height:100%;
+	margin: 0px;
+	padding: 0px;
+	border-color: blue;
+	border-width: 0px;
+	background-color: red;
+}
+
+td.testlights{
+	width:75px;
+	minwidth:75px;
+	height:100%;
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
+	background-color: red;
+}
+
+td.verified {
+	border-color: blue;
+	width=10%;
+	background-color: lightgreen;
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
+}
+
+td.failed {
+	width=10%;
+	background-color: pink;
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
+}
+
+td.missing{
+	width=10%;
+	background-color: white;
+	margin-width: 0px;
+	padding-width: 0px;
+	border-width: 0px;
+}
+
 tr.verified {
 	background-color : lightgreen;
 }
@@ -30,6 +75,7 @@ tr.succeeded_in_succeeded{
 
 tr.notsucceeded_in_succeeded{
 	background-color: pink;
+	display:none;
 }
 
 tr.failed_in_failed{
@@ -38,6 +84,7 @@ tr.failed_in_failed{
 
 tr.notfailed_in_failed{
 	background-color: pink;
+	display:none;
 }
 
 tr.unstable_in_unstable{
@@ -46,4 +93,5 @@ tr.unstable_in_unstable{
 
 tr.notunstable_in_unstable{
 	background-color: pink;
+	display:none;
 }

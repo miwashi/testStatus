@@ -79,16 +79,6 @@ public class SubjectController {
             }
         }
         
-        List<Requirement> results = subject.getRequirements();
-    	Collections.sort(results, new Comparator<Requirement>() {
-            @Override
-            public int compare(Requirement req1, Requirement req2) {
-                if (req1 == null || req2 == null || req1.getLastTested() == null || req2.getLastTested() == null) {
-                    return 0;
-                }
-                return req2.getLastTested().compareTo(req1.getLastTested());
-            }
-        });
         
         mav.addObject("subject", subject);
         

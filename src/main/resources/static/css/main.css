@@ -8,6 +8,9 @@
 	
 }
 
+td {
+	white-space: nowrap;
+}
 
 div#errorpopup{
 	padding: 1px;

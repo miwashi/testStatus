@@ -33,15 +33,18 @@ public class Result implements Comparable<Result>{
     @JoinColumn(name = "JOB_ID")
     private Job job;
 
+    @Column(name = "TIMESTAMP")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date timeStamp;
 
     @Column(name = "STATUS")
     private String status;
 
+    @Column(name = "STARTTIME")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date startTime;
 
+    @Column(name = "COMPLETIONTIME")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date completionTime;
 

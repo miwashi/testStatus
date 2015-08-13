@@ -75,7 +75,7 @@ public class Subject {
     	
     	transientRequirement.setId(requirement.getId());
     	transientRequirement.setKey(requirement.getKey());
-    	transientRequirement.setLastTested(requirement.getLastTested());
+    	
     	requirements.put(requirement.getKey(),transientRequirement);
     }
     
