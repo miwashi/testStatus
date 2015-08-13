@@ -51,28 +51,22 @@ public class GroupController {
 
     @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/team/{id}", notes = "Returns a status")
-    public Group getGroup(@PathParam(value = "Path id") @PathVariable final Long id) {
-        Group group = new Group();
-        Iterable<Group> groups = groupRepository.findById(id);
-        if(groups.iterator().hasNext()){
-            group = groups.iterator().next();
-        }
-
-        Iterable<Requirement> requirementsIter = null;
-        if(group.getName().indexOf(".")>=0){
-            requirementsIter = requirementRepository.findBySubGroupId(group.getId());
-        }else{
-            requirementsIter = requirementRepository.findByGroupId(group.getId());
-        }
-        for(Requirement requirement : requirementsIter){
-        	group.addStat(requirement);
-            group.add(requirement.getSubject());
-            requirement.getSubject().add(requirement);
-        }
+    public Map<String,Object> getTeamForApi(@PathParam(value = "Path id") @PathVariable final Long id) {
+    	Map<String,Object> result = new HashMap<String,Object>();
+        Group group = getGroup(id);
         
-        return group;
+        result.put("team", group);
+        return result;
     }
-
+    
+    @RequestMapping(value = "/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public ModelAndView getTeam(@PathParam(value = "Path id") @PathVariable final Long id) {
+        ModelAndView mav = new ModelAndView("team");
+        Group group = getGroup(id);
+        mav.addObject("team", group);
+        return mav;
+    }
+    
     @RequestMapping("/team/all")
     public ModelAndView getAllTeams() {
         ModelAndView mav = new ModelAndView("teams");
@@ -86,6 +80,46 @@ public class GroupController {
         return mav;
     }
     
+    private Group getGroup(final Long id) {
+        Group group = new Group();
+        Iterable<Group> groups = groupRepository.findById(id);
+        if(groups.iterator().hasNext()){
+            group = groups.iterator().next();
+        }
+
+        //Find all requirments belonging to a group!
+        Iterable<Requirement> requirementsIter = null;
+        if(group.getName().indexOf(".")>=0){
+            requirementsIter = requirementRepository.findBySubGroupId(group.getId());
+        }else{
+            requirementsIter = requirementRepository.findByGroupId(group.getId());
+        }
+        for(Requirement requirement : requirementsIter){
+        	Subject subjectOfRequirement = requirement.getSubject(); 
+        	//Add statistics from the requirement to the group
+        	group.addStat(requirement);
+        	
+        	//Add the subject from the requirement to the group
+            group.add(subjectOfRequirement);
+            
+            //Connect the found requirement to the subject serving the GUI.
+            subjectOfRequirement.add(requirement);
+        }
+        
+        List<Subject> subjects = group.getSubjects();
+        Collections.sort(subjects, new Comparator<Subject>() {
+            @Override
+            public int compare(Subject subject1, Subject subject2) {
+                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
+                    return 0;
+                }
+                return subject1.getName().compareTo(subject2.getName());
+            }
+        });
+        
+        return group;
+    }
+
     private Set<String> findTopGroups(){
     	Set<String> topGroups = new HashSet<String>();
     	Iterable<Group> groupsIter = groupRepository.findAll();
@@ -142,82 +176,5 @@ public class GroupController {
             }
         });
         return groups;
-    }
-    
-    @RequestMapping(value = "/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public ModelAndView getTeam(@PathParam(value = "Path id") @PathVariable final Long id) {
-        ModelAndView mav = new ModelAndView("team");
-
-        Group group = new Group();
-        Iterable<Group> groups = groupRepository.findById(id);
-        if(groups.iterator().hasNext()){
-            group = groups.iterator().next();
-        }
-
-        Iterable<Requirement> requirementsIter = null;
-        if(group.getName().indexOf(".")>=0){
-            requirementsIter = requirementRepository.findBySubGroupId(group.getId());
-        }else{
-            requirementsIter = requirementRepository.findByGroupId(group.getId());
-        }
-        for(Requirement requirement : requirementsIter){
-        	group.addStat(requirement);
-            group.add(requirement.getSubject());
-            requirement.getSubject().add(requirement);
-        }
-
-        List<Subject> unstable = new ArrayList<Subject>();
-        List<Subject> faulty = new ArrayList<Subject>();
-        List<Subject> ok = new ArrayList<Subject>();
-        for(Subject aSubject : group.getSubjects()){
-        	if(aSubject.isFailed()){
-        		faulty.add(aSubject);
-        	}	
-        	
-        	if(aSubject.isUnstable()){
-        		unstable.add(aSubject);
-        	}
-        	
-        	if(aSubject.isSucceeded()){
-        		ok.add(aSubject);
-        	}
-        }
-
-        Collections.sort(faulty, new Comparator<Subject>() {
-            @Override
-            public int compare(Subject subject1, Subject subject2) {
-                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
-                    return 0;
-                }
-                return subject1.getName().compareTo(subject2.getName());
-            }
-        });
-        
-        Collections.sort(unstable, new Comparator<Subject>() {
-            @Override
-            public int compare(Subject subject1, Subject subject2) {
-                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
-                    return 0;
-                }
-                return subject1.getName().compareTo(subject2.getName());
-            }
-        });
-        
-        Collections.sort(ok, new Comparator<Subject>() {
-            @Override
-            public int compare(Subject subject1, Subject subject2) {
-                if (subject1 == null || subject2 == null || subject1.getName() == null || subject2.getName() == null) {
-                    return 0;
-                }
-                return subject1.getName().compareTo(subject2.getName());
-            }
-        });
-        
-        mav.addObject("failed", faulty);
-        mav.addObject("unstable", unstable);
-        mav.addObject("ok", ok);
-        mav.addObject("team", group);
-        
-        return mav;
     }
 }

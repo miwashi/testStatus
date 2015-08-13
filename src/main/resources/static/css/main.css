@@ -8,6 +8,23 @@
 	
 }
 
+
+div#errorpopup{
+	padding: 1px;
+	margin: 1px;
+	width: 80%;
+	left: 10%;
+    position: absolute;
+    display:none;
+    z-index: 1;
+	border: 1px;
+	border-left: 5px;
+	border-left-style: solid;
+	border-left-color: red;
+	background-color: pink;
+	text-align:center;
+}
+
 div.subjectsarea {
 	background-color: red;
 	width: 100%;

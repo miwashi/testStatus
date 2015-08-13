@@ -6,11 +6,14 @@
         >
 <head>
     <title th:text="'Test sumary for ' + ${team.name}">Teams</title>
+    <script type="text/javascript" th:src="@{/script/team.js}"></script>
 </head>
 <body>
 <h1 layout:fragment="header" th:text="'Test sumary for ' + ${team.name}">SVT Test summary page</h1>
 <div layout:fragment="content">
-
+	<div id="meta">
+		<input id="teamid" type="hidden" th:value="${team.id}"/>
+	</div>
     <section>
 		<h1 th:text="'Todays testing for ' + ${team.name}">Today's testing</h1>
 		
@@ -46,15 +49,9 @@
             <colgroup class="date"><col/></colgroup>
             <colgroup class="time"><col/></colgroup>
             <tbody>
-            <th>
-                <td>requirements</td>
-                <td>failed</td>
-                <td>unstable</td>
-                <td>duration</td>
-                <td>touched</td>
-            </th>
-            <th:block th:each="subject : ${failed}">
-                <tr >
+            <th><td>requirements</td><td>failed</td><td>unstable</td><td>duration</td><td>touched</td></th>
+            <th:block th:each="subject : ${team.subjects}">
+                <tr th:class="subject.succeeded?'succeeded_in_succeeded':'notsucceeded_in_succeeded'">
                 	<td class="rowheader">
                 		<a th:href="'/subject/' + ${subject.id}" th:text="${subject.name}"></a>
                 	</td>
@@ -68,71 +65,6 @@
 		    </tbody>
         </table>
      </section>
-     <section>
-     	<h2>Unstable test Subjects</h2>
-        <table>
-            <colgroup class="groupHeader"><col/></colgroup>
-            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
-            <colgroup class="date"><col/></colgroup>
-            <colgroup class="time"><col/></colgroup>
-            <tbody>
-            <th>
-                <td>requirements</td>
-                <td>failed</td>
-                <td>unstable</td>
-                <td>duration</td>
-                <td>touched</td>
-            </th>
-            <th:block th:each="subject : ${unstable}">
-                <tr >
-                	<td class="rowheader">
-                		<a th:href="'/subject/' + ${subject.id}" th:text="${subject.name}"></a>
-                	</td>
-                	<td th:text="${subject.numberOfRequirements}"></td>
-                	<td th:text="${subject.numberOfFailedRequirements}"></td>
-                	<td th:text="${subject.numberOfUnstableRequirements}"></td>
-                	<td th:text="${subject.duration} + ' ms'"></td>
-                	<td th:class="${subject.touchedDays>0}? 'warn' : 'ok'" th:text="${subject.touched}"></td>
-                </tr>
-            </th:block>
-		    </tbody>
-        </table>
-        
-        
-    </section>
-    
-    <section>
-     	<h2>Succeeded test Subjects</h2>
-        <table>
-            <colgroup class="groupHeader"><col/></colgroup>
-            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
-            <colgroup class="date"><col/></colgroup>
-            <colgroup class="time"><col/></colgroup>
-            <tbody>
-            <th>
-                <td>requirements</td>
-                <td>failed</td>
-                <td>unstable</td>
-                <td>duration</td>
-                <td>touched</td>
-            </th>
-            <th:block th:each="subject : ${ok}">
-                <tr >
-                	<td class="rowheader">
-                		<a th:href="'/subject/' + ${subject.id}" th:text="${subject.name}"></a>
-                	</td>
-                	<td th:text="${subject.numberOfRequirements}"></td>
-                	<td th:text="${subject.numberOfFailedRequirements}"></td>
-                	<td th:text="${subject.numberOfUnstableRequirements}"></td>
-                	<td th:text="${subject.duration} + ' ms'"></td>
-                	<td th:class="${subject.touchedDays>0}? 'warn' : 'ok'" th:text="${subject.touched}"></td>
-                </tr>
-            </th:block>
-		    </tbody>
-        </table>
-        
-        
-    </section>
 </div>
 </body>
 </html>

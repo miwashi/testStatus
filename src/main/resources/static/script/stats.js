@@ -9,7 +9,6 @@ $( document ).ready(function() {
 });
 
 
-
 function poll() {
 	$.ajax({
 	   url: '/api/stats',
@@ -19,10 +18,12 @@ function poll() {
 	   error: function(request, error) {
 	      console.log("An error: " + error);
 	      console.log(request);
+	      showErrorMessage("Unable to get data: " + error);
 	      setTimeout(poll, 20000);
 	   },
 	   dataType: 'json',
 	   success: function(data) {
+		  hideErrorMessage()
 	      console.log(data);
 	      document.title="Tests run " + (data.stats.total.starts - data.stats.total.skipped);
 	      

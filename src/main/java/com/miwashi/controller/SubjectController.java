@@ -79,10 +79,10 @@ public class SubjectController {
             }
         }
         
-        List<Subject.RequirementRow> results = subject.getRequirements();
-    	Collections.sort(results, new Comparator<Subject.RequirementRow>() {
+        List<Requirement> results = subject.getRequirements();
+    	Collections.sort(results, new Comparator<Requirement>() {
             @Override
-            public int compare(Subject.RequirementRow req1, Subject.RequirementRow req2) {
+            public int compare(Requirement req1, Requirement req2) {
                 if (req1 == null || req2 == null || req1.getLastTested() == null || req2.getLastTested() == null) {
                     return 0;
                 }

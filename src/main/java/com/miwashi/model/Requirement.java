@@ -442,6 +442,9 @@ public class Requirement {
     
     public int getDuration(){
     	int duration = 0;
+    	if(results==null || results.size()==0){
+    		return duration;
+    	}
     	for(Result result : results){
     		duration += result.getDuration();
     	}

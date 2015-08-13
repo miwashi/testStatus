@@ -23,3 +23,27 @@ tr.failed {
 tr.unstable {
 	background-color : yellow;
 }
+
+tr.succeeded_in_succeeded{
+	background-color: lightgreen;
+}
+
+tr.notsucceeded_in_succeeded{
+	background-color: pink;
+}
+
+tr.failed_in_failed{
+	background-color: lightgreen;
+}
+
+tr.notfailed_in_failed{
+	background-color: pink;
+}
+
+tr.unstable_in_unstable{
+	background-color: lightgreen;
+}
+
+tr.notunstable_in_unstable{
+	background-color: pink;
+}

@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import org.joda.time.DateTime;
 
-import com.miwashi.model.Subject.RequirementRow;
 
 import java.util.*;
 
