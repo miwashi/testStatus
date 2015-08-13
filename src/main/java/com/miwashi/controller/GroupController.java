@@ -37,13 +37,15 @@ public class GroupController {
 
     @RequestMapping(value = "/api/team/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/team/all", notes = "Returns a status")
-    public List<Group> getAllRequirements() {
-        List<Group> result =  new ArrayList<Group>();
-
-        Iterable<Group> allGroups = groupRepository.findAll();
-        allGroups.forEach(aGroup -> {
-            result.add(aGroup);
-        });
+    public Map<String, Object> getAllRequirements() {
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	
+    	List<Group> groups = findGroups();
+    	Set<String> topGroups = findTopGroups();
+        
+        result.put("groups", groups);
+        result.put("topteams", topGroups);
+        
         return result;
     }
 
@@ -75,8 +77,40 @@ public class GroupController {
     public ModelAndView getAllTeams() {
         ModelAndView mav = new ModelAndView("teams");
         
-        HashSet<String> topGroups = new HashSet<String>();
-        List<Group> groups = new ArrayList<Group>();
+        
+    	List<Group> groups = findGroups();
+    	Set<String> topGroups = findTopGroups();
+    	
+        mav.addObject("teams", groups);
+        mav.addObject("topteams", topGroups);
+        return mav;
+    }
+    
+    private Set<String> findTopGroups(){
+    	Set<String> topGroups = new HashSet<String>();
+    	Iterable<Group> groupsIter = groupRepository.findAll();
+    	groupsIter.forEach( group -> {
+            group.resetStat();
+
+            //Find requirements for every group
+            Iterable<Requirement> requirementsIter = null;
+            if(group.getName().indexOf(".")>=0){
+                requirementsIter = requirementRepository.findBySubGroupId(group.getId());
+            }else{
+                requirementsIter = requirementRepository.findByGroupId(group.getId());
+                topGroups.add(group.getName());
+            }
+            
+            //For every requirement belonging to a group, calculate group stats.
+            requirementsIter.forEach( requirement -> {
+            	group.addStat(requirement);
+            });
+        });
+    	return topGroups;
+    }
+    
+    private List<Group> findGroups(){
+    	List<Group> groups = new ArrayList<Group>();
         
         //Find all groups
         Iterable<Group> groupsIter = groupRepository.findAll();
@@ -90,7 +124,6 @@ public class GroupController {
                 requirementsIter = requirementRepository.findBySubGroupId(group.getId());
             }else{
                 requirementsIter = requirementRepository.findByGroupId(group.getId());
-                topGroups.add(group.getName());
             }
             
             //For every requirement belonging to a group, calculate group stats.
@@ -108,11 +141,7 @@ public class GroupController {
                 return group1.getName().compareTo(group2.getName());
             }
         });
-        
-        mav.addObject("teams", groups);
-        mav.addObject("topteams", topGroups);
-
-        return mav;
+        return groups;
     }
     
     @RequestMapping(value = "/team/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")

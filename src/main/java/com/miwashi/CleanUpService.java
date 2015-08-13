@@ -1,7 +1,9 @@
 package com.miwashi;
 
+import com.miwashi.model.Job;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
+import com.miwashi.repositories.JobRepository;
 import com.miwashi.repositories.RequirementRepository;
 import com.miwashi.repositories.ResultRepository;
 import org.apache.commons.logging.Log;
@@ -40,6 +42,9 @@ public class CleanUpService {
 
     @Autowired
     RequirementRepository requirementRepository;
+    
+    @Autowired
+    JobRepository jobRepository;
 
     @Scheduled(fixedRateString = "${configuration.schedule.cleanup.rate}")
     public void cleanUp(){
@@ -80,5 +85,51 @@ public class CleanUpService {
                 }
             }
         });
+    }
+    
+    @Scheduled(fixedRateString = "${configuration.schedule.statcalc.rate}")
+    public void calculateStats(){
+    	int numberOfRequriements = 0;
+    	int numberOfVerifiedRequirements = 0;
+    	int numberOfUnstableRequirements = 0;
+    	int numberOfFailedRequirements = 0;
+    	int numberOfTestedRequiements = 0;
+    	
+    	
+    	Iterable<Requirement> requirements = requirementRepository.findAll();
+    	for(Requirement requirement : requirements){
+    		numberOfRequriements++;
+    		if(requirement.isFailed()){
+    			numberOfFailedRequirements++;
+    		}
+    		if (requirement.isSuccess()){
+    			numberOfVerifiedRequirements++;
+    		}
+    		if(requirement.isUnstable()){
+    			numberOfUnstableRequirements++;
+    		}
+    		if(requirement.isTested()){
+    			numberOfTestedRequiements++;
+    		}
+    		
+    		TestStatusApplication.getStats().setNumberOfFailedRequirements(numberOfFailedRequirements);
+        	TestStatusApplication.getStats().setNumberOfRequirements(numberOfRequriements);
+        	TestStatusApplication.getStats().setNumberOfTestedRequirements(numberOfVerifiedRequirements + numberOfFailedRequirements);
+        	TestStatusApplication.getStats().setNumberOfUnstableRequirements(numberOfUnstableRequirements);
+        	TestStatusApplication.getStats().setNumberOfVerifiedRequirements(numberOfVerifiedRequirements);
+    	}
+    	
+    	Iterable<Job> jobs = jobRepository.findAll();
+    	for(Job job : jobs){
+    		TestStatusApplication.getStats().getJenkises().add(job.getJenkinsUrl());
+    		TestStatusApplication.getStats().getJobs().add(job.getName());
+    		TestStatusApplication.getStats().getBrowsers().add(job.getBrowser());
+    		TestStatusApplication.getStats().getPlatforms().add(job.getPlatform());
+    	}
+    	TestStatusApplication.getStats().setNumberOfBrowsers(TestStatusApplication.getStats().getBrowsers().size());
+		TestStatusApplication.getStats().setNumberOfJenkises(TestStatusApplication.getStats().getJenkises().size());
+		TestStatusApplication.getStats().setNumberOfJobs(TestStatusApplication.getStats().getJobs().size());
+		TestStatusApplication.getStats().setNumberOfPlatforms(TestStatusApplication.getStats().getPlatforms().size());
+		TestStatusApplication.getStats().setNumberOfTeams(TestStatusApplication.getStats().getTeams().size());
     }
 }

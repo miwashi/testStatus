@@ -5,7 +5,9 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by miwa01 on 15-07-24.
@@ -21,26 +23,53 @@ public class Stats {
     private Stat[] minutely = new Stat[MINUTES_IN_HOUR];
     private Stat[] hourly = new Stat[HOURS_IN_DAY];
     private Stat[] daily = new Stat[DAYS_IN_MONTH];
+    
+    private int numberOfRequirements = 0;
+    private int numberOfTestedRequirements = 0;
+    private int numberOfUnstableRequirements = 0;
+    private int numberOfVerifiedRequirements = 0;
+    private int numberOfFailedRequirements = 0;
+    
+    private int numberOfUniqueJobs = 0;
+    private int numberOfJobs = 0;
+    private int numberOfTeams = 0;
+    private int numberOfJenkises = 0;
+    private int numberOfBrowsers = 0;
+    private int numberOfPlatforms = 0;
+    
+    private Set<String> jenkises = new HashSet<String>();
+    private Set<String> teams = new HashSet<String>();
+    private Set<String> browsers = new HashSet<String>();
+    private Set<String> platforms = new HashSet<String>();
+    private Set<String> jobs = new HashSet<String>();
 
     public class Stat{
         private String caption = "";
         private long starts =0;
         private long complete = 0;
         private long fails = 0;
+        private long skipped = 0;
+        private long succeeded = 0;
 
         public Stat(){
             super();
         }
 
-        public Stat(long starts, long complete, long fails){
+        public Stat(long starts, long complete, long succeeded, long fails, long skipped){
             super();
             this.starts = starts;
             this.complete = complete;
             this.fails = fails;
+            this.skipped = skipped;
+            this.succeeded = succeeded;
         }
 
         public long getStarts() {
             return starts;
+        }
+        
+        public long getStartsWithoutSkipped() {
+            return starts - skipped;
         }
 
         public void setStarts(long starts) {
@@ -50,6 +79,10 @@ public class Stats {
         public long getComplete() {
             return complete;
         }
+        
+        public long getCompleteWithoutSkipped() {
+            return complete - skipped;
+        }
 
         public void setComplete(long complete) {
             this.complete = complete;
@@ -58,28 +91,48 @@ public class Stats {
         public long getFails() {
             return fails;
         }
+        
+        public long getFailsWithoutSkipped() {
+            return fails - skipped;
+        }
 
         public void setFails(long fails) {
             this.fails = fails;
         }
 
-        public String getFailShare(){
-            String result = "" + fails +"%";
+        
+        
+        public long getSkipped() {
+			return skipped;
+		}
 
-            if(fails!=0){
-                result = fails + " (" + Math.round((fails*100) / complete) + "%)";
+		public void setSkipped(long skipped) {
+			this.skipped = skipped;
+		}
+
+		public long getSucceeded() {
+			return succeeded;
+		}
+
+		public void setSucceeded(long succeeded) {
+			this.succeeded = succeeded;
+		}
+
+		public String getFailShare(){
+            String result = "0 (0%)";
+            long numberOfTestsRun = complete - skipped;
+
+            if(numberOfTestsRun>0){
+                result = fails + " (" + Math.round((fails*100) / numberOfTestsRun) + "%)";
             }
-
             return result;
         }
 
         public String getCompleteWithMissing(){
             String result = "" + complete +"%";
-
-            if(fails!=0){
+            if(complete>0){
                 result = complete + " (" + (starts - complete) + ")";
             }
-
             return result;
         }
 
@@ -121,6 +174,30 @@ public class Stats {
             daily[dayOfMonth].complete++;
             minutely[minuteOfHour].complete++;
             minutely[nextMinuteOfHour].complete=0;
+            
+            if (report.isFailed()) {
+                total.fails++;
+                hourly[hourOfDay].fails++;
+                daily[dayOfMonth].fails++;
+                minutely[minuteOfHour].fails++;
+                minutely[nextMinuteOfHour].fails=0;
+            }
+            
+            if (report.isSkipped()) {
+                total.skipped++;
+                hourly[hourOfDay].skipped++;
+                daily[dayOfMonth].skipped++;
+                minutely[minuteOfHour].skipped++;
+                minutely[nextMinuteOfHour].skipped=0;
+            }
+            
+            if (report.isSucceeded()) {
+                total.succeeded++;
+                hourly[hourOfDay].succeeded++;
+                daily[dayOfMonth].succeeded++;
+                minutely[minuteOfHour].succeeded++;
+                minutely[nextMinuteOfHour].succeeded=0;
+            }
         }else{
             total.starts++;
             hourly[hourOfDay].starts++;
@@ -128,17 +205,141 @@ public class Stats {
             minutely[minuteOfHour].starts++;
             minutely[nextMinuteOfHour].starts=0;
         }
-
-        if (report.isFailed()) {
-            total.fails++;
-            hourly[hourOfDay].fails++;
-            daily[dayOfMonth].fails++;
-            minutely[minuteOfHour].fails++;
-            minutely[nextMinuteOfHour].fails=0;
-        }
     }
 
-    public Stat getTotal(){
+    
+    
+    public int getNumberOfRequirements() {
+		return numberOfRequirements;
+	}
+
+	public void setNumberOfRequirements(int numberOfRequirements) {
+		this.numberOfRequirements = numberOfRequirements;
+	}
+
+	public int getNumberOfTestedRequirements() {
+		return numberOfTestedRequirements;
+	}
+
+	public void setNumberOfTestedRequirements(int numberOfTestedRequirements) {
+		this.numberOfTestedRequirements = numberOfTestedRequirements;
+	}
+
+	public int getNumberOfUnstableRequirements() {
+		return numberOfUnstableRequirements;
+	}
+
+	public void setNumberOfUnstableRequirements(int numberOfUnstableRequirements) {
+		this.numberOfUnstableRequirements = numberOfUnstableRequirements;
+	}
+
+	public int getNumberOfVerifiedRequirements() {
+		return numberOfVerifiedRequirements;
+	}
+
+	public void setNumberOfVerifiedRequirements(int numberOfVerifiedRequirements) {
+		this.numberOfVerifiedRequirements = numberOfVerifiedRequirements;
+	}
+
+	public int getNumberOfFailedRequirements() {
+		return numberOfFailedRequirements;
+	}
+
+	public void setNumberOfFailedRequirements(int numberOfFailedRequirements) {
+		this.numberOfFailedRequirements = numberOfFailedRequirements;
+	}
+
+	
+	
+	public int getNumberOfUniqueJobs() {
+		return numberOfUniqueJobs;
+	}
+
+	public void setNumberOfUniqueJobs(int numberOfUniqueJobs) {
+		this.numberOfUniqueJobs = numberOfUniqueJobs;
+	}
+
+	public int getNumberOfJobs() {
+		return numberOfJobs;
+	}
+
+	public void setNumberOfJobs(int numberOfJobs) {
+		this.numberOfJobs = numberOfJobs;
+	}
+
+	public int getNumberOfTeams() {
+		return numberOfTeams;
+	}
+
+	public void setNumberOfTeams(int numberOfTeams) {
+		this.numberOfTeams = numberOfTeams;
+	}
+
+	public int getNumberOfJenkises() {
+		return numberOfJenkises;
+	}
+
+	public void setNumberOfJenkises(int numberOfJenkises) {
+		this.numberOfJenkises = numberOfJenkises;
+	}
+
+	public int getNumberOfBrowsers() {
+		return numberOfBrowsers;
+	}
+
+	public void setNumberOfBrowsers(int numberOfBrowsers) {
+		this.numberOfBrowsers = numberOfBrowsers;
+	}
+
+	public int getNumberOfPlatforms() {
+		return numberOfPlatforms;
+	}
+
+	public void setNumberOfPlatforms(int numberOfPlatforms) {
+		this.numberOfPlatforms = numberOfPlatforms;
+	}
+
+	public Set<String> getJenkises() {
+		return jenkises;
+	}
+
+	public void setJenkises(Set<String> jenkises) {
+		this.jenkises = jenkises;
+	}
+
+	public Set<String> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(Set<String> teams) {
+		this.teams = teams;
+	}
+
+	public Set<String> getBrowsers() {
+		return browsers;
+	}
+
+	public void setBrowsers(Set<String> browsers) {
+		this.browsers = browsers;
+	}
+
+	public Set<String> getPlatforms() {
+		return platforms;
+	}
+
+	public void setPlatforms(Set<String> platforms) {
+		this.platforms = platforms;
+	}
+
+	public Set<String> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(Set<String> jobs) {
+		this.jobs = jobs;
+	}
+
+	public Stat getTotal(){
         return  total;
     }
 
@@ -146,63 +347,81 @@ public class Stats {
         long total = 0;
         long complete = 0;
         long fails = 0;
+        long skipped = 0;
+        long succeeded = 0;
 
         for(int i=0; i < hourly.length; i++){
             total+= hourly[i].getStarts();
             complete+= hourly[i].getComplete();
             fails+= hourly[i].getFails();
+            skipped+= hourly[i].getSkipped();
+            succeeded+= hourly[i].getSucceeded();
         }
-        return  new Stat(total, complete, fails);
+        return  new Stat(total, complete, succeeded, fails, skipped);
     }
 
     public Stat getLastHour(){
         long total = 0;
         long complete = 0;
         long fails = 0;
+        long skipped = 0;
+        long succeeded = 0;
 
         for(int i=0; i < minutely.length; i++){
             total+= minutely[i].getStarts();
             complete+= minutely[i].getComplete();
+            succeeded+= minutely[i].getSucceeded();
             fails+= minutely[i].getFails();
+            skipped+= minutely[i].getSkipped();
         }
-        return  new Stat(total, complete, fails);
+        return  new Stat(total, complete, succeeded, fails, skipped);
     }
 
     public Stat getLastWeek(){
         long total = 0;
         long complete = 0;
         long fails = 0;
+        long skipped = 0;
+        long succeeded = 0;
 
         DateTime now = DateTime.now();
         total= daily[now.getDayOfMonth()].getStarts();
         complete= daily[now.getDayOfMonth()].getComplete();
         fails= daily[now.getDayOfMonth()].getFails();
+        skipped= daily[now.getDayOfMonth()].getSkipped();
         for(int i=1; i < 7; i++){
             total+= daily[now.minusDays(i).getDayOfMonth()].getStarts();
             complete+= daily[now.minusDays(i).getDayOfMonth()].getComplete();
             fails+= daily[now.minusDays(i).getDayOfMonth()].getFails();
+            skipped+= daily[now.minusDays(i).getDayOfMonth()].getSkipped();
+            succeeded+= daily[now.minusDays(i).getDayOfMonth()].getSucceeded();
         }
-        return  new Stat(total, complete, fails);
+        return  new Stat(total, complete, succeeded, fails, skipped);
     }
 
     public Stat getToday(){
         long total = 0;
         long complete = 0;
         long fails = 0;
+        long skipped = 0;
+        long succeeded = 0;
 
         DateTime now = DateTime.now();
         total= hourly[now.getHourOfDay()].getStarts();
         complete= hourly[now.getHourOfDay()].getComplete();
         fails= hourly[now.getHourOfDay()].getFails();
+        skipped = hourly[now.getHourOfDay()].getSkipped();
         int thisDay = now.getDayOfMonth();
         int indX = 1;
         while(thisDay == now.minusHours(indX).getDayOfMonth()){
             total+= hourly[now.minusHours(indX).getHourOfDay()].getStarts();
             complete+= hourly[now.minusHours(indX).getHourOfDay()].getComplete();
             fails+= hourly[now.minusHours(indX).getHourOfDay()].getFails();
+            skipped+= hourly[now.minusHours(indX).getHourOfDay()].getSkipped();
+            succeeded+= hourly[now.minusHours(indX).getHourOfDay()].getSucceeded();
             indX++;
         }
-        return  new Stat(total, complete, fails);
+        return  new Stat(total, complete, succeeded, fails, skipped);
     }
 
     public Collection<Stat> getHourly(){
@@ -233,6 +452,8 @@ public class Stats {
         hourly[hourOfDay].starts=0;
         hourly[hourOfDay].complete=0;
         hourly[hourOfDay].fails=0;
+        hourly[hourOfDay].skipped=0;
+        hourly[hourOfDay].succeeded=0;
     }
 
     public void resetDay(){
@@ -241,5 +462,7 @@ public class Stats {
         daily[dayOfMonth].starts=0;
         daily[dayOfMonth].complete=0;
         daily[dayOfMonth].fails=0;
+        daily[dayOfMonth].skipped=0;
+        daily[dayOfMonth].succeeded=0;
     }
 }

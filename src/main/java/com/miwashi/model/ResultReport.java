@@ -308,9 +308,26 @@ public class ResultReport {
         this.size = size;
     }
 
-    public boolean isFailed() {
-        return "success".equalsIgnoreCase(status);
+    public boolean isSucceeded() {
+        boolean isFailed = false;
+        isFailed = isFailed || "success".equalsIgnoreCase(status);
+        isFailed = isFailed || "succeeded".equalsIgnoreCase(status);
+    	return isFailed;
     }
+    
+    public boolean isFailed() {
+        boolean isFailed = false;
+        isFailed = isFailed || "fail".equalsIgnoreCase(status);
+        isFailed = isFailed || "failure".equalsIgnoreCase(status);
+        isFailed = isFailed || "failed".equalsIgnoreCase(status);
+    	return isFailed;
+    }
+    
+    public boolean isSkipped() {
+    	boolean isSkipped = false;
+    	isSkipped = isSkipped || "skipped".equalsIgnoreCase(status); 
+    	return isSkipped;
+	}
 
     public String getTestRequirement(){
         String testRequiement = "";

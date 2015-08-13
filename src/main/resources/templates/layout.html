@@ -8,12 +8,19 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/tables.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/columns.css}"/>
+    <script type="text/javascript" th:src="@{/script/jquery-2.1.4.min.js}"></script>
+    
+    <!-- script th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script -->
 </head>
 <body>
     <div class="container">
 
         <div class="banner">
             <img id="logo" th:src="@{/img/logo.jpg}" style="float:left; padding-right: 20px;"/>
+            [<a href="/">main</a>]
+            [<a href="/api">API</a>]
+            [<a href="/team/all">teams</a>]
+            [<a href="/job/all">jobs</a>]
         </div>
 
         <h1 layout:fragment="header">

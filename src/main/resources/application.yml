@@ -35,11 +35,14 @@ configuration:
       port: 6500
       host: localhost
 
-    testdata: true
+    testdata: false
 
     schedule:
       synchwithjenkins:
         rate: 10000
+        
+      statcalc:
+        rate: 1000
         
       cleanup:
         rate: 1000

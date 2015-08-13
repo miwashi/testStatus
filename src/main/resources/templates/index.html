@@ -6,6 +6,7 @@
         >
 <head>
     <title th:text="'Tests started: ' + ${stats.today.starts}">Index</title>
+    <script type="text/javascript" th:src="@{/script/stats.js}"></script>
 </head>
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
@@ -13,6 +14,21 @@
 
     <section>
 		<h1>Today's testing</h1>
+		
+		SVT has got 
+		<span id="stat-numberOfRequirements" th:text="${stats.numberOfRequirements}"></span>
+		requirements totally. 
+		
+		Of these, 
+		<span id="stat-numberOfTestedRequirements" th:text="${stats.numberOfTestedRequirements}"></span>
+		are tested, and 
+		<span id="stat-numberOfVerifiedRequirements" th:text="${stats.numberOfVerifiedRequirements}"></span>
+		are verified, 
+		<span id="stat-numberOfFailedRequirements" th:text="${stats.numberOfFailedRequirements}"></span>
+		are found faulty and finally 
+		<span id="stat-numberOfUnstableRequirements" th:text="${stats.numberOfUnstableRequirements}"></span>
+		are marked as unstable.
+		
         <table>
             <colgroup><col/><col/><col/><col/></colgroup>
             <tbody>
@@ -20,50 +36,49 @@
                 <td>Started</td>
                 <td>Completed</td>
                 <td>Failed</td>
-                <td>Last test</td>
             </th>
             <tr>
                 <td class="rowheader">Today:</td>
-                <td th:text="${stats.today.starts}">500</td>
-                <td th:text="${stats.today.completeWithMissing}">500</td>
-                <td th:text="${stats.today.failShare}">500</td>
+                <td id="stats-today-starts" th:text="${stats.today.starts}">500</td>
+                <td id="stats-today-complete" th:text="${stats.today.completeWithMissing}">500</td>
+                <td id="stats-today-fails" th:text="${stats.today.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="rowheader">Last 24 hours:</td>
-                <td th:text="${stats.last24Hours.starts}">500</td>
-                <td th:text="${stats.last24Hours.completeWithMissing}">500</td>
-                <td th:text="${stats.last24Hours.failShare}">500</td>
+                <td id="stats-last24Hours-starts" th:text="${stats.last24Hours.starts}">500</td>
+                <td id="stats-last24Hours-complete"  th:text="${stats.last24Hours.completeWithMissing}">500</td>
+                <td id="stats-last24Hours-fails"  th:text="${stats.last24Hours.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="rowheader">Last Hour:</td>
-                <td th:text="${stats.lastHour.starts}">500</td>
-                <td th:text="${stats.lastHour.completeWithMissing}">500</td>
-                <td th:text="${stats.lastHour.failShare}">500</td>
+                <td id="stats-lastHour-starts" th:text="${stats.lastHour.starts}">500</td>
+                <td id="stats-lastHour-complete" th:text="${stats.lastHour.completeWithMissing}">500</td>
+                <td id="stats-lastHour-fails" th:text="${stats.lastHour.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="rowheader">Last Week:</td>
-                <td th:text="${stats.lastWeek.starts}">500</td>
-                <td th:text="${stats.lastWeek.completeWithMissing}">500</td>
-                <td th:text="${stats.lastWeek.failShare}">500</td>
+                <td id="stats-lastWeek-starts" th:text="${stats.lastWeek.starts}">500</td>
+                <td id="stats-lastWeek-complete" th:text="${stats.lastWeek.completeWithMissing}">500</td>
+                <td id="stats-lastWeek-fails" th:text="${stats.lastWeek.failShare}">500</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="rowheader">Since startup:</td>
-                <td th:text="${stats.total.starts}">500</td>
-                <td th:text="${stats.total.completeWithMissing}">500</td>
-                <td th:text="${stats.total.failShare}">500</td>
+                <td id="stats-total-starts" th:text="${stats.total.starts}">500</td>
+                <td id="stats-total-complete" th:text="${stats.total.completeWithMissing}">500</td>
+                <td id="stats-total-fails" th:text="${stats.total.failShare}">500</td>
                 <td></td>
             </tr>
 
             <th:block th:each="hourly : ${stats.hourly}">
                 <tr >
-                    <td class="rowheader" th:text="${hourly.caption}"></td>
-                    <td th:text="${hourly.starts}"></td>
-                    <td th:text="${hourly.completeWithMissing}"></td>
-                    <td th:text="${hourly.failShare}"></td>
+                    <td th:id="${hourly.caption} + '-header'" class="rowheader" th:text="${hourly.caption}"></td>
+                    <td th:id="${hourly.caption} + '-starts'" th:text="${hourly.startsWithoutSkipped}"></td>
+                    <td th:id="${hourly.caption} + '-complete'" th:text="${hourly.completeWithoutSkipped}"></td>
+                    <td th:id="${hourly.caption} + '-failed'" th:text="${hourly.failShare}"></td>
                     <td></td>
                 </tr>
             </th:block>
