@@ -21,14 +21,14 @@
         <div class="infobox">
         The requirement has been tested <span th:text="${requirement.numberOfRuns}"></span> times.
         
-        The requirement is <span th:text="${requirement.unstable}?'un':''"></span>stable as it has a success ratio of <span th:text="${requirement.successrate}"></span>%.
+        The requirement is <span th:text="${requirement.unstable}?'un':''"></span>stable as it has a success ratio of <span th:text="${requirement.successRate}"></span>%.
         
-        Of these <span th:text="${requirement.numberOfRuns}"></span> runs <span th:text="${requirement.numberOfFailes}"></span> failed which gives a 
-        success ratio of <span th:text="${requirement.successrate}"></span>%.
-        Last success was <span th:text="${requirement.lastSuccessStr}"></span>.
-        Last failure was <span th:text="${requirement.lastFailStr}"></span>.
+        Of these <span th:text="${requirement.numberOfRuns}"></span> runs <span th:text="${requirement.numberOfFails}"></span> failed which gives a 
+        success ratio of <span th:text="${requirement.successRate}"></span>%.
+        Last success was <span th:text="${requirement.latestSuccessDateAsStr}"></span>.
+        Last failure was <span th:text="${requirement.latestFailDateAsStr}"></span>.
         Longest consecutive run was <span th:text="${requirement.longestConsecutiveSuccess}"></span> successes in a row. 
-        The test first run <span th:text="${requirement.firstTested}"></span>, and last run <span th:text="${requirement.lastFailStr}"></span>.
+        The test first run <span th:text="${requirement.firstTested}"></span>, and last run <span th:text="${requirement.latestFailDateAsStr}"></span>.
         The average duration when testing the requirement is <span th:text="${requirement.duration}"></span> ms.
         </div>
         

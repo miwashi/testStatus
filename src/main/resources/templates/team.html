@@ -7,6 +7,7 @@
 <head>
     <title th:text="'Test sumary for ' + ${team.name}">Teams</title>
     <script type="text/javascript" th:src="@{/script/team.js}"></script>
+    
 </head>
 <body>
 <h1 layout:fragment="header" th:text="'Test sumary for ' + ${team.name}">SVT Test summary page</h1>
@@ -17,31 +18,31 @@
     <section>
 		<h1 th:text="'Todays testing for ' + ${team.name}">Today's testing</h1>
 		
-		<p>
-		<strong>Number of requirements:</strong> <span th:text="${team.tested}">requirements</span><br/>
-		<strong>Number of failed requirements:</strong> <span th:text="${team.numberOfFailedRequirements}">requirements</span><br/>
-		<strong>Successratio:</strong> <span th:text="${team.numberOfSucceededRequirementsRatio}">requirements</span><br/>
-		</p>
+		<table>
+			<tr><td>Number of requirements:</td><td th:id="team-tested" th:text="${team.tested}"></td></tr>
+			<tr><td>Number of failed requirements:</td><td th:id="team-numfails" th:text="${team.numberOfFailedRequirements}"></td></tr>
+			<tr><td>Successratio:</td><td th:id="team-ratio" th:text="${team.numberOfSucceededRequirementsRatio}"></td></tr>
+		</table>
 		
 		<h2>Failed requirements</h2>
 		<table>
             <tbody>
             <th><td>latest test</td><td>history</td><td>successratio</td><td>duration</td><td></td></th>
             <th:block th:each="requirement : ${requirements}">
-                <tr th:class="${requirement.failed}?'failed_in_failed':'notfailed_in_failed'">
+                <tr th:id="'failed-requirement-' + ${requirement.id}" th:class="${requirement.failed}?'failed_in_failed':'notfailed_in_failed'">
                 	<td class="rowheader">
                 		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ${requirement.testRequirement}"></a>
                 	</td>
-					<td th:text="${requirement.notTestedSince}"></td>
+					<td th:id="'failed-requirement-' + ${requirement.id} + '-nottestedsince'" th:text="${requirement.notTestedSince}"></td>
                 	<td class="testlights">
                 		<table class="testlights"><tr class="testlights">
-                		<th:block th:each="light : ${requirement.testLights}">
-                		<td th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
+                		<th:block th:each="light, iterStat : ${requirement.testLights}">
+                		<td  th:id="'failed-requirement-' + ${requirement.id} + '-state-' + ${iterStat.index}" th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
                 		</th:block>
                 		</tr></table>
                 	</td>
-                	<td th:text="${requirement.failRate} + '%'"></td>
-                	<td th:text="${requirement.duration}"></td>
+                	<td th:id="'failed-requirement-' + ${requirement.id} + '-failrate'" th:text="${requirement.failRate} + '%'"></td>
+                	<td th:id="'failed-requirement-' + ${requirement.id} + '-duration'" th:text="${requirement.duration}"></td>
                 </tr>
             </th:block>
 		    </tbody>
@@ -52,20 +53,20 @@
             <tbody>
             <th><td>latest test</td><td>history</td><td>successratio</td><td>duration</td><td></td></th>
             <th:block th:each="requirement : ${requirements}">
-                <tr th:class="${requirement.unstable}?'unstable_in_unstable':'notunstable_in_unstable'">
+                <tr th:id="'unstable-requirement-' + ${requirement.id}" th:class="${requirement.unstable}?'unstable_in_unstable':'notunstable_in_unstable'">
                 	<td class="rowheader">
                 		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ${requirement.testRequirement}"></a>
                 	</td>
                 	<td th:text="${requirement.notTestedSince}"></td>
                 	<td class="testlights">
                 		<table class="testlights"><tr class="testlights">
-                		<th:block th:each="light : ${requirement.testLights}">
-                		<td th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
+                		<th:block th:each="light, iterStat : ${requirement.testLights}">
+                		<td  th:id="'unstable-unstable-requirement-' + ${requirement.id} + '-state-' + ${iterStat.index}" th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
                 		</th:block>
                 		</tr></table>
                 	</td>
-                	<td th:text="${requirement.failRate} + '%'"></td>
-                	<td th:text="${requirement.duration}"></td>
+                	<td th:id="'unstable-requirement-' + ${requirement.id} + '-failrate'" th:text="${requirement.failRate} + '%'"></td>
+                	<td th:id="'unstable-requirement-' + ${requirement.id} + '-duration'" th:text="${requirement.duration}"></td>
                 </tr>
             </th:block>
 		    </tbody>
@@ -76,20 +77,20 @@
             <tbody>
             <th><td>latest test</td><td>history</td><td>successratio</td><td>duration</td><td></td></th>
             <th:block th:each="requirement : ${requirements}">
-                <tr th:class="${requirement.success}?'succeeded_in_succeeded':'notsucceeded_in_succeeded'">
+                <tr th:id="'verified-requirement-' + ${requirement.id}" th:class="${requirement.success}?'verified_in_verified':'notverified_in_verfied'">
                 	<td class="rowheader">
                 		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ${requirement.testRequirement}"></a>
                 	</td>
                 	<td th:text="${requirement.notTestedSince}"></td>
                 	<td class="testlights">
                 		<table class="testlights"><tr class="testlights">
-                		<th:block th:each="light : ${requirement.testLights}">
-                		<td th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
+                		<th:block th:each="light, iterStat : ${requirement.testLights}">
+                		<td  th:id="'verified-requirement-' + ${requirement.id} + '-state-' + ${iterStat.index}" th:class="${light==null}?'missing': (${light}?'verified':'failed') "></td>
                 		</th:block>
                 		</tr></table>
                 	</td>
-                	<td th:text="${requirement.failRate} + '%'"></td>
-                	<td th:text="${requirement.duration}"></td>
+                	<td th:id="'verified-requirement-' + ${requirement.id} + '-failrate'" th:text="${requirement.failRate} + '%'"></td>
+                	<td th:id="'verified-requirement-' + ${requirement.id} + '-duration'" th:text="${requirement.duration}"></td>
                 	
                 </tr>
             </th:block>

@@ -69,11 +69,11 @@ tr.unstable {
 	background-color : yellow;
 }
 
-tr.succeeded_in_succeeded{
+tr.verfied_in_verfied{
 	background-color: lightgreen;
 }
 
-tr.notsucceeded_in_succeeded{
+tr.notverified_in_verfied{
 	background-color: pink;
 	display:none;
 }
