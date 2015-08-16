@@ -71,6 +71,7 @@ tr.unstable {
 
 tr.verfied_in_verfied{
 	background-color: lightgreen;
+	display:table-row;
 }
 
 tr.notverified_in_verfied{
@@ -80,6 +81,7 @@ tr.notverified_in_verfied{
 
 tr.failed_in_failed{
 	background-color: lightgreen;
+	display:table-row;
 }
 
 tr.notfailed_in_failed{
@@ -89,6 +91,7 @@ tr.notfailed_in_failed{
 
 tr.unstable_in_unstable{
 	background-color: lightgreen;
+	display:table-row;
 }
 
 tr.notunstable_in_unstable{
