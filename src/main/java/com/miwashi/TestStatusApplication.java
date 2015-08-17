@@ -234,6 +234,7 @@ public class TestStatusApplication {
         }else{
         }
         aGroup.setLastTested(new Date());
+        
         groupRepository.save(aGroup);
         return aGroup;
     }

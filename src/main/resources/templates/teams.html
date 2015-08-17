@@ -16,7 +16,7 @@
 		<h1>Today's testing</h1>
 		<th:block th:each="topteam : ${topteams}">
 		<h2 th:text="'Team: ' + ${topteam}"></h2>
-        <table>
+        <table th:id="${topteam} + -table">
         	<colgroup class="groupHeader"><col/></colgroup>
             <colgroup class="numberOfRequirements"><col/><col/><col/></colgroup>
             <colgroup class="date"><col/></colgroup>
@@ -33,12 +33,12 @@
 	        
 	        <tbody>
 	            <th:block th:each="team : ${teams}">
-	                <tr th:if="${team.topName == topteam}">
+	                <tr th:id="'team-' + ${team.id} + '-row'" th:if="${team.topName == topteam}">
 	                    <td class="rowHeader"><a th:href="'/team/' + ${team.id}" th:text="${team.name}"></a></td>
-	                    <td class="numberOfRequirements" th:text="${team.tested}"></td>
-	                    <td class="numberOfRequirements" th:text="${team.failsRelative}"></td>
-	                    <td class="numberOfRequirements" th:text="${team.unstableRelative}"></td>
-	                    <td th:class="${team.touchedDays>0}? 'warn' : 'ok'" th:text="${team.touched}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-tested'" class="numberOfRequirements" th:text="${team.tested}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-fails'" class="numberOfRequirements" th:text="${team.failsRelative}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-unstable'" class="numberOfRequirements" th:text="${team.unstableRelative}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-lastrun'" th:class="${team.touchedDays>0}? 'warn' : 'ok'" th:text="${team.touched}"></td>
 	                </tr>
 	                
 	            </th:block>

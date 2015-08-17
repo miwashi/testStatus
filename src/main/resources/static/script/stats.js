@@ -4,7 +4,6 @@
 var statUrl = "/api/stats";
 
 $( document ).ready(function() {
-    console.log( "ready!" );
     poll();
 });
 
@@ -24,7 +23,6 @@ function poll() {
 	   dataType: 'json',
 	   success: function(data) {
 		  hideErrorMessage()
-	      console.log(data);
 	      document.title="Tests run " + (data.stats.total.starts - data.stats.total.skipped);
 	      
 	      $("#stat-numberOfRequirements").html(data.stats.numberOfRequirements);
