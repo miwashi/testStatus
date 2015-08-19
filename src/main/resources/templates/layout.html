@@ -24,6 +24,7 @@
             [<a href="/api">API</a>]
             [<a href="/team/all">teams</a>]
             [<a href="/job/all">jobs</a>]
+            <span th:if="*{requirement}">[<a th:href="'/team/' + ${requirement.group.id}" th:text="${requirement.group.name}"></a>]</span>
         </div>
 
         <h1 layout:fragment="header">

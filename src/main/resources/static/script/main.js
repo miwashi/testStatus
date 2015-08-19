@@ -22,6 +22,7 @@ function positionErrorDialog(){
 function showErrorMessage(message){
 	var d = document.getElementById('errorpopup');
 	d.innerHTML = message;
+	d.style.display="block";
 }
 
 function hideErrorMessage(){

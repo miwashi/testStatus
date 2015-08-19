@@ -26,104 +26,91 @@ function poll() {
 	   dataType: 'json',
 	   success: function(data) {
 		  hideErrorMessage()
-		  
 		  document.getElementById("team-tested").innerHTML = data.team.tested;
-    	  document.getElementById("team-numfails").innerHTML = data.team.numberOfFailedRequirements;
-    	  document.getElementById("team-ratio").innerHTML = data.team.numberOfSucceededRequirementsRatio;
-			
 		  
+		  document.getElementById("team-numverified").innerHTML = data.team.numberOfSucceededRequirements;
+    	  document.getElementById("team-ratioverified").innerHTML = data.team.numberOfSucceededRequirementsRatio;
+			
+    	  document.getElementById("team-numfails").innerHTML = data.team.numberOfFailedRequirements;
+    	  document.getElementById("team-ratiofails").innerHTML = data.team.numberOfFailedRequirementsRatio;
+    	  
+    	  document.getElementById("team-numunstable").innerHTML = data.team.numberOfUnstableRequirements;
+    	  document.getElementById("team-ratiounstable").innerHTML = data.team.numberOfUnstableRequirementsRatio;
+    	  
 	      $.each(data.requirements, function( index, requirement ) {
-	    	  
-	    	  
-	    	  var prefix = "requirement-";
-    		  var requirementRow = prefix + requirement.id;
+	    	  var prefix = "requirement-" + requirement.id;
+    		      		  
+    		  var row = document.getElementById(prefix);
     		  
-    		  var failedRow = document.getElementById("failed-" + requirementRow);
-    		  var unstableRow = document.getElementById("unstable-" + requirementRow);
-    		  var verifiedRow = document.getElementById("verified-" + requirementRow);
+    		  var failRate = document.getElementById(prefix + "-failrate");
+    		  var lastTested = document.getElementById(prefix + "-lasttested");
+    		  var duration = document.getElementById(prefix + "-duration");
+    		  var notTestedSince = document.getElementById(prefix + "-nottestedsince");
+    		  var numberOfRuns = document.getElementById(prefix + "-numberofruns");
     		  
-    		  var failedFailRate = document.getElementById("failed-" + requirementRow + "-failrate");
-    		  var failedDuration = document.getElementById("failed-" + requirementRow + "-duration");
-    		  var failedNotTestedSince = document.getElementById("failed-" + requirementRow + "-nottestedsince");
-    		  
-    		  var unstabledFailRate = document.getElementById("unstable-" + requirementRow + "-failrate");
-    		  var unstableDuration = document.getElementById("unstable-" + requirementRow + "-duration");
-    		  var unstableNotTestedSince = document.getElementById("unstable-" + requirementRow + "-nottestedsince");
-    		  
-    		  var verifiedFailRate = document.getElementById("verified-" + requirementRow + "-failrate");
-    		  var verifiedDuration = document.getElementById("verified-" + requirementRow + "-duration");
-    		  var verifiedNotTestedSince = document.getElementById("verified-" + requirementRow + "-nottestedsince");
-    		  
-          	  if(failedFailRate!=null){
-          		failedFailRate.innerHTML = requirement.failRate;
+          	  if(failRate!=null){
+          		failRate.innerHTML = requirement.failRate  + '%';
           	  }
           	  
-          	  if(failedDuration!=null){
-          		failedDuration.innerHTML = requirement.duration;
+          	  if(duration!=null){
+          		duration.innerHTML = requirement.duration;
           	  }
 	          	
-          	  if(failedNotTestedSince!=null){
-          		failedNotTestedSince.innerHTML = requirement.notTestedSince;
+          	  if(notTestedSince!=null){
+          		notTestedSince.innerHTML = requirement.notTestedSince;
+          	  }
+          	  
+          	if(numberOfRuns!=null){
+          		numberOfRuns.innerHTML = requirement.numberOfRuns;
           	  }
           	
-          	if(unstabledFailRate!=null){
-          		failedFailRate.innerHTML = requirement.failRate;
-          	  }
-          	  
-          	  if(unstableDuration!=null){
-          		failedDuration.innerHTML = requirement.duration;
-          	  }
-	          	
-          	  if(unstableNotTestedSince!=null){
-          		failedNotTestedSince.innerHTML = requirement.notTestedSince;
-          	  }
-          	  
-          	if(verifiedFailRate!=null){
-          		failedFailRate.innerHTML = requirement.failRate;
-          	  }
-          	  
-          	  if(verifiedDuration!=null){
-          		failedDuration.innerHTML = requirement.duration;
-          	  }
-	          	
-          	  if(verifiedNotTestedSince!=null){
-          		failedNotTestedSince.innerHTML = requirement.notTestedSince;
-          	  }
-    		  
 	    	  if(requirement.failed){
-	    		  if(failedRow != null){
-	    			  failedRow.className = "failed_in_failed";
-	    		  }
-	    		  if(unstableRow != null){
-	    			  unstableRow = "notunstable_in_unstable";
-	    		  }
-	    		  if(verifiedRow!=null){
-	    			  verifiedRow = "notverified_in_verified";
+	    		  if(row != null){
+	    			  row.className = "failed";
 	    		  }
 	    	  }
 	    	  
 	    	  if(requirement.unstable){
-	    		  if(failedRow != null){
-	    			  failedRow.className = "notfailed_in_failed";
-	    		  }
-	    		  if(unstableRow != null){
-	    			  unstableRow = "unstable_in_unstable";
-	    		  }
-	    		  if(verifiedRow!=null){
-	    			  verifiedRow = "notverified_in_verified";
+	    		  if(row != null){
+	    			  row.className = "unstable";
 	    		  }
 	    	  }
 	    	  
 	    	  if(requirement.success){
-	    		  if(failedRow != null){
-	    			  failedRow.className = "notfailed_in_failed";
+	    		  if(row != null){
+	    			  row.className = "verified";
 	    		  }
-	    		  if(unstableRow != null){
-	    			  unstableRow = "notunstable_in_unstable";
-	    		  }
-	    		  if(verifiedRow!=null){
-	    			  verifiedRow = "verified_in_verified";
-	    		  }
+	    	  }
+	    	  
+	    	  if(lastTested==null){
+	    		  console.log("New entry: " + prefix)
+	    		  showErrorMessage("New data available, refresh browser!");
+	    	  }else{
+		    	  if(requirement.latestTestedDate != lastTested.value){
+		    		  console.log ("Should update: " + prefix);
+		    		  var testLightDiv = document.getElementById(prefix + "-testlight");
+		    		  if(testLightDiv!=null){
+		    			  testLightDiv.innerHTML = "";
+		    			  $.each(requirement.results, function( index, result ) {
+		    				  var a =  document.createElement("a");
+		    				  a.setAttribute("href", "/result/" + result.id)
+		    				  a.setAttribute("class", "resultindicator")
+		    				  
+			    			  var img = document.createElement("img");
+		    				  if(result.success){
+		    					  img.setAttribute("src", "/img/green_light.png")
+		    				  }else if(result.fail){
+		    					  img.setAttribute("src", "/img/red_light.png")
+		    				  }else {
+		    					  img.setAttribute("src", "/img/yellow_light.png")
+		    				  }
+			    			  img.setAttribute("class", "resultindicator")
+			    			  testLightDiv.appendChild(a);
+			    			  a.appendChild(img);
+			    			  lastTested.value = requirement.latestTestedDate;
+		    			  });
+		    		  }
+		    	  }
 	    	  }
 	      });
 		  

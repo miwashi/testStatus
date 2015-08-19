@@ -1,0 +1,24 @@
+	<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout"
+>
+    <head>
+        <title th:text="'Result'">One test result for</title>
+    </head>
+    <body>
+        <h1 class="header" layout:fragment="header" th:text="'Result summary page'">SVT Test summary page</h1>
+		<div layout:fragment="content">
+		    <section>
+		        <span th:text="${result.id}"></span><br/>
+		        <span th:text="${result.platform.name}"></span><br/>
+		        <span th:text="${result.browser.name}"></span><br/>
+		        <span th:text="${result.job.name}"></span><br/>
+		        <span th:text="${result.status}"></span><br/>
+		        <span th:text="${result.touched}"></span><br/>
+		        <span th:text="${result.duration}"></span><br/>
+		    </section>
+		</div>
+    </body>
+</html>

@@ -12,6 +12,19 @@ td {
 	white-space: nowrap;
 }
 
+img.resultindicator {
+	width:15px;
+	padding: 0px;
+	margin: 0px;
+}
+
+a.resultindicator {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	text-decoration:none;
+}
+
 div#errorpopup{
 	padding: 1px;
 	margin: 1px;

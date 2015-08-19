@@ -57,44 +57,17 @@ td.missing{
 	border-width: 0px;
 }
 
-tr.verified {
-	background-color : lightgreen;
-}
-
-tr.failed {
-	background-color : pink;
-}
-
-tr.unstable {
-	background-color : yellow;
-}
-
-tr.verfied_in_verfied{
+tr.verfied{
 	background-color: lightgreen;
 	display:table-row;
 }
 
-tr.notverified_in_verfied{
+tr.failed{
 	background-color: pink;
-	display:none;
-}
-
-tr.failed_in_failed{
-	background-color: lightgreen;
 	display:table-row;
 }
 
-tr.notfailed_in_failed{
-	background-color: pink;
-	display:none;
-}
-
-tr.unstable_in_unstable{
-	background-color: lightgreen;
+tr.unstable{
+	background-color: yellow;
 	display:table-row;
-}
-
-tr.notunstable_in_unstable{
-	background-color: pink;
-	display:none;
 }

@@ -26,10 +26,10 @@ function poll() {
 	      console.log(data);
 	      $.each(data.groups, function( index, group ) {
 	    	  var id = "team-" + group.id;
-	    	  var testedId document.getElementById(id+ "-tested");
-              var failsId document.getElementById(id+ "-fails");
-              var unstableId document.getElementById(id+ "-unstable");
-              var lastRunId document.getElementById(id+ "-lastrun");
+	    	  var testedId = document.getElementById(id + "-tested");
+              var failsId = document.getElementById(id + "-fails");
+              var unstableId = document.getElementById(id + "-unstable");
+              var lastRunId = document.getElementById(id + "-lastrun");
               
               if(testedId!=null){
             	  testedId.innerHTML = group.tested;
@@ -51,9 +51,7 @@ function poll() {
               }else{
             	  lastRunId.className="ok";
               }
-            	  
-              th:class="${team.touchedDays>0}? 'warn' : 'ok'" th:text="${team.touched}"></td>
-	      }
+	      });
 	      setTimeout(poll, 2000);
 	   },
 	   type: 'GET'

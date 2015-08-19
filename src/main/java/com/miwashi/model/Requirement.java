@@ -27,7 +27,7 @@ public class Requirement {
     private String key = "key";
     
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@OrderBy("STARTTIME ASC")
+	@OrderBy("STARTTIME DESC")
     @JoinColumn(name = "REQURIEMENT_ID", nullable = false)
     private List<Result> results = new ArrayList<Result>();
 
@@ -127,6 +127,11 @@ public class Requirement {
             }
         }
         isUnstable = ((numberOfTests >0)&&(numberOfSuccesses > 0) &&(numberOfSuccesses!=numberOfTests));
+        
+        if(results.size() >0){
+        	isUnstable = isUnstable && !results.get(0).isFail();
+        }
+        
         return isUnstable;
     }
 
@@ -142,6 +147,9 @@ public class Requirement {
         boolean isFailed = true;
         for(Result result : results){
             isFailed = isFailed && result.isFail();
+        }
+        if(results.size() >0){
+        	isFailed = isFailed || results.get(0).isFail();
         }
         return isFailed;
     }
@@ -293,19 +301,5 @@ public class Requirement {
     		duration += result.getDuration();
     	}
     	return Math.floorDiv(duration, results.size());
-    }
-    
-    public Boolean[] getTestLights(){
-    	Boolean b0 = results.size()>0?results.get(0).isSuccess():null;
-    	Boolean b1 = results.size()>1?results.get(1).isSuccess():null;
-    	Boolean b2 = results.size()>2?results.get(2).isSuccess():null;
-    	Boolean b3 = results.size()>3?results.get(3).isSuccess():null;
-    	Boolean b4 = results.size()>4?results.get(4).isSuccess():null;
-    	Boolean b5 = results.size()>5?results.get(5).isSuccess():null;
-    	Boolean b6 = results.size()>6?results.get(6).isSuccess():null;
-    	Boolean b7 = results.size()>7?results.get(7).isSuccess():null;
-    	Boolean b8 = results.size()>8?results.get(8).isSuccess():null;
-    	Boolean b9 = results.size()>9?results.get(9).isSuccess():null;
-    	return new Boolean[]{b0,b1,b2,b3,b4,b5,b6,b7,b8,b9};
     }
 }

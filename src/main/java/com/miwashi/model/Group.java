@@ -281,23 +281,23 @@ public class Group {
     }
     
     public String getNumberOfSucceededRequirementsRatio(){
-    	return "30%";
+    	return tested==0?"n/a":Integer.divideUnsigned(successes * 100, tested)  + "%";
     }
     
     public int getNumberOfFailedRequirements(){
-    	return subjects==null?0:subjects.size();
+    	return fails;
     }
     
     public String getNumberOfFailedRequirementsRatio(){
-    	return "30%";
+    	return tested==0?"n/a":Integer.divideUnsigned(fails * 100, tested)  + "%";
     }
     
     public int getNumberOfUnstableRequirements(){
-    	return subjects==null?0:subjects.size();
+    	return unstable;
     }
     
     public String getNumberOfUnstableRequirementsRatio(){
-    	return "30%";
+    	return tested==0?"n/a":Integer.divideUnsigned(unstable * 100, tested)  + "%";
     }
 
     public void add(Subject subject) {
