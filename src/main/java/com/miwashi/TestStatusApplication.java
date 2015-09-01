@@ -182,13 +182,16 @@ public class TestStatusApplication {
         requirement.setSubject(aSubject);
         requirementRepository.save(requirement);
 
+        
         Result result = new Result(resultReport.getStatus());
-        result.setBrowser(aBrowser);
-        result.setPlatform(aPlatform);
-        result.setJob(aJob);
-        result.setCompletionTime(resultReport.getCompleteTime());
-        result.setStartTime(resultReport.getStartTime());
-        requirement.add(result);
+        
+	        result.setBrowser(aBrowser);
+	        result.setPlatform(aPlatform);
+	        result.setJob(aJob);
+	        result.setCompletionTime(resultReport.getCompleteTime());
+	        result.setStartTime(resultReport.getStartTime());
+	        requirement.add(result);
+        
         requirementRepository.save(requirement);
     }
 

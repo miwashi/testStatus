@@ -85,15 +85,24 @@ public class Requirement {
     }
 
     public String getTestRequirement(){
-        String testRequiement = "";
+        String testRequiement = key;
         if(key.indexOf(".")<0){
             return key;
         }
-        testRequiement = key.substring(key.lastIndexOf("."));
+        
+        String testParam = "";
+        int pos1 = key.indexOf("[");
+        int pos2 = key.indexOf("]");
+        if((pos1>=0)&&(pos2>=0)){
+        	testParam = key.substring(pos1, pos2 + 1);
+        	testRequiement = key.substring(0, pos1);
+        }
+        
+        testRequiement = testRequiement.substring(testRequiement.lastIndexOf("."));
         testRequiement = testRequiement.replaceAll("\\.", "");
         testRequiement = testRequiement.replaceAll("(.)([A-Z])", "$1 $2");
         testRequiement = testRequiement.toLowerCase();
-        return testRequiement;
+        return testRequiement + (testParam.isEmpty()?"":" " + testParam);
     }
 
     public Group getSubGroup() {

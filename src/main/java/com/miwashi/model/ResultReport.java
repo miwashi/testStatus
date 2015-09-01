@@ -12,7 +12,108 @@ import java.util.StringTokenizer;
  */
 public class ResultReport {
 
+	private String param;
+	private String testRequirement;
+    private String testSubjectKey;
+    private String testSubject;
+    private String testGroup;
+    private String testSubGroup;
     private String size;
+    private String type;
+    private String uuid;
+    private String name;
+    private String timeStamp;
+    private String status;
+    private String browser;
+    private String version;
+    private String platform;
+    private String host;
+    private String grid;
+    private String user;
+    private String buildId;
+    private String buildNumber;
+    private String jobName;
+    private String gitCommit;
+    private String gitBranch;
+    private String gitURL;
+    private String exceptionMessage;
+    private DateTime completeTime = null;
+    private DateTime startTime;
+	private String buildTag;
+	private String buildUrl;
+	private String jenkinsUrl;
+
+    public ResultReport(String msg){
+
+        JsonObject json = (new JsonParser()).parse(msg).getAsJsonObject();
+        if(!json.has("type")){
+            throw new IllegalStateException("Missing type field");
+        }
+        if(!json.has("name")){
+            throw new IllegalStateException("Missing name field");
+        }
+
+        StringTokenizer aTokenizer = new StringTokenizer(msg, ";");
+
+        type = json.has("type")?json.get("type").getAsString():"";
+        uuid = json.has("uuid")?json.get("uuid").getAsString():"";
+        name = json.has("name")?json.get("name").getAsString():"";
+        timeStamp = json.has("timeStamp")?json.get("timeStamp").getAsString():"";
+        status = json.has("status")?json.get("status").getAsString():"";
+        browser = json.has("browser")?json.get("browser").getAsString():"";
+        version = json.has("version")?json.get("version").getAsString():"";
+        platform = json.has("platform")?json.get("platform").getAsString():"";
+        size = json.has("size")?json.get("size").getAsString():"";
+        host = json.has("host")?json.get("host").getAsString():"";
+        grid = json.has("grid")?json.get("grid").getAsString():"";
+        user = json.has("user")?json.get("user").getAsString():"";
+        buildId = json.has("buildId")?json.get("buildId").getAsString():"";
+        buildNumber = json.has("buildNumber")?json.get("buildNumber").getAsString():"";
+        jobName = json.has("jobName")?json.get("jobName").getAsString():"";
+        gitCommit = json.has("gitCommit")?json.get("gitCommit").getAsString():"";
+        gitBranch = json.has("gitBranch")?json.get("gitBranch").getAsString():"";
+        gitURL = json.has("gitURL")?json.get("gitURL").getAsString():"";
+        exceptionMessage = json.has("exceptionMessage")?json.get("exceptionMessage").getAsString():"";
+        buildTag = json.has("buildTag")?json.get("buildTag").getAsString():"";
+        buildUrl = json.has("buildUrl")?json.get("buildUrl").getAsString():"";
+        jenkinsUrl = json.has("jenkinsUrl")?json.get("jenkinsUrl").getAsString():"";
+
+        String param = parseForTestRequirement(name);
+        testRequirement = parseForTestRequirement(name);
+        testSubjectKey = parseForTestSubjectKey(name);
+        testSubject = parseForTestSubject(name);
+        testGroup = parseForTestGroup(name);
+        testSubGroup = parseForTestSubGroup(name);
+        
+        long time = Long.parseLong(timeStamp);
+        startTime = new DateTime(time);
+    }
+
+    public String toString(){
+        String result = "";
+
+        long time = Long.parseLong(timeStamp);
+
+        result += name;
+        result += " " + status;
+        result += " " + (new DateTime(time)).toString("yyyy hh:mm:ss",null);
+        result += " " + timeStamp;
+        result += "\n\t" + browser;
+        result += "\n\t" + platform;
+        result += "\n\t" + host;
+        result += "\n\t" + grid;
+        result += "\n\t" + user;
+        result += "\n\t" + buildId;
+        result += "\n\t" + buildNumber;
+        result += "\n\t" + jobName;
+        result += "\n\t" + gitCommit;
+        result += "\n\t" + gitBranch;
+        result += "\n\t" + gitURL;
+        result += "\n\t" + exceptionMessage;
+
+        return result;
+    }
+
     public String getType() {
 		return type;
 	}
@@ -136,95 +237,7 @@ public class ResultReport {
 	public void setPlatform(String platform) {
 		this.platform = platform;
 	}
-
-	private String type;
-    private String uuid;
-    private String name;
-    private String timeStamp;
-    private String status;
-    private String browser;
-    private String version;
-    private String platform;
-    private String host;
-    private String grid;
-    private String user;
-    private String buildId;
-    private String buildNumber;
-    private String jobName;
-    private String gitCommit;
-    private String gitBranch;
-    private String gitURL;
-    private String exceptionMessage;
-    private DateTime completeTime = null;
-    private DateTime startTime;
-	private String buildTag;
-	private String buildUrl;
-	private String jenkinsUrl;
-
-    public ResultReport(String msg){
-
-        JsonObject json = (new JsonParser()).parse(msg).getAsJsonObject();
-        if(!json.has("type")){
-            throw new IllegalStateException("Missing type field");
-        }
-        if(!json.has("name")){
-            throw new IllegalStateException("Missing name field");
-        }
-
-        StringTokenizer aTokenizer = new StringTokenizer(msg, ";");
-
-        type = json.has("type")?json.get("type").getAsString():"";
-        uuid = json.has("uuid")?json.get("uuid").getAsString():"";
-        name = json.has("name")?json.get("name").getAsString():"";
-        timeStamp = json.has("timeStamp")?json.get("timeStamp").getAsString():"";
-        status = json.has("status")?json.get("status").getAsString():"";
-        browser = json.has("browser")?json.get("browser").getAsString():"";
-        version = json.has("version")?json.get("version").getAsString():"";
-        platform = json.has("platform")?json.get("platform").getAsString():"";
-        size = json.has("size")?json.get("size").getAsString():"";
-        host = json.has("host")?json.get("host").getAsString():"";
-        grid = json.has("grid")?json.get("grid").getAsString():"";
-        user = json.has("user")?json.get("user").getAsString():"";
-        buildId = json.has("buildId")?json.get("buildId").getAsString():"";
-        buildNumber = json.has("buildNumber")?json.get("buildNumber").getAsString():"";
-        jobName = json.has("jobName")?json.get("jobName").getAsString():"";
-        gitCommit = json.has("gitCommit")?json.get("gitCommit").getAsString():"";
-        gitBranch = json.has("gitBranch")?json.get("gitBranch").getAsString():"";
-        gitURL = json.has("gitURL")?json.get("gitURL").getAsString():"";
-        exceptionMessage = json.has("exceptionMessage")?json.get("exceptionMessage").getAsString():"";
-        buildTag = json.has("buildTag")?json.get("buildTag").getAsString():"";
-        buildUrl = json.has("buildUrl")?json.get("buildUrl").getAsString():"";
-        jenkinsUrl = json.has("jenkinsUrl")?json.get("jenkinsUrl").getAsString():"";
-
-        long time = Long.parseLong(timeStamp);
-        startTime = new DateTime(time);
-    }
-
-    public String toString(){
-        String result = "";
-
-        long time = Long.parseLong(timeStamp);
-
-        result += name;
-        result += " " + status;
-        result += " " + (new DateTime(time)).toString("yyyy hh:mm:ss",null);
-        result += " " + timeStamp;
-        result += "\n\t" + browser;
-        result += "\n\t" + platform;
-        result += "\n\t" + host;
-        result += "\n\t" + grid;
-        result += "\n\t" + user;
-        result += "\n\t" + buildId;
-        result += "\n\t" + buildNumber;
-        result += "\n\t" + jobName;
-        result += "\n\t" + gitCommit;
-        result += "\n\t" + gitBranch;
-        result += "\n\t" + gitURL;
-        result += "\n\t" + exceptionMessage;
-
-        return result;
-    }
-
+	
     public String getKey(){
         return name + "." + uuid;
     }
@@ -307,8 +320,56 @@ public class ResultReport {
     public void setSize(String size) {
         this.size = size;
     }
+    
+    public String getParam() {
+		return param;
+	}
 
-    public boolean isSucceeded() {
+	public void setParam(String param) {
+		this.param = param;
+	}
+
+	public String getTestRequirement() {
+		return testRequirement;
+	}
+
+	public void setTestRequirement(String testRequirement) {
+		this.testRequirement = testRequirement;
+	}
+
+	public String getTestSubjectKey() {
+		return testSubjectKey;
+	}
+
+	public void setTestSubjectKey(String testSubjectKey) {
+		this.testSubjectKey = testSubjectKey;
+	}
+
+	public String getTestSubject() {
+		return testSubject;
+	}
+
+	public void setTestSubject(String testSubject) {
+		this.testSubject = testSubject;
+	}
+
+	public String getTestGroup() {
+		return testGroup;
+	}
+
+	public void setTestGroup(String testGroup) {
+		this.testGroup = testGroup;
+	}
+
+	public String getTestSubGroup() {
+		return testSubGroup;
+	}
+
+	public void setTestSubGroup(String testSubGroup) {
+		this.testSubGroup = testSubGroup;
+	}
+
+	public boolean isSucceeded() {
         boolean isFailed = false;
         isFailed = isFailed || "success".equalsIgnoreCase(status);
         isFailed = isFailed || "succeeded".equalsIgnoreCase(status);
@@ -329,20 +390,32 @@ public class ResultReport {
     	return isSkipped;
 	}
 
-    public String getTestRequirement(){
+    public String parseForTestRequirement(String name){
+    	String testName = name;
         String testRequiement = "";
         if(name.indexOf(".")<0){
-            return name;
+            return testName;
         }
-        testRequiement = name.substring(name.lastIndexOf("."));
+        String testParam = "";
+        int pos1 = testName.indexOf("[");
+        int pos2 = testName.indexOf("]");
+        if((pos1>=0)&&(pos2>=0)){
+        	testParam = testName.substring(pos1, pos2 + 1);
+        	testName = testName.substring(0, pos1);
+        }
+        testRequiement = testName.substring(testName.lastIndexOf("."));
         testRequiement = testRequiement.replaceAll("\\.", "");
         testRequiement = testRequiement.replaceAll("(.)([A-Z])", "$1 $2");
         testRequiement = testRequiement.toLowerCase();
-        return testRequiement;
+        return testRequiement + testParam;
     }
 
-    public String getTestSubjectKey(){
+    public String parseForTestSubjectKey(String name){
         String testSubject = name;
+        int pos1 = testSubject.indexOf("[");
+        if(pos1>=0){
+        	testSubject = testSubject.substring(0, pos1);
+        }
         if(testSubject.indexOf(".")<0){
             return testSubject;
         }
@@ -351,12 +424,16 @@ public class ResultReport {
         return testSubject;
     }
 
-    public String getTestSubject(){
-        String testSubject = "";
-        if(name.indexOf(".")<0){
-            return name;
+    public String parseForTestSubject(String name){
+        String testSubject = name;
+        int pos1 = testSubject.indexOf("[");
+        if(pos1>=0){
+        	testSubject = testSubject.substring(0, pos1);
         }
-        testSubject = name.substring(0, name.lastIndexOf("."));
+        if(testSubject.indexOf(".")<0){
+            return testSubject;
+        }
+        testSubject = testSubject.substring(0, testSubject.lastIndexOf("."));
         if(testSubject.indexOf(".")>0) {
             testSubject = testSubject.substring(testSubject.lastIndexOf("."));
         }
@@ -367,25 +444,35 @@ public class ResultReport {
         return testSubject;
     }
 
-    public String getTestGroup(){
-        String testGroup = "";
+    public String parseForTestGroup(String name){
+        String testGroup = name;
         if(name.indexOf(".")<0){
             return name;
         }
-        testGroup = name;
-        testGroup = testGroup.replace("se.svt.test.","");
+        int pos1 = testGroup.indexOf("[");
+        if(pos1>=0){
+        	testGroup = testGroup.substring(0, pos1);
+        }
+        if(testGroup.startsWith("se.svt.test.")){
+        	testGroup = testGroup.replace("se.svt.test.","");
+        }else{
+        	testGroup = testGroup.replace("se.svt.","");
+        }
         if(testGroup.indexOf(".")>0){
             testGroup = testGroup.substring(0, testGroup.indexOf("."));
         }
         return testGroup;
     }
 
-    public String getTestSubGroup(){
-        String testGroup = "";
+    public String parseForTestSubGroup(String name){
+        String testGroup = name;
         if(name.indexOf(".")<0){
             return name;
         }
-        testGroup = name;
+        int pos1 = testGroup.indexOf("[");
+        if(pos1>=0){
+        	testGroup = testGroup.substring(0, pos1);
+        }
         testGroup = testGroup.replace("se.svt.test.","");
         if(testGroup.indexOf(".")>0){
             testGroup = testGroup.substring(0, testGroup.lastIndexOf("."));

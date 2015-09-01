@@ -26,40 +26,39 @@ public class TestRequirement {
 
     @Test
     public void testRequriement() throws Exception{
-        Requirement requirement = new Requirement("se.svt.test.svtse.frontpage.GlobalAutocompleteTest.autoCompleteNoResultShouldShowUp");
+        Requirement requirement = new Requirement("se.svt.test.nss.streams.OppetArkivVideoStreamTest.shouldStartFor[http://www.oppetarkiv.se/video/2578187]");
 
         System.out.println(requirement.getTestRequirement());
     }
 
     @Test
     public void testSubject() throws Exception{
-        Requirement requirement = new Requirement("se.svt.test.svtse.frontpage.GlobalAutocompleteTest.autoCompleteNoResultShouldShowUp");
+        Requirement requirement = new Requirement("se.svt.test.nss.streams.OppetArkivVideoStreamTest.shouldStartFor[http://www.oppetarkiv.se/video/2578187]");
 
         //System.out.println(requirement.getTestSubject());
     }
 
     @Test
     public void testGroup() throws Exception{
-        Requirement requirement = new Requirement("se.svt.test.svtse.frontpage.GlobalAutocompleteTest.autoCompleteNoResultShouldShowUp");
+        Requirement requirement = new Requirement("se.svt.test.nss.streams.OppetArkivVideoStreamTest.shouldStartFor[http://www.oppetarkiv.se/video/2578187]");
 
         //System.out.println(requirement.getTestGroup());
     }
 
     @Test
     public void testSubGroup() throws Exception{
-        Requirement requirement = new Requirement("se.svt.test.svtse.frontpage.GlobalAutocompleteTest.autoCompleteNoResultShouldShowUp");
+        Requirement requirement = new Requirement("se.svt.test.nss.streams.OppetArkivVideoStreamTest.shouldStartFor[http://www.oppetarkiv.se/video/2578187]");
 
         //System.out.println(requirement.getTestSubGroup());
     }
 
     @Test
     public void testSubjectKey() throws Exception{
-        Requirement requirement = new Requirement("se.svt.test.svtse.frontpage.GlobalAutocompleteTest.autoCompleteNoResultShouldShowUp");
+        Requirement requirement = new Requirement("se.svt.test.nss.streams.OppetArkivVideoStreamTest.shouldStartFor[http://www.oppetarkiv.se/video/2578187]");
 
         //System.out.println("Subject key: " + requirement.getTestSubjectKey());
     }
     
-    @Test
     public void testReadJson(){
     	String jsonText = "";
     	String filename = "./src/main/resources/static/json/requirement.json";
