@@ -5,7 +5,7 @@ import com.miwashi.repositories.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
+import org.h2.mvstore.ConcurrentArrayList;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,9 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @SpringBootApplication
 @ConfigurationProperties
@@ -58,6 +55,9 @@ public class TestStatusApplication {
     ResultRepository resultRepository;
 
     @Autowired
+    FailRepository failRepository;
+    
+    @Autowired
     BrowserRepository browserRepository;
 
     @Autowired
@@ -75,6 +75,7 @@ public class TestStatusApplication {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     private static ConcurrentHashMap<String, ResultReport> reports = new ConcurrentHashMap<String, ResultReport>();
+    private static List<ExceptionReport> exceptions = Collections.synchronizedList(new ArrayList<ExceptionReport>());
     private static ConcurrentHashMap<String, Group> groups = new ConcurrentHashMap<String, Group>();
     private static ConcurrentHashMap<String, Group> subgroups = new ConcurrentHashMap<String, Group>();
     private static ConcurrentHashMap<String, Subject> subjects = new ConcurrentHashMap<String, Subject>();
@@ -184,19 +185,55 @@ public class TestStatusApplication {
 
         
         Result result = new Result(resultReport.getStatus());
-        
-	        result.setBrowser(aBrowser);
-	        result.setPlatform(aPlatform);
-	        result.setJob(aJob);
-	        result.setCompletionTime(resultReport.getCompleteTime());
-	        result.setStartTime(resultReport.getStartTime());
-	        requirement.add(result);
+        result.setOldKey(resultReport.getKey());
+        result.setBrowser(aBrowser);
+        result.setPlatform(aPlatform);
+        result.setJob(aJob);
+        result.setCompletionTime(resultReport.getCompleteTime());
+        result.setStartTime(resultReport.getStartTime());
+        requirement.add(result);
         
         requirementRepository.save(requirement);
     }
+    
+    @Scheduled(fixedRateString = "${configuration.schedule.handleresults.rate}", initialDelayString = "${configuration.schedule.daily.delay}")
+    public void handleExceptionReports() {
+        List<ExceptionReport> toBeHandled = new ArrayList<ExceptionReport>();
+        List<ExceptionReport> toBeDeleted = new ArrayList<ExceptionReport>();
+        exceptions.forEach(fail -> {
+            toBeHandled.add(fail);
+            toBeDeleted.add(fail);
+        });
+        toBeDeleted.forEach( fail -> {
+        	exceptions.remove(fail);
+        });
+        toBeHandled.forEach(fail -> {
+        	handleFail(fail);
+        });
+    }
+
+    private void handleFail(ExceptionReport exceptionReport) {
+    	
+    	Iterable<Result> resultIterator = resultRepository.findByOldKey(exceptionReport.getKey());
+    	if(resultIterator.iterator().hasNext()){
+    		Result result = resultIterator.iterator().next();
+    		Fail fail = new Fail(exceptionReport);
+    		fail.setResultId(result.getId());
+    		failRepository.save(fail);
+    		if (do_log_recievied_results) {
+                log.info("handled: " + "Connect to " + result.getId() + ": " + exceptionReport);
+            }
+    		System.out.println("handled: " + "Connect to " + result.getId() + ": " + exceptionReport);
+    	}else{
+    		if (do_log_recievied_results) {
+                log.info("FAILED to connect: " + exceptionReport);
+            }
+    		System.out.println("FAILED to connect: " + exceptionReport);
+    	}
+    }
 
     private Browser loadBrowser(String name){
-        if(name==null || name.isEmpty()){
+        if(name==null || name.isEmpty() || "any".equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)){
             name = Browser.DEFAULT_BROWSER;
         }
         name = name.toLowerCase();
@@ -212,7 +249,7 @@ public class TestStatusApplication {
     }
 
     private Platform loadPlatform(String name){
-        if(name==null || name.isEmpty()){
+        if(name==null || name.isEmpty() || "any".equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)){
             name = Platform.DEFAULT_PLATFORM;
         }
         name = name.toLowerCase();
@@ -296,16 +333,22 @@ public class TestStatusApplication {
                     if (do_log_recievied_results) {
                         log.info("received: " + request);
                     }
-                    ResultReport result = new ResultReport(request);
-                    stats.inc(result);
-                    if (result.isCompleted()) {
-                        ResultReport oldReport = reports.get(result.getKey());
-                        if (oldReport != null) {
-                            oldReport.setStatus(result.getStatus());
-                            oldReport.setCompleteTime(result.getStartTime());
-                        }
-                    } else {
-                        reports.put(result.getKey(), result);
+                    
+                    if(ExceptionReport.isException(request)){
+                    	ExceptionReport ex = new ExceptionReport(request);
+                    	exceptions.add(ex);
+                    }else{	
+	                    ResultReport result = new ResultReport(request);
+	                    stats.inc(result);
+	                    if (result.isCompleted()) {
+	                        ResultReport oldReport = reports.get(result.getKey());
+	                        if (oldReport != null) {
+	                            oldReport.setStatus(result.getStatus());
+	                            oldReport.setCompleteTime(result.getStartTime());
+	                        }
+	                    } else {
+	                        reports.put(result.getKey(), result);
+	                    }
                     }
                 })
                 .get();

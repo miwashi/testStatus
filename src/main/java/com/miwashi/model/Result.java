@@ -8,7 +8,9 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "RESULTS")
 public class Result implements Comparable<Result>{
@@ -47,8 +49,15 @@ public class Result implements Comparable<Result>{
     @Column(name = "COMPLETIONTIME")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date completionTime;
+    
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "RESULT_ID", nullable = false)
+    @Transient
+    private List<Fail> fails = new ArrayList<Fail>();
 
-
+    @Column(name = "OLD_KEY")
+	private String oldKey;
+    
     public Result(){
         super();
     }
@@ -236,4 +245,20 @@ public class Result implements Comparable<Result>{
 
         return seconds + " seconds ago!";
     }
+
+	public String getOldKey() {
+		return oldKey;
+	}
+
+	public void setOldKey(String oldKey) {
+		this.oldKey = oldKey;
+	}
+
+	public List<Fail> getFails() {
+		return fails;
+	}
+
+	public void add(Fail fail) {
+		this.fails.add(fail);
+	}
 }

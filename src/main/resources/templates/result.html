@@ -11,13 +11,26 @@
         <h1 class="header" layout:fragment="header" th:text="'Result summary page'">SVT Test summary page</h1>
 		<div layout:fragment="content">
 		    <section>
-		        <span th:text="${result.id}"></span><br/>
-		        <span th:text="${result.platform.name}"></span><br/>
-		        <span th:text="${result.browser.name}"></span><br/>
-		        <span th:text="${result.job.name}"></span><br/>
-		        <span th:text="${result.status}"></span><br/>
-		        <span th:text="${result.touched}"></span><br/>
-		        <span th:text="${result.duration}"></span><br/>
+		    	<h2 th:text="${requirement.subject.name} + ' ' + ${requirement.testRequirement}"></h2>
+		        <span th:text="'Platform: ' + ${result.platform.name}"></span><br/>
+		        <span th:text="'Browser: ' + ${result.browser.name}"></span><br/>
+		        <span th:text="'JOB: ' + ${result.job.name}"></span><br/>
+		        <span th:text="'Result: ' + ${result.status}"></span><br/>
+		        <span th:text="'Tested: ' + ${result.touched}"></span><br/>
+		        <span th:text="'Duration: ' + ${#numbers.formatInteger(result.duration,3, 'WHITESPACE')} + ' ms'"></span><br/>
+		        
+		        <h2>Fails:</h2>
+		        <table class="fails">
+		            <colgroup><col/></colgroup>
+		            <tbody>
+		            <th:block th:each="fail : ${result.fails}">
+		                <tr>
+		                	<td th:text="${fail.message}"></td>
+		                </tr>
+		            </th:block>
+					</tbody>
+		        </table>
+		        
 		    </section>
 		</div>
     </body>

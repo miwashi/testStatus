@@ -1,11 +1,14 @@
 package com.miwashi;
 
+import com.miwashi.model.Fail;
 import com.miwashi.model.Job;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
+import com.miwashi.repositories.FailRepository;
 import com.miwashi.repositories.JobRepository;
 import com.miwashi.repositories.RequirementRepository;
 import com.miwashi.repositories.ResultRepository;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
@@ -45,6 +48,9 @@ public class CleanUpService {
     
     @Autowired
     JobRepository jobRepository;
+    
+    @Autowired
+    FailRepository failRepository;
 
     @Scheduled(fixedRateString = "${configuration.schedule.cleanup.rate}")
     public void cleanUp(){
@@ -59,9 +65,14 @@ public class CleanUpService {
                         log.info("DELETING - as old: " + result.getId());
                     }
                     resultRepository.delete(result);
+                    Iterable<Fail> failIter = failRepository.findByResultId(result.getId());
+                	if(failIter.iterator().hasNext()){
+                		failRepository.delete(failIter.iterator().next());
+                	}
                 }
             });
         }
+        
         Iterable<Requirement> requirementIter = requirementRepository.findAll();
         requirementIter.forEach(requirement -> {
             List<Result> results = requirement.getResults();
@@ -72,7 +83,7 @@ public class CleanUpService {
                     if(result1==null || result2==null || result1.getStartTime()==null || result2.getStartTime()== null){
                         return 0;
                     }
-                    return result1.getStartTime().compareTo(result2.getStartTime());
+                    return result2.getStartTime().compareTo(result1.getStartTime());
                 }
             });
             int indX = 0;
@@ -82,6 +93,10 @@ public class CleanUpService {
                         log.info("DELETING - as too many: " + result.getId());
                     }
                     resultRepository.delete(result);
+                    Iterable<Fail> failIter = failRepository.findByResultId(result.getId());
+                	if(failIter.iterator().hasNext()){
+                		failRepository.delete(failIter.iterator().next());
+                	}
                 }
             }
         });

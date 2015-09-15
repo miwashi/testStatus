@@ -1,0 +1,6 @@
+{
+	"exception":"attribute (s.prop11|e.Var11) is mandatory!\nExpected: not (null or an empty string)\n     but: was \"\"",
+	"name":"se.svt.test.sport.statistics.OmnitureTest.shouldSendPageLoadStatToOmnitureFor[http://svt:sp0rT!@sport-render-prod.herokuapp.com/sport/handboll/]",
+	"type":"3",
+	"uuid":"41a68bc0-dca8-472c-94eb-7baea555d912"
+}

@@ -1,12 +1,14 @@
 package com.miwashi.controller;
 
 import com.miwashi.model.Browser;
+import com.miwashi.model.Fail;
 import com.miwashi.model.JenkinsResult;
 import com.miwashi.model.Job;
 import com.miwashi.model.Platform;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
 import com.miwashi.repositories.BrowserRepository;
+import com.miwashi.repositories.FailRepository;
 import com.miwashi.repositories.PlatformRepository;
 import com.miwashi.repositories.RequirementRepository;
 import com.miwashi.repositories.ResultRepository;
@@ -29,6 +31,7 @@ import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,47 +57,28 @@ public class ResultController {
     @Autowired
     PlatformRepository platformRepository;
     
+    @Autowired
+    FailRepository failRepository;
+    
     
     @RequestMapping(value = "/api/result/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/result/{id}", notes = "Returns a result")
     public Map<String, Object>  getResultForAPIById(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
-    	Map<String, Object> result = new HashMap<String,Object>();
+    	Map<String, Object> response = new HashMap<String,Object>();
+    	Result result = loadResult(id);
+    	Requirement requirement = loadRequirement(result);
+    	response.put("requirement", requirement);
+    	response.put("result", result);
     	
-    	Result aResult = null;
-    	Iterable<Result> resultIter = resultRepository.findById(id);
-    	if(resultIter.iterator().hasNext()){
-    		aResult = resultIter.iterator().next();
-    	}
-    	
-    	Requirement requirement = null;
-    	if(result!=null){
-    		Iterable<Requirement> reqIter = requirementRepository.findById(aResult.getRequirementId());
-    		if(reqIter.iterator().hasNext()){
-    			requirement = reqIter.iterator().next();
-        	}
-    	}
-    	result.put("requirement", requirement);
-    	result.put("result", aResult);
-    	
-    	return result;
+    	return response;
     }
     
     @RequestMapping(value = "/result/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public ModelAndView getResultById(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
     	ModelAndView mav = new ModelAndView("result");
     	
-    	Result result = null;
-    	Iterable<Result> resultIter = resultRepository.findById(id);
-    	if(resultIter.iterator().hasNext()){
-    		result = resultIter.iterator().next();
-    	}
-    	Requirement requirement = null;
-    	if(result!=null){
-    		Iterable<Requirement> reqIter = requirementRepository.findById(result.getRequirementId());
-    		if(reqIter.iterator().hasNext()){
-    			requirement = reqIter.iterator().next();
-        	}
-    	}
+    	Result result = loadResult(id);
+    	Requirement requirement = loadRequirement(result);
     	mav.addObject("requirement", requirement);
     	mav.addObject("result", result);
     	return mav;
@@ -118,14 +102,38 @@ public class ResultController {
         if(requirements.iterator().hasNext()){
             requirement = requirements.iterator().next();
         }
-
         requirementRepository.save(requirement);
-
         Result result = new Result(status);
         result.setBrowser(aBrowser);
         result.setPlatform(aPlatform);
         requirement.add(result);
         requirementRepository.save(requirement);
+    }
+    
+    private Result loadResult(long id){
+    	Result result = null;
+    	Iterable<Result> resultIter = resultRepository.findById(id);
+    	if(resultIter.iterator().hasNext()){
+    		result = resultIter.iterator().next();
+    	}
+    	
+    	Iterator<Fail> failIter = failRepository.findByResultId(result.getId()).iterator();
+    	while(failIter.hasNext()){
+    		Fail fail = failIter.next();
+    		result.add(fail);
+    	}
+    	return result;
+    }
+    
+    private Requirement loadRequirement(Result result){
+    	Requirement requirement = null;
+    	if(result!=null){
+    		Iterable<Requirement> reqIter = requirementRepository.findById(result.getRequirementId());
+    		if(reqIter.iterator().hasNext()){
+    			requirement = reqIter.iterator().next();
+        	}
+    	}
+    	return requirement;
     }
 
     Browser loadBrowser(String browserName){

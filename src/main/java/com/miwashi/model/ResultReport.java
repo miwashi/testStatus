@@ -52,9 +52,6 @@ public class ResultReport {
         if(!json.has("name")){
             throw new IllegalStateException("Missing name field");
         }
-
-        StringTokenizer aTokenizer = new StringTokenizer(msg, ";");
-
         type = json.has("type")?json.get("type").getAsString():"";
         uuid = json.has("uuid")?json.get("uuid").getAsString():"";
         name = json.has("name")?json.get("name").getAsString():"";

@@ -69,7 +69,7 @@ configuration:
     storedresults: 30
 
     log:
-      receivedresult: true
+      receivedresult: false
       sendtestdata: false
       deletions: false
       
