@@ -4,7 +4,7 @@ table{
 	font-family: "Times New Roman", Times, serif;
 	font-style: normal;
 	font-size: 0.875em; /* 14px/16=0.875em */
-	width: 100%;
+	/*width: 100%;*/
 	height: 50px;
 	vertical-align: top;
 	margin: 0px;
@@ -70,4 +70,49 @@ tr.failed{
 tr.unstable{
 	background-color: yellow;
 	display:table-row;
+}
+
+td.text {
+	text-align: left;
+}
+
+td.numeric {
+	text-align: right;
+}
+
+/* MAINSTAT */
+table.mainstat{
+	width: 0px;
+}
+
+table.mainstat td{
+	width: 30px;
+}
+
+table.mainstat colgroup {
+	
+}
+
+table.mainstat colgroup.rowheader {
+	
+}
+
+/* RUNSTAT */
+table.runstat{
+	width: 0px;
+}
+
+table.runstat td{
+	width: 30px;
+}
+
+table.runstat colgroup {
+}
+
+table.runstat colgroup.rowheader {
+}
+
+/* HEADER */
+td.headerright {
+	text-align: right;
 }

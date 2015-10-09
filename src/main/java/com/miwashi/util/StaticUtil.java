@@ -3,6 +3,8 @@ package com.miwashi.util;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class StaticUtil {
 	
@@ -107,5 +109,30 @@ public class StaticUtil {
         duration = duration - days * (1000 * 60);
         int seconds = new Long(Math.floorDiv(duration, (1000))).intValue();
         return seconds;
+	}
+	
+	public static String getJsonField(JSONObject obj, String field){
+		String result = "";
+		if(obj.has(field) && !(obj.isNull(field))){
+			result = obj.getString(field);
+		}
+		return result;
+	}
+	
+	public static int getJsonFieldAsInt(JSONObject obj, String field){
+		int result = 0;
+		if(!obj.has(field) || obj.isNull(field)){
+			return result;
+		}
+		result = obj.getInt(field);
+		return result;
+	}
+	
+	public static JSONArray getJsonFieldAsArray(JSONObject obj, String field){
+		JSONArray result = new JSONArray();
+		if(obj.has(field)){
+			result = obj.getJSONArray(field);
+		}
+		return result;
 	}
 }

@@ -5,7 +5,6 @@ import com.miwashi.repositories.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.h2.mvstore.ConcurrentArrayList;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -165,6 +164,10 @@ public class TestStatusApplication {
         });
     }
 
+    /**
+     * 
+     * @param resultReport
+     */
     private void handleResult(ResultReport resultReport) {
     	Job aJob = loadJob(resultReport.getJobName() + "-" + resultReport.getBuildId(), resultReport.getJobName(), resultReport);
         Browser aBrowser = loadBrowser(resultReport.getBrowser());
@@ -294,10 +297,14 @@ public class TestStatusApplication {
     }
     
     private Job loadJob(String key, String name, ResultReport resultReport){
-        name = name.toLowerCase();
-
+    	name = name.toLowerCase();
+        if(name == null || name.isEmpty()){
+        	name = "local";
+        	key = "local-" + resultReport.getUuid();
+        }
         Iterable<Job> jobs = jobRepository.findByKey(key);
         Job aJob = new Job(key, name);
+        
         if(jobs.iterator().hasNext()){
         	aJob = jobs.iterator().next();
         }else{
@@ -339,7 +346,7 @@ public class TestStatusApplication {
                     	exceptions.add(ex);
                     }else{	
 	                    ResultReport result = new ResultReport(request);
-	                    stats.inc(result);
+	                    stats.add(result);
 	                    if (result.isCompleted()) {
 	                        ResultReport oldReport = reports.get(result.getKey());
 	                        if (oldReport != null) {

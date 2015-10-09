@@ -15,7 +15,7 @@
 		<h1>Today's testing</h1>
     </section>
 
-	<table>
+	<table class="jobstable">
            <colgroup class="groupHeader"><col/></colgroup>
            <colgroup class="numberOfRequirements"><col/><col/><col/><col/></colgroup>
            <colgroup class="date"><col/></colgroup>
@@ -23,20 +23,25 @@
            <tbody>
            <th>
                <td>jobId</td>
-               <td>name</td>
                <td>Jenkins says</td>
-               <td>duration</td>
-               <td>touched</td>
+               <td>Job</td>
+               <td>Tests</td>
+               <td colspan="2">Fails</td>
+               <td>Skips</td>
            </th>
            <th:block th:each="job : ${jobs}">
-               <tr >
+               <tr th:id="'job-' + ${job.id}">
                	<td class="rowheader">
                		<a th:href="'/job/' + ${job.id}" th:text="${job.name}"></a>
                	</td>
                	<td th:text="${job.key}"></td>
-               	<td th:text="${job.name}"></td>
                	<td th:text="${job.jenkinsResult} + ' (' + ${job.jenkinsDuration} + 's)'"></td>
-               	<td><a th:href="${job.buildUrl}"><span th:text="${job.name}"></span></a></td>               	
+               	<td><a th:href="${job.buildUrl}"><span th:text="${job.name}"></span></a></td>     
+               	
+               	<td th:id="'job-' + ${job.id} + '-totalCount'" class="numeric" th:text="${job.jenkinsTotalCount}"></td>
+               	<td th:id="'job-' + ${job.id} + '-failCount'" class="numeric" th:text="${job.jenkinsFailCount}"></td>
+               	<td th:id="'job-' + ${job.id} + '-failShare'" class="numeric" th:text="${job.jenkinsFailShare}"></td>
+               	<td th:id="'job-' + ${job.id} + '-skipCount'" class="numeric" th:text="${job.jenkinsSkipCount}"></td>
                </tr>
            </th:block>
 	    </tbody>

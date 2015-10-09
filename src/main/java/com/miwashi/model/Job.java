@@ -28,6 +28,12 @@ public class Job {
     
     private String jenkinsResult = "unknown";
     private String jenkinsDuration = "unknown";
+    private int jenkinsTotalCount = 0;
+    private int jenkinsFailCount = 0;
+    private int jenkinsSkipCount = 0;
+    private int jenkinsPassCount = 0;
+    private String jenkinstTestReportUrl ="";
+    
     
     public String getJenkinsDuration() {
 		return jenkinsDuration;
@@ -139,6 +145,54 @@ public class Job {
 
 	public void setJenkinsResult(String jenkinsResult) {
 		this.jenkinsResult = jenkinsResult;
+	}
+	
+	
+
+	public int getJenkinsTotalCount() {
+		return jenkinsTotalCount;
+	}
+
+	public void setJenkinsTotalCount(int jenkinsTotalCount) {
+		this.jenkinsTotalCount = jenkinsTotalCount;
+	}
+
+	public int getJenkinsFailCount() {
+		return jenkinsFailCount;
+	}
+
+	public void setJenkinsFailCount(int jenkinsFailCount) {
+		this.jenkinsFailCount = jenkinsFailCount;
+	}
+	
+	public int getJenkinsFailShare() {
+		return ((jenkinsTotalCount==0?0:Math.round((100 * jenkinsFailCount) / jenkinsTotalCount)));
+	}
+
+	public int getJenkinsSkipCount() {
+		return jenkinsSkipCount;
+	}
+
+	public void setJenkinsSkipCount(int jenkinsSkipCount) {
+		this.jenkinsSkipCount = jenkinsSkipCount;
+	}
+
+	
+	
+	public int getJenkinsPassCount() {
+		return jenkinsPassCount;
+	}
+
+	public void setJenkinsPassCount(int jenkinsPassCount) {
+		this.jenkinsPassCount = jenkinsPassCount;
+	}
+
+	public String getJenkinstTestReportUrl() {
+		return jenkinstTestReportUrl;
+	}
+
+	public void setJenkinstTestReportUrl(String jenkinstTestReportUrl) {
+		this.jenkinstTestReportUrl = jenkinstTestReportUrl;
 	}
 
 	public Job(){

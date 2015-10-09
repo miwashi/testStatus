@@ -17,7 +17,7 @@ public class Fail {
 	@Column(name = "RESULT_ID")
 	private long resultId;
 	
-	@Column
+	@Column(name = "message", length=1024)
 	private String message;
 
 	public Fail(){

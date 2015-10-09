@@ -1,23 +1,8 @@
 package com.miwashi;
 
-import com.miwashi.model.Job;
-import com.miwashi.model.Requirement;
-import com.miwashi.model.Result;
-import com.miwashi.repositories.JobRepository;
-import com.miwashi.repositories.RequirementRepository;
-import com.miwashi.repositories.ResultRepository;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import static com.miwashi.util.StaticUtil.getJsonField;
+import static com.miwashi.util.StaticUtil.getJsonFieldAsInt;
+import static com.miwashi.util.StaticUtil.getJsonFieldAsArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,11 +11,18 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import com.miwashi.model.Job;
+import com.miwashi.repositories.JobRepository;
 //Progressbar
 //http://localhost:8080/job/test-util/lastBuild/api/xml?depth=1&xpath=*/executor/progress/text()
 /**
@@ -64,17 +56,30 @@ public class SynchronizeWithJenkinsService {
         Iterable<Job> jobsIterable = jobRepository.findAll();
         for(Job job : jobsIterable){
         	if(!"unknown".equalsIgnoreCase(job.getJenkinsDuration())){
-        		continue;
+        		//continue;
         	}
         	String url = job.getJobStatusUrl();
         	try {
 				JSONObject obj = readJsonFromUrl(url);
-				if(obj.has("result")){
-					job.setJenkinsResult(obj.getString("result"));
-				}
 				
-				if(obj.has("duration")){
-					job.setJenkinsDuration("" + obj.getInt("duration"));
+				job.setJenkinsResult(getJsonField(obj, "result"));
+				job.setJenkinsDuration("" + getJsonFieldAsInt(obj, "duration"));
+				
+				String foo = "";
+				foo = "" + getJsonFieldAsInt(obj, "estimatedDuration");
+				foo = getJsonField(obj, "executor");
+				foo = getJsonField(obj, "fullDisplayName");
+				foo = "" + getJsonFieldAsInt(obj, "timestamp");
+				JSONArray actions = getJsonFieldAsArray(obj, "actions");
+				
+				for(int i=0; i < actions.length(); i++){
+					JSONObject actionObj = actions.getJSONObject(i);
+					if(actionObj.has("totalCount") && actionObj.has("failCount")){
+						job.setJenkinsFailCount(getJsonFieldAsInt(actionObj, "failCount"));
+						job.setJenkinsSkipCount(getJsonFieldAsInt(actionObj, "skipCount"));
+						job.setJenkinsTotalCount(getJsonFieldAsInt(actionObj, "totalCount"));
+						job.setJenkinstTestReportUrl(job.getBuildUrl() + "/" + getJsonField(actionObj, "testReport"));
+					}
 				}
 				jobRepository.save(job);
 				

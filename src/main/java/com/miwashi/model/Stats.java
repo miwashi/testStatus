@@ -23,6 +23,8 @@ public class Stats {
     private Stat[] minutely = new Stat[MINUTES_IN_HOUR];
     private Stat[] hourly = new Stat[HOURS_IN_DAY];
     private Stat[] daily = new Stat[DAYS_IN_MONTH];
+    private Map<String, Stat> teamly = new HashMap<String, Stat>();
+    private Map<String, Stat> jobly = new HashMap<String, Stat>();
     
     private int numberOfRequirements = 0;
     private int numberOfTestedRequirements = 0;
@@ -50,6 +52,7 @@ public class Stats {
         private long fails = 0;
         private long skipped = 0;
         private long succeeded = 0;
+        private long jobs = 0;
 
         public Stat(){
             super();
@@ -119,11 +122,11 @@ public class Stats {
 		}
 
 		public String getFailShare(){
-            String result = "0 (0%)";
+            String result = "0%";
             long numberOfTestsRun = complete - skipped;
 
             if(numberOfTestsRun>0){
-                result = fails + " (" + Math.round((fails*100) / numberOfTestsRun) + "%)";
+                result = "" + Math.round((fails*100) / numberOfTestsRun) + "%";
             }
             return result;
         }
@@ -160,7 +163,7 @@ public class Stats {
         }
     }
 
-    public void inc(ResultReport report){
+    public void add(ResultReport report){
         DateTime now = DateTime.now();
         int hourOfDay = now.getHourOfDay();
         int dayOfMonth = now.getDayOfMonth();
@@ -444,6 +447,14 @@ public class Stats {
             result.add(daily[aDay.getDayOfMonth()]);
         }
         return result;
+    }
+    
+    public Map<String, Stat> getTeamly(){
+    	return teamly;
+    }
+    
+    public Map<String, Stat> getJobly(){
+    	return teamly;
     }
 
     public void resetHour(){

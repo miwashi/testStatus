@@ -1,3 +1,20 @@
+body {
+	background-color: OldLace;
+	font-family: "courier","sans-serif";
+}
+
+h1 {
+	color: grey;
+	font-family: "courier","sans-serif";
+}
+
+td {
+	font-family: "courier","sans-serif";
+	font-size: 12px;
+	vertical-align: top;
+	/*border: 1px solid black;*/
+}
+
 #logo{
     width: 75px;
     float: right;
