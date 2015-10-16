@@ -18,6 +18,8 @@ public class CheckinComment {
 	//private long jobId;
     
 	private String author;
+	
+	@Column(name = "COMMENT", length=1024)
 	private String comment;
 	
 	public String getAuthor() {
