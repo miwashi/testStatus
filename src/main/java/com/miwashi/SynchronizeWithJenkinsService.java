@@ -96,11 +96,14 @@ public class SynchronizeWithJenkinsService {
 	    	job.setJenkinsSkipCount(jobResult.getSkipCount());
 	    	job.setJenkinstTestReportUrl(job.getJenkinsUrl() + "/" + jobResult.getUrlName());
     	}
-    	
-    	for(JobChangeSet change : changes){
-    		CheckinComment comment = new CheckinComment();
-    		comment.setAuthor(change.getAuthor().getFullName());
-    		comment.setComment(change.getComment());
+    	//Duration is used to see if it is updated. If it is, then this code will not be reached again.
+    	if(job.getJenkinsDuration()>0){
+	    	for(JobChangeSet change : changes){
+	    		CheckinComment comment = new CheckinComment();
+	    		comment.setAuthor(change.getAuthor().getFullName());
+	    		comment.setComment(change.getComment());
+	    		job.add(comment);
+	    	}
     	}
     	jobRepository.save(job);
     }

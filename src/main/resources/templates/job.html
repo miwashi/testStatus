@@ -15,6 +15,7 @@
 		<h1>Today's testing</h1>
     </section>
 
+	<table><tr><td>
 	<table>
 		<tbody>
 			<tr><td>job Id</td><td th:text="${job.id}"></td></tr>
@@ -29,6 +30,18 @@
 			<tr><td>job duration</td><td th:text="${job.jenkinsDuration}"></td></tr>
 		</tbody>
 	</table>
+	</td><td>
+	<table>
+		<tbody>
+			<th:block th:each="checkin : ${job.checkins}">
+			<tr>
+				<td>job Id</td><td th:text="${checkin.author}"></td>
+				<td>job Id</td><td th:text="${checkin.comment}"></td>
+			</tr>
+           </th:block>
+		</tbody>
+	</table>
+	</td></tr></table>
 </div>
 </body>
 </html>
