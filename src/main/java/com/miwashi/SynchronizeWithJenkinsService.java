@@ -1,9 +1,5 @@
 package com.miwashi;
 
-import static com.miwashi.util.StaticUtil.getJsonField;
-import static com.miwashi.util.StaticUtil.getJsonFieldAsInt;
-import static com.miwashi.util.StaticUtil.getJsonFieldAsArray;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,18 +7,33 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
+import com.miwashi.model.CheckinComment;
 import com.miwashi.model.Job;
+import com.miwashi.model.transients.jenkins.JobCause;
+import com.miwashi.model.transients.jenkins.JobChangeSet;
+import com.miwashi.model.transients.jenkins.JobResult;
 import com.miwashi.repositories.JobRepository;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 //Progressbar
 //http://localhost:8080/job/test-util/lastBuild/api/xml?depth=1&xpath=*/executor/progress/text()
 /**
@@ -47,6 +58,7 @@ import com.miwashi.repositories.JobRepository;
 public class SynchronizeWithJenkinsService {
 
     private Log log = LogFactory.getLog(SynchronizeWithJenkinsService.class);
+    private OkHttpClient client = new OkHttpClient();
 
     @Autowired
     JobRepository jobRepository;
@@ -55,59 +67,112 @@ public class SynchronizeWithJenkinsService {
     public void synchronize(){
         Iterable<Job> jobsIterable = jobRepository.findAll();
         for(Job job : jobsIterable){
-        	if(!"unknown".equalsIgnoreCase(job.getJenkinsDuration())){
-        		//continue;
+        	if(job.getJenkinsDuration()>0){
+        		continue;
         	}
-        	String url = job.getJobStatusUrl();
-        	try {
-				JSONObject obj = readJsonFromUrl(url);
-				
-				job.setJenkinsResult(getJsonField(obj, "result"));
-				job.setJenkinsDuration("" + getJsonFieldAsInt(obj, "duration"));
-				
-				String foo = "";
-				foo = "" + getJsonFieldAsInt(obj, "estimatedDuration");
-				foo = getJsonField(obj, "executor");
-				foo = getJsonField(obj, "fullDisplayName");
-				foo = "" + getJsonFieldAsInt(obj, "timestamp");
-				JSONArray actions = getJsonFieldAsArray(obj, "actions");
-				
-				for(int i=0; i < actions.length(); i++){
-					JSONObject actionObj = actions.getJSONObject(i);
-					if(actionObj.has("totalCount") && actionObj.has("failCount")){
-						job.setJenkinsFailCount(getJsonFieldAsInt(actionObj, "failCount"));
-						job.setJenkinsSkipCount(getJsonFieldAsInt(actionObj, "skipCount"));
-						job.setJenkinsTotalCount(getJsonFieldAsInt(actionObj, "totalCount"));
-						job.setJenkinstTestReportUrl(job.getBuildUrl() + "/" + getJsonField(actionObj, "testReport"));
-					}
-				}
-				jobRepository.save(job);
-				
-			} catch (JSONException | IOException e) {
-				//Ignore for now
-				//System.out.println("Faild to load json from " + url);
-			}
+        	synchronizeJob(job);
         }
     }
     
-    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-        InputStream is = new URL(url).openStream();
-        try {
-          BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-          String jsonText = readAll(rd);
-          JSONObject json = new JSONObject(jsonText);
-          return json;
-        } finally {
-          is.close();
-        }
-      }
+    private void synchronizeJob(Job job){
+    	String url = job.getJobStatusUrl();
+    	String json = readJsonFromUrl(url);
+    	if(json==null || json.isEmpty()){
+    		return;
+    	}
+    	com.miwashi.model.transients.jenkins.Job jenkinsJob = jsonToJob(json);
+    	if(jenkinsJob==null || jenkinsJob.getId() == null || jenkinsJob.getId().isEmpty()){
+    		return;
+    	}
+    	JobResult jobResult = jsonToJobResult(json);
+    	//JobCause jobCause = jsonToJobCause(json);
+    	List<JobChangeSet> changes = toChangeSets(json);
+    	
+    	if(jobResult!=null){
+	    	job.setJenkinsDuration(jenkinsJob.getDuration());
+	    	job.setJenkinsFailCount(jobResult.getFailCount());
+	    	job.setJenkinsPassCount(jobResult.getTotalCount() - jobResult.getFailCount() - jobResult.getSkipCount());
+	    	job.setJenkinsTotalCount(jobResult.getTotalCount());
+	    	job.setJenkinsSkipCount(jobResult.getSkipCount());
+	    	job.setJenkinstTestReportUrl(job.getJenkinsUrl() + "/" + jobResult.getUrlName());
+    	}
+    	
+    	for(JobChangeSet change : changes){
+    		CheckinComment comment = new CheckinComment();
+    		comment.setAuthor(change.getAuthor().getFullName());
+    		comment.setComment(change.getComment());
+    	}
+    	jobRepository.save(job);
+    }
     
-    private static String readAll(Reader rd) throws IOException {
-	    StringBuilder sb = new StringBuilder();
-	    int cp;
-	    while ((cp = rd.read()) != -1) {
-	      sb.append((char) cp);
-	    }
-	    return sb.toString();
-	  }
+    private String readJsonFromUrl(String url) {
+    	Request request = new Request.Builder().url(url).build();
+    	Response response;
+    	String result = "";
+		try {
+			response = client.newCall(request).execute();
+			result = response.body().string();
+		} catch (IOException e) {
+			log.warn("Failed to load jenkins json.", e);
+		}
+    	return result;
+  }
+    
+    private com.miwashi.model.transients.jenkins.Job jsonToJob(String json){
+    	ObjectMapper mapper = new ObjectMapper();
+    	com.miwashi.model.transients.jenkins.Job job = null;
+		try{
+			job = mapper.readValue(json, com.miwashi.model.transients.jenkins.Job.class);
+		}catch(Exception e){
+			log.warn("Failed to create job from json.", e);
+		}
+		return job;
+    }
+    
+    private JobResult jsonToJobResult(String json){
+		Configuration conf = Configuration.defaultConfiguration();
+		conf = conf.mappingProvider(new JacksonMappingProvider());
+		
+		JobResult result = null;
+		try{
+			List<Map<String, Object>> actions = JsonPath.using(conf).parse(json).read("$.actions.[?((@.failCount)&&(@.failCount)&&(@.totalCount))]", List.class);
+			result = JsonPath.using(conf).parse(actions).read("$.[0]", JobResult.class);
+		}catch(Throwable ignore){
+			//log.debug("Couldn't create JobResult!",ignore);
+		}
+		return result;
+	}
+	
+	private JobCause jsonToJobCause(String json){
+		Configuration conf = Configuration.defaultConfiguration();
+		//conf = conf.mappingProvider(new JacksonMappingProvider());
+		conf.addOptions(new Option[]{Option.SUPPRESS_EXCEPTIONS});
+		JobCause result = null;
+		try{
+			List<Map<String, Object>> causes = JsonPath.using(conf).parse(json).read("$.actions.[?(@.causes)]", List.class);
+			result = JsonPath.using(conf).parse(causes).read("$.[0].causes.[0]", JobCause.class);			
+		}catch(Throwable ignore){
+			//log.debug("Couldn't find JobCause!",ignore);
+		}
+		return result;
+	}
+	
+	private List<JobChangeSet> toChangeSets(String json){
+		List<JobChangeSet> changes = new ArrayList<JobChangeSet>();
+		Configuration conf = Configuration.defaultConfiguration();
+		conf = conf.mappingProvider(new JacksonMappingProvider());
+		
+		try{
+			List<Map<String, Object>> items = JsonPath.using(conf).parse(json).read("$.changeSet.items.*", List.class);
+			for(Object item : items){
+				JobChangeSet changeSet = JsonPath.using(conf).parse(item).read("$", JobChangeSet.class);
+				if(changeSet!=null){
+					changes.add(changeSet);
+				}
+			}						
+		}catch(Throwable ignore){
+			//log.debug("Couldn't find changesets!",ignore);
+		}
+		return changes;
+	}
 }

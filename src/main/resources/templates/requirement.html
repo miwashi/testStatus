@@ -6,37 +6,21 @@
 >
     <head>
         <title th:text="'Req: ' + ${requirement.testRequirement}">Requirement summary page for</title>
+         <script type="text/javascript" th:src="@{/script/requirement.js}"></script>
     </head>
     <body>
         <h1 class="header" layout:fragment="header" th:text="'Requirement summary page'">SVT Test summary page</h1>
 		<div layout:fragment="content">
-
+		<div id="meta">
+			<input id="teamid" type="hidden" th:value="${requirement.group.id}"/>
+			<input id="requirementid" type="hidden" th:value="${requirement.id}"/>
+		</div>
     <section>
-        <h1>
+        <h2>
         	<i><span th:text="${requirement.testRequirement}"></span></i> in 
         	<span th:text="${requirement.subject.name}"></span>
         	(<span th:text="${requirement.group.name}"></span>).
-        </h1>
-        
-        <div class="infobox">
-        The requirement has been tested <span th:text="${requirement.numberOfRuns}"></span> times.
-        
-        The requirement is <span th:text="${requirement.unstable}?'un':''"></span>stable as it has a success ratio of <span th:text="${requirement.successRate}"></span>%.
-        
-        Of these <span th:text="${requirement.numberOfRuns}"></span> runs <span th:text="${requirement.numberOfFails}"></span> failed which gives a 
-        success ratio of <span th:text="${requirement.successRate}"></span>%.
-        Last success was <span th:text="${requirement.latestSuccessDateAsStr}"></span>.
-        Last failure was <span th:text="${requirement.latestFailDateAsStr}"></span>.
-        Longest consecutive run was <span th:text="${requirement.longestConsecutiveSuccess}"></span> successes in a row. 
-        The test first run <span th:text="${requirement.firstTested}"></span>, and last run <span th:text="${requirement.latestFailDateAsStr}"></span>.
-        The average duration when testing the requirement is <span th:text="${requirement.duration}"></span> ms.
-        </div>
-        
-        <div class="infobox">
-        	<span th:text="*{jenkinsresult}? ${jenkinsresult.status}:'Build information dont exist'"></span>
-        	<span th:text="*{jenkinsresult}? ${jenkinsresult.errorDetails}:''"></span>
-        	
-        </div>
+        </h2>
         
         <h2>Test Results:</h2>
         <table class="requirementsummary">
@@ -62,7 +46,7 @@
                 	<td th:class="${result.success}? 'success' : 'fail'" th:text="${result.status}"></td>
                 	<td th:text="${result.duration} + ' ms'"></td>
                 	<td  th:text="${result.touched}"></td>
-                	<td><a th:text="${result.job.name} + ' ( build: ' + ${result.job.buildNumber} + ')'" th:href="'?buildId=' + ${result.job.key}"></a></td>
+                	<td><a th:text="${result.job.name} + ' ( build: ' + ${result.job.buildNumber} + ')'" th:href="${result.job.buildUrl}"></a></td>
                 	<td><a th:href="${result.job.resultReportUrl}">resultat</a></td>
                 	<td  th:text="${result.job.key}"></td>
                 	<td  th:text="${result.job.host}"></td>

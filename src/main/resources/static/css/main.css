@@ -8,6 +8,16 @@ h1 {
 	font-family: "courier","sans-serif";
 }
 
+h2 {
+	color: grey;
+	font-family: "courier","sans-serif";
+}
+
+h3 {
+	color: grey;
+	font-family: "courier","sans-serif";
+}
+
 td {
 	font-family: "courier","sans-serif";
 	font-size: 12px;
@@ -90,4 +100,33 @@ div.subjectbox {
 	float: left;
 	display: box;
 	/* position: absolute; */
+}
+
+a:link {
+	display: box;
+    color: grey;
+	font-family: "courier","sans-serif";
+	text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+	display: box;
+    color: grey;
+	font-family: "courier","sans-serif";
+}
+
+/* mouse over link */
+a:hover {
+	display: box;
+    color: black;
+	font-family: "courier","sans-serif";
+	font-weight: bold;
+}
+
+/* selected link */
+a:active {
+	display: box;
+    color: grey;
+	font-family: "courier","sans-serif";
 }

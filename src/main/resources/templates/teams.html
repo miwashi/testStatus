@@ -24,21 +24,21 @@
             
             <thead>
 	            <th>
-	                <td>Requirements</td>
-	                <td>failed</td>
-	                <td>unstable</td>
-	                <td>touched</td>
+	                <td class="numeric">Requirements</td>
+	                <td class="numeric">failed</td>
+	                <td class="numeric">unstable</td>
+	                <td class="numeric">touched</td>
 	            </th>
             </thead>
 	        
 	        <tbody>
 	            <th:block th:each="team : ${teams}">
 	                <tr th:id="'team-' + ${team.id} + '-row'" th:if="${team.topName == topteam}">
-	                    <td class="rowHeader"><a th:href="'/team/' + ${team.id}" th:text="${team.name}"></a></td>
-	                    <td th:id="'team-' + ${team.id} + '-tested'" class="numberOfRequirements" th:text="${team.tested}"></td>
-	                    <td th:id="'team-' + ${team.id} + '-fails'" class="numberOfRequirements" th:text="${team.failsRelative}"></td>
-	                    <td th:id="'team-' + ${team.id} + '-unstable'" class="numberOfRequirements" th:text="${team.unstableRelative}"></td>
-	                    <td th:id="'team-' + ${team.id} + '-lastrun'" th:class="${team.touchedDays>0}? 'warn' : 'ok'" th:text="${team.touched}"></td>
+	                    <td width="100%" class="rowHeader"><a th:href="'/team/' + ${team.id}" th:text="${team.name}"></a></td>
+	                    <td th:id="'team-' + ${team.id} + '-tested'" class="numberOfRequirements numeric" th:text="${team.tested}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-fails'" class="numberOfRequirements numeric" th:text="${team.failsRelative}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-unstable'" class="numberOfRequirements numeric" th:text="${team.unstableRelative}"></td>
+	                    <td th:id="'team-' + ${team.id} + '-lastrun'" th:class="${team.touchedDays>0}? 'warn' : 'ok'" th:text="${team.touched} + ' numeric'"></td>
 	                </tr>
 	                
 	            </th:block>

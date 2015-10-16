@@ -30,6 +30,7 @@ function poll() {
 	      $("#mainstat_verified").html(data.stats.numberOfVerifiedRequirements);
 	      $("#mainstat_failed").html(data.stats.numberOfFailedRequirements);
 	      $("#mainstat_unstable").html(data.stats.numberOfUnstableRequirements);
+	      $("#mainstat_jobs").html("0");
 	      
 	      $("#stat-numberOfRequirements").html(data.stats.numberOfRequirements);
 	      $("#stat-numberOfTestedRequirements").html(data.stats.numberOfTestedRequirements);

@@ -16,40 +16,13 @@
 		<input id="teamid" type="hidden" th:value="${team.id}"/>
 	</div>
     <section>
-		<h1 th:text="'Todays testing for ' + ${team.name}">Today's testing</h1>
-		
-		<table>
-			<tr>
-				<td>Number of requirements:</td>
-				<td th:id="team-tested" th:text="${team.tested}"></td>
-			</tr>
-			
-			<tr>
-				<td>Verified:</td>
-				<td th:id="team-numverified" th:text="${team.numberOfSucceededRequirements}"></td>
-				<td th:id="team-ratioverified" th:text="${team.numberOfSucceededRequirementsRatio}"></td>
-			</tr>
-			
-			<tr>
-				<td>Fails:</td>
-				<td th:id="team-numfails" th:text="${team.numberOfFailedRequirements}"></td>
-				<td th:id="team-ratiofails" th:text="${team.numberOfFailedRequirementsRatio}"></td>
-			</tr>
-			
-			<tr>
-				<td>Unstable:</td>
-				<td th:id="team-numunstable" th:text="${team.numberOfUnstableRequirements}"></td>
-				<td th:id="team-ratiounstable" th:text="${team.numberOfUnstableRequirementsRatio}"></td>
-			</tr>
-		</table>
-		
 		<h2>Requirements</h2>
 		<table>
             <tbody>
             <th><td>latest test</td><td colspan="2">history</td><td>successratio</td><td>duration</td><td></td></th>
             <th:block th:each="requirement : ${requirements}">
                 <tr th:id="'requirement-' + ${requirement.id}" th:class="${requirement.failed}?'failed':(${requirement.success}?'verified':(${requirement.unstable}?'unstable':'undetermined'))">
-                	<td class="rowheader">
+                	<td class="rowheader" width="100%">
                 		<a th:href="'/requirement/' + ${requirement.id}" th:text="${requirement.subject.name} + ' ' + ${requirement.testRequirement}"></a>
                 	</td>
 					<td th:id="'requirement-' + ${requirement.id} + '-nottestedsince'" th:text="${requirement.notTestedSince}"></td>
@@ -59,7 +32,7 @@
                 		<div th:id="'requirement-' + ${requirement.id} + '-testlight'" class="testlights">
                 			<th:block th:each="result, iterStat : ${requirement.results}">
                 				<a class="resultindicator" th:href="'/result/' + ${result.id}">
-	                				<img class="resultindicator" th:src="@{/img/} + (${result.success}?'green_light.png':'red_light.png')"></img>
+	                				<img th:title="${result.touched}  + ' ' + ${result.browser.name} + ' ' + ${result.job.name}" class="resultindicator" th:src="@{/img/} + (${result.success}?'green_light.png':'red_light.png')"></img>
 	                			</a>
 	                		</th:block>
                 		</div>

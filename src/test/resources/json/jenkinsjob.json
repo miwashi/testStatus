@@ -1,85 +1,141 @@
 {
-	actions:[
+	"actions":[
 		{
-			causes:[
+			"causes":[
 				{
-					shortDescription:"Started by user anonymous",
-					userId:null,
-					userName:"anonymous"
+					"shortDescription":"Started by an SCM change"
 				}
 			]
 		},
 		{
-			buildsByBranchName:{
-				refs/remotes/origin/master:{
-					buildNumber:2,
-					buildResult:null,
-					marked:{
-						SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
-						branch:[
+			
+		},
+		{
+			"buildsByBranchName":{
+				"refs/remotes/origin/master":{
+					"buildNumber":30,
+					"buildResult":null,
+					"marked":{
+						"SHA1":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+						"branch":[
 							{
-								SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
-								name:"refs/remotes/origin/master"
+								"SHA1":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+								"name":"refs/remotes/origin/master"
 							}
 						]
 					},
-					revision:{
-						SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
-						branch:[
+					"revision":{
+						"SHA1":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+						"branch":[
 							{
-								SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
-								name:"refs/remotes/origin/master"
+								"SHA1":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+								"name":"refs/remotes/origin/master"
 							}
 						]
 					}
 				}
 			},
-			lastBuiltRevision:{
-				SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
-				branch:[
+			"lastBuiltRevision":{
+				"SHA1":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+				"branch":[
 					{
-						SHA1:"98ae47d6841ccbb8cc4b98db87db62cde70a3506",
-						name:"refs/remotes/origin/master"
+						"SHA1":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+						"name":"refs/remotes/origin/master"
 					}
 				]
 			},
-			remoteUrls:[
+			"remoteUrls":[
 				"git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git"
 			],
-			scmName:""
+			"scmName":""
 		},
 		{
 			
 		},
 		{
 			
+		},
+		{
+			"failCount":1,
+			"skipCount":0,
+			"totalCount":33,
+			"urlName":"testReport"
 		}
 	],
-	artifacts:[
+	"artifacts":[
 		
 	],
-	building:false,
-	description:null,
-	displayName:"#2",
-	duration:1134866,
-	estimatedDuration:567468,
-	executor:null,
-	fullDisplayName:"test-util #2",
-	id:"2",
-	keepLog:false,
-	number:2,
-	queueId:2,
-	result:"FAILURE",
-	timestamp:1439248454308,
-	url:"http://localhost:8080/job/test-util/2/",
-	builtOn:"",
-	changeSet:{
-		items:[
-			
+	"building":false,
+	"description":null,
+	"displayName":"#30",
+	"duration":638086,
+	"estimatedDuration":678143,
+	"executor":null,
+	"fullDisplayName":"svtse-integrationtest #30",
+	"id":"30",
+	"keepLog":false,
+	"number":30,
+	"queueId":30,
+	"result":"FAILURE",
+	"timestamp":1444394140242,
+	"url":"http://localhost:8080/job/svtse-integrationtest/30/",
+	"builtOn":"",
+	"changeSet":{
+		"items":[
+			{
+				"affectedPaths":[
+					"src/test/java/se/svt/test/nss/RegionalPageTest.java"
+				],
+				"commitId":"a2324d66f5494697e38f6f1e8dfba6a3658f2043",
+				"timestamp":-1,
+				"author":{
+					"absoluteUrl":"http://localhost:8080/user/katia.sandstrom",
+					"fullName":"katia.sandstrom"
+				},
+				"comment":"NYHETER - Regionals pages without latest news\n",
+				"date":"2015-10-07 13:25:09 +0200",
+				"id":"a2324d66f5494697e38f6f1e8dfba6a3658f2043",
+				"msg":"NYHETER - Regionals pages without latest news",
+				"paths":[
+					{
+						"editType":"edit",
+						"file":"src/test/java/se/svt/test/nss/RegionalPageTest.java"
+					}
+				]
+			},
+			{
+				"affectedPaths":[
+					"src/main/java/se/svt/test/nss/pageobject/NewRegionalPage.java",
+					"src/test/java/se/svt/test/nss/NewRegionalPageTest.java"
+				],
+				"commitId":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+				"timestamp":-1,
+				"author":{
+					"absoluteUrl":"http://localhost:8080/user/katia.sandstrom",
+					"fullName":"katia.sandstrom"
+				},
+				"comment":"NYHETER - New test for regionals -  Jämtland\n",
+				"date":"2015-10-09 14:23:36 +0200",
+				"id":"0c6752f9e2c33d6122d9ddac213162fa5ed18715",
+				"msg":"NYHETER - New test for regionals -  Jämtland",
+				"paths":[
+					{
+						"editType":"add",
+						"file":"src/main/java/se/svt/test/nss/pageobject/NewRegionalPage.java"
+					},
+					{
+						"editType":"add",
+						"file":"src/test/java/se/svt/test/nss/NewRegionalPageTest.java"
+					}
+				]
+			}
 		],
-		kind:"git"
+		"kind":"git"
 	},
-	culprits:[
-		
+	"culprits":[
+		{
+			"absoluteUrl":"http://localhost:8080/user/katia.sandstrom",
+			"fullName":"katia.sandstrom"
+		}
 	]
 }

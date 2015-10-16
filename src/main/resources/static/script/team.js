@@ -26,16 +26,23 @@ function poll() {
 	   dataType: 'json',
 	   success: function(data) {
 		  hideErrorMessage()
-		  document.getElementById("team-tested").innerHTML = data.team.tested;
+		  document.getElementById("mainstat_requirements_hdr").innerHTML = "Requirements";
+		  document.getElementById("mainstat_requirements").innerHTML = data.team.tested;
 		  
-		  document.getElementById("team-numverified").innerHTML = data.team.numberOfSucceededRequirements;
-    	  document.getElementById("team-ratioverified").innerHTML = data.team.numberOfSucceededRequirementsRatio;
+		  document.getElementById("mainstat_tested_hdr").innerHTML = "Tested";
+		  document.getElementById("mainstat_tested").innerHTML = data.team.tested;
+		  
+		  document.getElementById("mainstat_verified_hdr").innerHTML = "Verified";
+    	  document.getElementById("mainstat_verified").innerHTML = data.team.successesRelative;
 			
-    	  document.getElementById("team-numfails").innerHTML = data.team.numberOfFailedRequirements;
-    	  document.getElementById("team-ratiofails").innerHTML = data.team.numberOfFailedRequirementsRatio;
+    	  document.getElementById("mainstat_failed_hdr").innerHTML = "Failed";
+    	  document.getElementById("mainstat_failed").innerHTML = data.team.failsRelative;
     	  
-    	  document.getElementById("team-numunstable").innerHTML = data.team.numberOfUnstableRequirements;
-    	  document.getElementById("team-ratiounstable").innerHTML = data.team.numberOfUnstableRequirementsRatio;
+    	  document.getElementById("mainstat_unstable_hdr").innerHTML = "Unstable";
+    	  document.getElementById("mainstat_unstable").innerHTML = data.team.unstableRelative;
+    	  
+    	  document.getElementById("mainstat_jobs_hdr").innerHTML = "";
+    	  document.getElementById("mainstat_jobs").innerHTML = "";
     	  
 	      $.each(data.requirements, function( index, requirement ) {
 	    	  var prefix = "requirement-" + requirement.id;
@@ -107,6 +114,7 @@ function poll() {
 			    			  img.setAttribute("class", "resultindicator")
 			    			  testLightDiv.appendChild(a);
 			    			  a.appendChild(img);
+			    			  img.setAttribute('title',result.touched  + "\n" + result.browser.name + "\n" + result.job.name);
 			    			  lastTested.value = requirement.latestTestedDate;
 		    			  });
 		    		  }

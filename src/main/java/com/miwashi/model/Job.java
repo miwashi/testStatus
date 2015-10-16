@@ -1,6 +1,8 @@
 package com.miwashi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -17,6 +19,11 @@ public class Job {
     
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date timeStamp;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	//@OrderBy("STARTTIME DESC")
+    @JoinColumn(name = "JOB_ID", nullable = false)
+    private List<CheckinComment> checkins = new ArrayList<CheckinComment>();
 
     private String host = "";
     private String name = "";
@@ -27,7 +34,7 @@ public class Job {
     private String gitBranch = "";
     
     private String jenkinsResult = "unknown";
-    private String jenkinsDuration = "unknown";
+    private long jenkinsDuration = 0;
     private int jenkinsTotalCount = 0;
     private int jenkinsFailCount = 0;
     private int jenkinsSkipCount = 0;
@@ -35,11 +42,11 @@ public class Job {
     private String jenkinstTestReportUrl ="";
     
     
-    public String getJenkinsDuration() {
+    public long getJenkinsDuration() {
 		return jenkinsDuration;
 	}
 
-	public void setJenkinsDuration(String jenkinsDuration) {
+	public void setJenkinsDuration(long jenkinsDuration) {
 		this.jenkinsDuration = jenkinsDuration;
 	}
 
@@ -285,6 +292,16 @@ public class Job {
 	public void setGitBranch(String gitBranch) {
 		this.gitBranch = gitBranch;
 	}
-    
-    
+
+	public List<CheckinComment> getCheckins() {
+		return checkins;
+	}
+
+	public void setCheckins(List<CheckinComment> checkins) {
+		this.checkins = checkins;
+	}
+	
+	public void add(CheckinComment checkin) {
+		this.checkins.add(checkin);
+	}
 }

@@ -1,0 +1,88 @@
+{
+	"actions":[
+		{
+			"causes":[
+				{
+					"shortDescription":"Started by user anonymous",
+					"userId":null,
+					"userName":"anonymous"
+				}
+			]
+		},
+		{
+			"buildsByBranchName":{
+				"refs/remotes/origin/master":{
+					"buildNumber":43,
+					"buildResult":null,
+					"marked":{
+						"SHA1":"69f4a39a5b25c3dfd1e7bfaea4d5467710b8e89a",
+						"branch":[
+							{
+								"SHA1":"69f4a39a5b25c3dfd1e7bfaea4d5467710b8e89a",
+								"name":"refs/remotes/origin/master"
+							}
+						]
+					},
+					"revision":{
+						"SHA1":"69f4a39a5b25c3dfd1e7bfaea4d5467710b8e89a",
+						"branch":[
+							{
+								"SHA1":"69f4a39a5b25c3dfd1e7bfaea4d5467710b8e89a",
+								"name":"refs/remotes/origin/master"
+							}
+						]
+					}
+				}
+			},
+			"lastBuiltRevision":{
+				"SHA1":"69f4a39a5b25c3dfd1e7bfaea4d5467710b8e89a",
+				"branch":[
+					{
+						"SHA1":"69f4a39a5b25c3dfd1e7bfaea4d5467710b8e89a",
+						"name":"refs/remotes/origin/master"
+					}
+				]
+			},
+			"remoteUrls":[
+				"git@bitbucket.org:svtidevelopers/svtse-automated-browsertests.git"
+			],
+			"scmName":""
+		},
+		{
+			
+		},
+		{
+			
+		}
+	],
+	"artifacts":[
+		
+	],
+	"building":true,
+	"description":null,
+	"displayName":"#43",
+	"duration":0,
+	"estimatedDuration":733021,
+	"executor":{
+		
+	},
+	"fullDisplayName":"svtse-integrationtest #43",
+	"id":"43",
+	"keepLog":false,
+	"number":43,
+	"queueId":43,
+	"result":null,
+	"timestamp":1445001507255,
+	"url":"http://localhost:8080/job/svtse-integrationtest/43/",
+	"builtOn":"",
+	"changeSet":{
+		"items":[
+			
+		],
+		"kind":"git"
+	},
+	"culprits":[
+		
+	]
+}
+;

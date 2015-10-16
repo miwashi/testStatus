@@ -24,6 +24,25 @@ function poll() {
 	   dataType: 'json',
 	   success: function(data) {
 	      console.log(data);
+	      
+	      document.getElementById("mainstat_requirements_hdr").innerHTML = "Teams";
+	      document.getElementById("mainstat_requirements").innerHTML = "0";
+	      
+	      document.getElementById("mainstat_tested_hdr").innerHTML = "";
+	      document.getElementById("mainstat_tested").innerHTML = "0";
+	      
+	      document.getElementById("mainstat_verified_hdr").innerHTML = "";
+	      document.getElementById("mainstat_verified").innerHTML = "0";
+	      
+	      document.getElementById("mainstat_failed_hdr").innerHTML = "";
+	      document.getElementById("mainstat_failed").innerHTML = "0";
+	      
+	      document.getElementById("mainstat_unstable_hdr").innerHTML = "";
+	      document.getElementById("mainstat_unstable").innerHTML = "0";
+	      
+	      document.getElementById("mainstat_jobs_hdr").innerHTML = "";
+	      document.getElementById("mainstat_jobs").innerHTML = "0";
+	      
 	      $.each(data.groups, function( index, group ) {
 	    	  var id = "team-" + group.id;
 	    	  var testedId = document.getElementById(id + "-tested");

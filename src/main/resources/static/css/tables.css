@@ -78,6 +78,8 @@ td.text {
 
 td.numeric {
 	text-align: right;
+	min-width: 50px;
+	width: 100px;
 }
 
 /* MAINSTAT */
@@ -115,4 +117,21 @@ table.runstat colgroup.rowheader {
 /* HEADER */
 td.headerright {
 	text-align: right;
+}
+
+/* JOBSTAT */
+table.jobstat{
+	width: 100%;
+}
+
+table.jobstat td{
+	/*width: 30px;*/
+}
+
+table.jobstat colgroup {
+	
+}
+
+table.jobstat colgroup.rowheader {
+	
 }
