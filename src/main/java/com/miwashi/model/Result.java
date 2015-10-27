@@ -39,7 +39,8 @@ public class Result implements Comparable<Result>{
     private Date timeStamp;
 
     @Column(name = "STATUS")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TestState status;
 
     @Column(name = "STARTTIME")
     @Temporal(value = TemporalType.TIMESTAMP)
@@ -62,42 +63,36 @@ public class Result implements Comparable<Result>{
     }
 
     public Result(String status){
-        this.status = status;
+    	setStatus(status);
         this.timeStamp = new Date();
     }
     
+    public Result(long requirementId, String status) {
+        this.requirementId = requirementId;
+        setStatus(status);
+    }
+    
     public boolean isSuccess(){
-    	return "success".equalsIgnoreCase(status);
+    	return TestState.PASS.equals(status);
     }
 
     public boolean isSkip(){
-    	return "skipped".equalsIgnoreCase(status);
+    	return TestState.SKIP.equals(status);
     }
     
     public boolean isFail(){
-    	return "failure".equalsIgnoreCase(status) || "fail".equalsIgnoreCase(status) || "failed".equalsIgnoreCase(status);
+    	return TestState.FAIL.equals(status);
     }
     
     public boolean isStarted(){
-    	return "started".equalsIgnoreCase(status);
+    	return TestState.STARTED.equals(status);
     }
     
     public boolean isUnknown(){
-    	boolean notUnknown = false;
-    	
-    	notUnknown = notUnknown || "success".equalsIgnoreCase(status);
-    	notUnknown = notUnknown || "failure".equalsIgnoreCase(status);
-    	notUnknown = notUnknown || "skipped".equalsIgnoreCase(status);
-    	notUnknown = notUnknown || "started".equalsIgnoreCase(status);
-    	
-    	return !notUnknown;
+    	return TestState.UNKNOWN.equals(status);
     }
 
-
-    public Result(long requirementId, String status) {
-        this.requirementId = requirementId;
-        this.status = status;
-    }
+    
 
     public String toString(){
 		return id + " - " + status;
@@ -120,11 +115,36 @@ public class Result implements Comparable<Result>{
     }
 
     public void setStatus(String status) {
-        this.status = status;
+    	this.status = TestState.UNKNOWN;
+    	if("success".equalsIgnoreCase(status)){
+    		this.status = TestState.PASS;
+    	}
+    	if("pass".equalsIgnoreCase(status)){
+    		this.status = TestState.PASS;
+    	}
+    	if("fail".equalsIgnoreCase(status)){
+    		this.status = TestState.FAIL;
+    	}
+    	if("failure".equalsIgnoreCase(status)){
+    		this.status = TestState.FAIL;
+    	}
+    	if("failed".equalsIgnoreCase(status)){
+    		this.status = TestState.FAIL;
+    	}
+    	if("skip".equalsIgnoreCase(status)){
+    		this.status = TestState.SKIP;
+    	}
+    	if("started".equalsIgnoreCase(status)){
+    		this.status = TestState.STARTED;
+    	}
     }
 
-    public String getStatus(){
+    public TestState getStatus(){
         return status;
+    }
+    
+    public void setStatus(TestState status){
+        this.status = status;
     }
 
     public Date getTimeStamp() {

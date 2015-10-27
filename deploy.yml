@@ -34,6 +34,9 @@
 
   - name: Ensure daemon {{service_name}} has stopped
     action: service name={{service_name}} state=stopped
+    
+  - name: Remove logfile
+    file: path=/var/log/test-status/test-status.log state=absent
 
   - name: Copying jar
     copy: src=/Users/miwa01/ws/test-status/build/libs/test-status.jar dest={{jar_home}} owner={{service_owner}} group={{service_group}} mode=0755 force=yes

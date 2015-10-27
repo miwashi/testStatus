@@ -19,7 +19,7 @@
 		<h2>Requirements</h2>
 		<table>
             <tbody>
-            <th><td>latest test</td><td colspan="2">history</td><td>successratio</td><td>duration</td><td></td></th>
+            <tr><th>latest test</th><th colspan="2">history</th><th>successratio</th><th>duration</th><th></th></tr>
             <th:block th:each="requirement : ${requirements}">
                 <tr th:id="'requirement-' + ${requirement.id}" th:class="${requirement.failed}?'failed':(${requirement.success}?'verified':(${requirement.unstable}?'unstable':'undetermined'))">
                 	<td class="rowheader" width="100%">
@@ -28,7 +28,7 @@
 					<td th:id="'requirement-' + ${requirement.id} + '-nottestedsince'" th:text="${requirement.notTestedSince}"></td>
 					<td th:id="'requirement-' + ${requirement.id} + '-numberofruns'" th:text="${requirement.numberOfRuns}"></td>
                 	<td>
-                		<input th:id="'requirement-' + ${requirement.id} + '-lasttested'" type="hidden" th:value="${requirement.latestTestedDate.time}"></input>
+                		<input th:id="'requirement-' + ${requirement.id} + '-lasttested'" type="hidden" th:value="${requirement.latestTestedDate}?${requirement.latestTestedDate.time}:'0'"></input>
                 		<div th:id="'requirement-' + ${requirement.id} + '-testlight'" class="testlights">
                 			<th:block th:each="result, iterStat : ${requirement.results}">
                 				<a class="resultindicator" th:href="'/result/' + ${result.id}">

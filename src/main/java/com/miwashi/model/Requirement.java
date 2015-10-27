@@ -42,9 +42,10 @@ public class Requirement {
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "SUJBECT_ID")
     private Subject subject;
-
+    
     @Transient
     private Result lastResult;
+    
 
     public Requirement(){
         super();
@@ -103,6 +104,26 @@ public class Requirement {
         testRequiement = testRequiement.replaceAll("(.)([A-Z])", "$1 $2");
         testRequiement = testRequiement.toLowerCase();
         return testRequiement + (testParam.isEmpty()?"":" " + testParam);
+    }
+    
+    public String getParameter(){
+        String parameter = getTestRequirement();
+        if((parameter.indexOf("[")>=0) && (parameter.indexOf("]")>=0)){
+        	parameter = parameter.substring(parameter.indexOf("["));
+    	}else{
+    		parameter = "";
+    	}
+        parameter = parameter.replace("[", "");
+        parameter = parameter.replace("]", "");
+        return parameter;
+    }
+    
+    public String getUnParameterizedTestRequirement(){
+        String testRequiement = getTestRequirement();
+        if((testRequiement.indexOf("[")>=0) && (testRequiement.indexOf("]")>=0)){
+        	testRequiement = testRequiement.substring(0, testRequiement.indexOf("["));
+    	}
+        return testRequiement;
     }
 
     public Group getSubGroup() {
@@ -310,5 +331,12 @@ public class Requirement {
     		duration += result.getDuration();
     	}
     	return Math.floorDiv(duration, results.size());
+    }
+    
+    public boolean isStatisticsRequirement(){
+    	boolean result = false;
+    	result = result || ((group!=null) && (group.getName()!=null) &&  group.getName().indexOf("statistic")>=0);
+    	result = result || ((subGroup!=null) && (subGroup.getName()!=null) &&  subGroup.getName().indexOf("statistic")>=0);
+    	return result;
     }
 }

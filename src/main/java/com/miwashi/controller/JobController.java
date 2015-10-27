@@ -38,7 +38,7 @@ public class JobController {
         return mav;
     }
     
-    @RequestMapping(value = "/job/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
     public ModelAndView getJobAsMav(@PathParam(value = "Path id") @PathVariable final Long id) {
         ModelAndView mav = new ModelAndView("job");
         mav.addObject("job",findJobsById(id));

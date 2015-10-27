@@ -70,6 +70,17 @@ public class CleanUpService {
                 		failRepository.delete(failIter.iterator().next());
                 	}
                 }
+                
+                if(result.isSkip()){
+                	if(do_log_deletions) {
+                        log.info("DELETING - as old: " + result.getId());
+                    }
+                    resultRepository.delete(result);
+                    Iterable<Fail> failIter = failRepository.findByResultId(result.getId());
+                	if(failIter.iterator().hasNext()){
+                		failRepository.delete(failIter.iterator().next());
+                	}
+                }
             });
         }
         

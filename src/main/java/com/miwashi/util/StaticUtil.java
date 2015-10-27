@@ -1,10 +1,13 @@
 package com.miwashi.util;
 
 import java.util.Date;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.miwashi.model.Result;
 
 public class StaticUtil {
 	

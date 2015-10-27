@@ -26,7 +26,7 @@
             [<a href="/api">API</a>]
             [<a href="/team/all">teams</a>]
             [<a href="/job/all">jobs</a>]
-            [<a href="/statistics">statistics</a>]
+            [<a href="/statistics/all">statistics</a>]
             <span th:if="*{requirement}">[<a th:href="'/team/' + ${requirement.group.id}" th:text="${requirement.group.name}"></a>]</span>
             <h1 layout:fragment="header"></h1>
             </td><td class="headerright">
@@ -78,6 +78,7 @@
             [<a href="/api">API</a>]
             [<a href="/team/all">teams</a>]
             [<a href="/job/all">jobs</a>]
+            [<a href="/statistics/all">statistics</a>]
         </p>
     </div>
 </body>

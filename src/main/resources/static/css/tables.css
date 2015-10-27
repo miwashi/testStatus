@@ -32,6 +32,10 @@ td.testlights{
 	background-color: red;
 }
 
+th.fullheader {
+	text-align: left;
+}
+
 td.verified {
 	border-color: blue;
 	width=10%;

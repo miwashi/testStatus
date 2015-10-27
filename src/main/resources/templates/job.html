@@ -28,6 +28,15 @@
 			<tr><td>job Key</td><td th:text="${job.key}"></td></tr>
 			<tr><td>job result</td><td th:text="${job.jenkinsResult}"></td></tr>
 			<tr><td>job duration</td><td th:text="${job.jenkinsDuration}"></td></tr>
+			
+			<tr><td>Host</td><td><a th:href="${job.host}"><span th:text="${job.host}"></span></a></td></tr>
+			<tr><td>Grid</td><td><a th:href="${job.grid}"><span th:text="${job.grid}"></span></a></td></tr>
+			<tr><td>Jenkins</td><td><a th:href="${job.jenkinsUrl}"><span th:text="${job.jenkinsUrl}"></span></a></td></tr>
+			<tr><td>GIT</td><td><a th:href="${job.gitURL}"><span th:text="${job.gitURL}"></span></a></td></tr>
+			<tr><td>Status</td><td><a th:href="${job.jobStatusUrl}"><span th:text="${job.jobStatusUrl}"></span></a></td></tr>
+			<tr><td>Result</td><td><a th:href="${job.resultReportUrl}"><span th:text="${job.resultReportUrl}"></span></a></td></tr>
+			<tr><td>Result</td><td><a th:href="${job.latestResultReportUrl}"><span th:text="${job.latestResultReportUrl}"></span></a></td></tr>
+			
 		</tbody>
 	</table>
 	</td><td>

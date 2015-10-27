@@ -81,29 +81,59 @@ public class SynchronizeWithJenkinsService {
     		return;
     	}
     	com.miwashi.model.transients.jenkins.Job jenkinsJob = jsonToJob(json);
-    	if(jenkinsJob==null || jenkinsJob.getId() == null || jenkinsJob.getId().isEmpty()){
+    	if(jenkinsJob==null || jenkinsJob.getId() == null || jenkinsJob.getId().isEmpty() || jenkinsJob.getDuration()<=0){
     		return;
     	}
-    	JobResult jobResult = jsonToJobResult(json);
-    	//JobCause jobCause = jsonToJobCause(json);
-    	List<JobChangeSet> changes = toChangeSets(json);
+    	job.setJenkinsDuration(jenkinsJob.getDuration());
+    	job.setJenkinsResult(jenkinsJob.getResult());
     	
-    	if(jobResult!=null){
-	    	job.setJenkinsDuration(jenkinsJob.getDuration());
-	    	job.setJenkinsFailCount(jobResult.getFailCount());
-	    	job.setJenkinsPassCount(jobResult.getTotalCount() - jobResult.getFailCount() - jobResult.getSkipCount());
-	    	job.setJenkinsTotalCount(jobResult.getTotalCount());
-	    	job.setJenkinsSkipCount(jobResult.getSkipCount());
-	    	job.setJenkinstTestReportUrl(job.getJenkinsUrl() + "/" + jobResult.getUrlName());
-    	}
-    	//Duration is used to see if it is updated. If it is, then this code will not be reached again.
-    	if(job.getJenkinsDuration()>0){
-	    	for(JobChangeSet change : changes){
-	    		CheckinComment comment = new CheckinComment();
-	    		comment.setAuthor(change.getAuthor().getFullName());
-	    		comment.setComment(change.getComment());
-	    		job.add(comment);
+    	jobRepository.save(job);
+    	System.out.println("*****************************");
+    	System.out.println("*****************************");
+    	System.out.println("*****************************");
+    	System.out.println(url);
+    	System.out.println("*****************************");
+    	System.out.println("*****************************");
+    	System.out.println("*****************************");
+    	
+    	
+    	//JobCause jobCause = jsonToJobCause(json);
+    	
+    	try{
+	    	JobResult jobResult = jsonToJobResult(json);
+	    	if(jobResult!=null){
+		    	job.setJenkinsFailCount(jobResult.getFailCount());
+		    	job.setJenkinsPassCount(jobResult.getTotalCount() - jobResult.getFailCount() - jobResult.getSkipCount());
+		    	job.setJenkinsTotalCount(jobResult.getTotalCount());
+		    	job.setJenkinsSkipCount(jobResult.getSkipCount());
+		    	job.setJenkinstTestReportUrl(job.getJenkinsUrl() + "/" + jobResult.getUrlName());
 	    	}
+    	}catch(Throwable e){
+    		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        	System.out.println(e);
+        	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    	}
+    	jobRepository.save(job);
+    	
+    	try{
+    	List<JobChangeSet> changes = toChangeSets(json);
+    	for(JobChangeSet change : changes){
+    		CheckinComment comment = new CheckinComment();
+    		comment.setAuthor(change.getAuthor().getFullName());
+    		comment.setComment(change.getComment());
+    		job.add(comment);
+    	}}catch(Throwable e){
+    		System.out.println("#############################");
+    		System.out.println("#############################");
+    		System.out.println("#############################");
+        	System.out.println(e);
+        	System.out.println("#############################");
+        	System.out.println("#############################");
+        	System.out.println("#############################");
     	}
     	jobRepository.save(job);
     }
