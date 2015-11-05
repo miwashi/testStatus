@@ -23,6 +23,9 @@ public class DurationStat {
 	private List<Long> data = new ArrayList<Long>();
 	private boolean isDirty = true;
 	
+	public DurationStat(){
+	}
+	
 	public DurationStat(List<Result> results, TestState lookFor){
 		for(Result result : results){
 			this.add(result, lookFor);
@@ -76,6 +79,12 @@ public class DurationStat {
 			isDirty = true;
 			data.add(result.getDuration());
 		}
+	}
+	
+	public void add(DurationStat stat){
+		isDirty = true;
+		data.addAll(stat.data);
+		reset();
 	}
 	
 	public long getSum(){

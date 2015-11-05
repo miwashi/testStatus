@@ -43,6 +43,7 @@ img.resultindicator {
 	width:15px;
 	padding: 0px;
 	margin: 0px;
+	border-width: 0px;
 }
 
 a.resultindicator {

@@ -32,6 +32,8 @@ import com.miwashi.model.JenkinsResult;
 import com.miwashi.model.Job;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
+import com.miwashi.model.transients.jsonapi.SimpleLink;
+import com.miwashi.model.transients.jsonapi.SummaryRequirement;
 import com.miwashi.repositories.BrowserRepository;
 import com.miwashi.repositories.JobRepository;
 import com.miwashi.repositories.PlatformRepository;
@@ -67,45 +69,12 @@ public class RequirementController {
     @Autowired
     JobRepository jobRepository;
 
-    @RequestMapping(value = "/api/requirement/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/api/requirement/all", notes = "Returns a status")
-    public List<Requirement> getAllRequirements() {
-        List<Requirement> result =  new ArrayList<Requirement>();
-        return result;
-    }
-
-    @RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/requirement/{id}", notes = "Returns a status")
     public Map<String, Object>  getRequirement(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
     	Map<String, Object> result = new HashMap<String,Object>();
     	Requirement requirement = findRequirement(id);
-        
-    	result.put("title", "Requirement!");
-    	result.put("header", "Requirement!");
-    	result.put("requirement", requirement);
-    	
-    	String url = "";
-    	if(requirement!=null && requirement.getLatestResult()!=null && requirement.getLatestResult().getJob()!=null){
-        	url = requirement.getLatestResult().getJob().getResultReportUrl();
-    	}
-    	
-    	if(buildId != null){
-    		Iterable<Job> jobIter = jobRepository.findByKey(buildId);
-    		if(jobIter.iterator().hasNext()){
-    			Job job = jobIter.iterator().next();
-    			url = job.getResultReportUrl();
-    		}
-    	}
-    	
-    	try {
-			JSONObject obj = readJsonFromUrl(url);
-			result.put("jenkinsresult",JenkinsResult.parseResultFor(obj, requirement.getKey()));
-    	} catch (JSONException | IOException e) {
-			//Ignore for now
-			System.out.println(e);
-			System.out.println("Faild to load json from " + url);
-		}
-    	
+        result.put("summary", new SummaryRequirement(requirement));
     	return result;
     }
 
@@ -121,40 +90,21 @@ public class RequirementController {
     }
     
     @RequestMapping(value = "/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
-    	ModelAndView mav = new ModelAndView("requirement");
-    	
-    	Requirement requirement = findRequirement(id);
-    	
-    	
-    	
-    	mav.addObject("title", "Requirement!");
-    	mav.addObject("header", "Requirement!");
-        mav.addObject("requirement", requirement);
+	public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
+		ModelAndView mav = new ModelAndView("requirement");
+		Requirement requirement = findRequirement(id);
+		mav.addObject("summary", new SummaryRequirement(requirement));
+		
+		Map<String, SimpleLink> links = new HashMap<String, SimpleLink>();
+        links.put("team", new SimpleLink(requirement.getGroup().getId(), requirement.getGroup().getName()));
+        links.put("group", new SimpleLink(requirement.getSubGroup().getId(), requirement.getSubGroup().getName()));
+        links.put("subject", null); 
+        links.put("requirement", null);
+        links.put("result", null);
+        mav.addObject("links", links);
         
-        String url = "";
-    	if(requirement!=null && requirement.getLatestResult()!=null && requirement.getLatestResult().getJob()!=null){
-        	url = requirement.getLatestResult().getJob().getResultReportUrl();
-    	}
-    	
-    	if(buildId != null){
-    		Iterable<Job> jobIter = jobRepository.findByKey(buildId);
-    		if(jobIter.iterator().hasNext()){
-    			Job job = jobIter.iterator().next();
-    			url = job.getResultReportUrl();
-    		}
-    	}
-    	try {
-			JSONObject obj = readJsonFromUrl(url);
-			mav.addObject("jenkinsresult",JenkinsResult.parseResultFor(obj, requirement.getKey()));
-		} catch (JSONException | IOException e) {
-			//Ignore for now
-			System.out.println(e);
-			System.out.println("Faild to load json from " + url);
-		}
-        return mav;
-        
-    }
+	    return mav;
+	}
     
     
     
@@ -166,6 +116,15 @@ public class RequirementController {
     	mav.addObject("title", "Requirement!");
     	mav.addObject("header", "Requirement!");
         mav.addObject("requirement", requirement);
+        
+        Map<String, SimpleLink> links = new HashMap<String, SimpleLink>();
+        links.put("team", new SimpleLink(requirement.getGroup().getId(), requirement.getGroup().getName()));
+        links.put("group", new SimpleLink(requirement.getGroup().getId(), requirement.getGroup().getName()));
+        links.put("subject", null); 
+        links.put("requirement", null);
+        links.put("result", null);
+        mav.addObject("links", links);
+        
         return mav;
         
     }

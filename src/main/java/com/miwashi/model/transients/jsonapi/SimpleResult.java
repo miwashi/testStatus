@@ -9,7 +9,27 @@ public class SimpleResult {
 	private TestState status;
 	private SimpleTimeStamp when;
 	private long duration;
+	private String browser;
+	private String platform;
+	private String job;
+	private String buildUrl;
 	
+	public String getBrowser() {
+		return browser;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public String getJob() {
+		return job;
+	}
+	
+	public String getBuilUrl() {
+		return buildUrl;
+	}
+
 	public long getId(){
 		return id;
 	}
@@ -22,11 +42,15 @@ public class SimpleResult {
 		this.status = status;
 	}
 	
-	public SimpleResult(Result result){
-		this.id = result.getId();
-		this.status = result.getStatus();
-		this.when = new SimpleTimeStamp(result.getStartTime());
-		this.duration = result.getDuration();
+	public SimpleResult(Result persistentResult){
+		this.id = persistentResult.getId();
+		this.status = persistentResult.getStatus();
+		this.when = new SimpleTimeStamp(persistentResult.getStartTime());
+		this.duration = persistentResult.getDuration();
+		browser = persistentResult.getBrowser()==null?"":persistentResult.getBrowser().getName();
+		platform = persistentResult.getPlatform()==null?"":persistentResult.getPlatform().getName();
+		job = persistentResult.getJob()==null?"":persistentResult.getJob().getName();
+		buildUrl = persistentResult.getJob()==null?"":persistentResult.getJob().getBuildUrl();
 	}
 
 	public SimpleTimeStamp getWhen() {
@@ -40,5 +64,6 @@ public class SimpleResult {
 	public long getDuration(){
 		return duration;
 	}
+	
 	
 }

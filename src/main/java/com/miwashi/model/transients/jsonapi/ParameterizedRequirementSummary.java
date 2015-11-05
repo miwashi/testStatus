@@ -9,7 +9,7 @@ import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
 import com.miwashi.model.transients.jsonapi.ParameterizedRequirement.Parameter;
 
-public class ParameterizedRequirementSummary {
+public class ParameterizedRequirementSummary  extends AbstractSummary{
 	private Map<String, ParameterizedRequirement> requirements = new HashMap<String, ParameterizedRequirement>();
 	private ResultSummary summary = new ResultSummary();
 	

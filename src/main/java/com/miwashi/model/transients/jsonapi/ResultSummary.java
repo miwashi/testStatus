@@ -1,5 +1,7 @@
 package com.miwashi.model.transients.jsonapi;
 
+import java.util.List;
+
 import com.miwashi.model.Result;
 import com.miwashi.model.TestState;
 
@@ -9,7 +11,13 @@ public class ResultSummary {
 	int passes = 0;
 	int fails = 0;
 	int skips = 0;
-	int unstable = 0;
+	
+	public ResultSummary(){
+	}
+	
+	public ResultSummary(List<Result> results){
+		this.add(results);
+	}
 	
 	public int getPasses() {
 		return passes;
@@ -35,18 +43,6 @@ public class ResultSummary {
 	public void addFails(int fails) {
 		total+=fails;
 		this.fails+=fails;
-	}
-	
-	public int getUnstable() {
-		return unstable;
-	}
-	
-	public int getUstableRatio() {
-		return 100 - (getRuns()==0?0:Math.round((100 * (getRuns()-getUnstable())) / getRuns()));
-	}
-	
-	public void addUnstable(int unstable) {
-		this.unstable+=unstable;
 	}
 	
 	public int getSkips() {
@@ -91,10 +87,31 @@ public class ResultSummary {
 		}
 	}
 	
+	public void add(List<Result> results){
+		for(Result result : results){
+			add(result);
+		}
+	}
+	
 	public void add(ResultSummary summary){
 		addPasses(summary.getPasses());
 		addFails(summary.getFails());
 		addSkips(summary.getSkips());
-		addUnstable(summary.getUnstable());
+	}
+	
+	public void merge(ResultSummary summary){
+		if(summary.getTotal()==0){
+			return;
+		}
+		if(summary.getRuns()==0){
+			return;
+		}
+		total++;
+		if((summary.getFails()==0) && (summary.getPasses()>0)){
+			passes++;
+		}
+		if((summary.getPasses()==0) && (summary.getFails()>0)){
+			fails++;
+		}
 	}
 }

@@ -5,62 +5,23 @@
         layout:decorator="layout"
 >
     <head>
-        <title th:text="'Req: ' + ${requirement.testRequirement}">Requirement summary page for</title>
+        <title th:text="'Req: ' + ${summary.requirement.name}">Requirement summary page for</title>
          <script type="text/javascript" th:src="@{/script/requirement.js}"></script>
     </head>
     <body>
         <h1 class="header" layout:fragment="header" th:text="'Requirement summary page'">SVT Test summary page</h1>
 		<div layout:fragment="content">
-		<div id="meta">
-			<input id="teamid" type="hidden" th:value="${requirement.group.id}"/>
-			<input id="requirementid" type="hidden" th:value="${requirement.id}"/>
+				<div id="meta">
+					<input id="teamid" type="hidden" th:value="${summary.team.id}"/>
+					<input id="groupid" type="hidden" th:value="${summary.group.id}"/>
+					<input id="requirementid" type="hidden" th:value="${summary.requirement.id}"/>
+				</div>
+			<a th:href="'/team/' + ${summary.team.id}"  th:text="'Åter till ' + ${summary.team.name}"></a>
+			<h4><i><span th:text="${summary.requirement.readableName}"></span></i><i><span th:text="${summary.requirement.parameter}"></span></i> </h4>
+			<section id="requirement-summary-section">
+				        
+			</section>
+		
 		</div>
-    <section>
-        <h2>
-        	<i><span th:text="${requirement.testRequirement}"></span></i> in 
-        	<span th:text="${requirement.subject.name}"></span>
-        	(<span th:text="${requirement.group.name}"></span>).
-        </h2>
-        
-        <h2>Test Results:</h2>
-        <table class="requirementsummary">
-            <colgroup><col/><col/><col/><col/><col/></colgroup>
-            <tbody>
-            <th>
-                <td>platform</td>
-                <td>browser</td>
-                <td>status</td>
-                <td>duration</td>
-                <td>touched</td>
-                <td>job</td>
-                <td>resultat</td>
-                <td>jobid</td>
-                <td>host</td>
-            </th>
-            
-            <th:block th:each="result : ${requirement.results}">
-                <tr th:class="${result.success}? 'verified' : (${result.fail}?'failed':'skipped')" >
-                	<td class="rowheader"></td>
-                	<td th:text="${result.platform.name}"></td>
-                	<td th:text="${result.browser.name}"></td>
-                	<td th:class="${result.success}? 'success' : 'fail'" th:text="${result.status}"></td>
-                	<td th:text="${result.duration} + ' ms'"></td>
-                	<td  th:text="${result.touched}"></td>
-                	<td><a th:text="${result.job.name} + ' ( build: ' + ${result.job.buildNumber} + ')'" th:href="${result.job.buildUrl}"></a></td>
-                	<td><a th:href="${result.job.resultReportUrl}">resultat</a></td>
-                	<td  th:text="${result.job.key}"></td>
-                	<td  th:text="${result.job.host}"></td>
-                </tr>
-            </th:block>
-            
-
-
-            </tbody>
-
-        </table>
-
-    </section>
-
-</div>
     </body>
 </html>

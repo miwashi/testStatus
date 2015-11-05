@@ -2,6 +2,7 @@ package com.miwashi.controller;
 
 import com.miwashi.TestStatusApplication;
 import com.miwashi.model.Group;
+import com.miwashi.model.transients.jsonapi.SummaryStatistics;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 import java.util.ArrayList;
@@ -19,6 +20,16 @@ public class MainPageController {
     public ModelAndView index() {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("stats", TestStatusApplication.getStats());
+        mav.addObject("summary", new SummaryStatistics());
+        
+        Map<String, Long> links = new HashMap<String, Long>();
+        links.put("team", null);
+        links.put("group", null);
+        links.put("subject", null); 
+        links.put("requirement", null);
+        links.put("result", null);
+        mav.addObject("links", links);
+        
         return mav;
     }
     
@@ -27,6 +38,7 @@ public class MainPageController {
     public Map<String, Object> getStats() {
     	Map<String, Object> result = new HashMap<String, Object>();
     	result.put("stats", TestStatusApplication.getStats());
+    	result.put("summary", new SummaryStatistics());
         return result;
     }
 

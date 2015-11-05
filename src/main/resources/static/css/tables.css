@@ -12,6 +12,72 @@ table{
 	border: solid;
 }
 
+th {
+	text-align: left;
+}
+
+table.requirement-summary-table {
+	width: 100%;
+}
+
+table.teams-summary-table {
+	width: 100%;
+}
+
+table.group-summary-table {
+	width: 100%;
+	border: solid;
+	border-width: 1px;
+}
+
+th.fullheader {
+	text-align: left;
+	width: 100%;
+}
+
+td.numeric {
+	text-align: right;
+	min-width: 50px;
+	width: 100px;
+}
+
+th {
+	background-color: lightgray;
+	color: white;
+}
+
+th.row-header {
+	text-align: left;
+	width: 100%;
+}
+
+th.numeric {
+	text-align: right;
+}
+
+td.nonnumeric {
+	text-align: right;
+	min-width: 50px;
+	width: 100px;
+}
+
+td.row-header {
+	text-align: left;
+	width: 100%;
+}
+
+td.status {
+	width: 5em;
+}
+
+td.high-fail-ratio {
+	color: red;
+}
+
+td.high-unstable-ratio {
+	color: red;
+}
+
 table.testlights{
 	width:100%;
 	height:100%;
@@ -19,7 +85,13 @@ table.testlights{
 	padding: 0px;
 	border-color: blue;
 	border-width: 0px;
-	background-color: red;
+	border-spacing: 0px;
+}
+
+tr.testlights{
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
 }
 
 td.testlights{
@@ -29,12 +101,10 @@ td.testlights{
 	margin: 0px;
 	padding: 0px;
 	border-width: 0px;
-	background-color: red;
-}
-
-th.fullheader {
 	text-align: left;
 }
+
+
 
 td.verified {
 	border-color: blue;
@@ -80,15 +150,19 @@ td.text {
 	text-align: left;
 }
 
-td.numeric {
-	text-align: right;
-	min-width: 50px;
-	width: 100px;
-}
+
 
 /* MAINSTAT */
+table.mainstat-frame{
+	width: 0px;
+	border: solid;
+	border-width: 0px;
+}
+
 table.mainstat{
 	width: 0px;
+	border: solid;
+	border-width: 0px;
 }
 
 table.mainstat td{

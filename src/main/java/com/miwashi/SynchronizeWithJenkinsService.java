@@ -88,15 +88,6 @@ public class SynchronizeWithJenkinsService {
     	job.setJenkinsResult(jenkinsJob.getResult());
     	
     	jobRepository.save(job);
-    	System.out.println("*****************************");
-    	System.out.println("*****************************");
-    	System.out.println("*****************************");
-    	System.out.println(url);
-    	System.out.println("*****************************");
-    	System.out.println("*****************************");
-    	System.out.println("*****************************");
-    	
-    	
     	//JobCause jobCause = jsonToJobCause(json);
     	
     	try{
@@ -108,14 +99,7 @@ public class SynchronizeWithJenkinsService {
 		    	job.setJenkinsSkipCount(jobResult.getSkipCount());
 		    	job.setJenkinstTestReportUrl(job.getJenkinsUrl() + "/" + jobResult.getUrlName());
 	    	}
-    	}catch(Throwable e){
-    		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        	System.out.println(e);
-        	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    	}catch(Throwable ignore){
     	}
     	jobRepository.save(job);
     	
@@ -126,14 +110,7 @@ public class SynchronizeWithJenkinsService {
     		comment.setAuthor(change.getAuthor().getFullName());
     		comment.setComment(change.getComment());
     		job.add(comment);
-    	}}catch(Throwable e){
-    		System.out.println("#############################");
-    		System.out.println("#############################");
-    		System.out.println("#############################");
-        	System.out.println(e);
-        	System.out.println("#############################");
-        	System.out.println("#############################");
-        	System.out.println("#############################");
+    	}}catch(Throwable ignor){
     	}
     	jobRepository.save(job);
     }

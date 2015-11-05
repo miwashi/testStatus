@@ -39,7 +39,7 @@ configuration:
 
     schedule:
       synchwithjenkins:
-        rate: 10000
+        rate: 60000
         
       statcalc:
         rate: 1000

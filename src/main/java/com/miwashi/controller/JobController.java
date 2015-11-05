@@ -1,6 +1,9 @@
 package com.miwashi.controller;
 
 import com.miwashi.model.*;
+import com.miwashi.model.transients.jsonapi.SummaryJob;
+import com.miwashi.model.transients.jsonapi.SummaryJobs;
+import com.miwashi.model.transients.jsonapi.SummaryStatistics;
 import com.miwashi.repositories.*;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,16 @@ public class JobController {
     public ModelAndView getAllJobsAsMav() {
         ModelAndView mav = new ModelAndView("jobs");
         mav.addObject("jobs", findJobs());
+        mav.addObject("summary", new SummaryJobs());
+        
+        Map<String, Long> links = new HashMap<String, Long>();
+        links.put("team", null);
+        links.put("group", null);
+        links.put("subject", null); 
+        links.put("requirement", null);
+        links.put("result", null);
+        mav.addObject("links", links);
+        
         return mav;
     }
     
@@ -42,6 +55,16 @@ public class JobController {
     public ModelAndView getJobAsMav(@PathParam(value = "Path id") @PathVariable final Long id) {
         ModelAndView mav = new ModelAndView("job");
         mav.addObject("job",findJobsById(id));
+        mav.addObject("summary", new SummaryJob());
+        
+        Map<String, Long> links = new HashMap<String, Long>();
+        links.put("team", null);
+        links.put("group", null);
+        links.put("subject", null); 
+        links.put("requirement", null);
+        links.put("result", null);
+        mav.addObject("links", links);
+        
         return mav;
     }
     

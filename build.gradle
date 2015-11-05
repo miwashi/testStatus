@@ -1,8 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '1.2.4.RELEASE'
-        springBootVersion = '1.2.4.RELEASE'
-        springCloudVersion = '1.0.2.RELEASE'
+        springBootVersion = '1.2.7.RELEASE'
+        springCloudVersion = '1.0.3.RELEASE'
 
         svaggerVersion = '1.0.2'
         svaggerUIVersion = '2.1.0'
