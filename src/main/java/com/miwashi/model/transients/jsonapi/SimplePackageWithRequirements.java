@@ -18,11 +18,11 @@ public class SimplePackageWithRequirements extends SimpleGroup {
 		SimpleRequirement requirement = new SimpleRequirement(persistentRequirement.getId(), persistentRequirement.getKey());
 		requirement.add(persistentResults);
 		requirements.add(requirement);
-		ResultSummary requirementSummary = (ResultSummary) requirement.getStatistics().get("summary");
+		RequirementTestSummary requirementSummary = (RequirementTestSummary) requirement.getStatistics().get("summary");
 		if(requirementSummary!=null){
-			ResultSummary groupSummary = (ResultSummary) getStatistics().get("summary");
+			RequirementTestSummary groupSummary = (RequirementTestSummary) getStatistics().get("summary");
 			if(groupSummary==null){
-				groupSummary = new ResultSummary();
+				groupSummary = new RequirementTestSummary();
 				getStatistics().put("summary",groupSummary);
 			}
 			groupSummary.add(requirementSummary);

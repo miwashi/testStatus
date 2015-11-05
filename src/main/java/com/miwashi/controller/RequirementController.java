@@ -96,14 +96,7 @@ public class RequirementController {
 		mav.addObject("summary", new SummaryRequirement(requirement));
 		
 		Map<String, SimpleLink> links = new HashMap<String, SimpleLink>();
-        links.put("team", new SimpleLink(requirement.getGroup().getId(), requirement.getGroup().getName()));
-        links.put("group", new SimpleLink(requirement.getSubGroup().getId(), requirement.getSubGroup().getName()));
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
-        
-	    return mav;
+        return mav;
 	}
     
     
@@ -118,13 +111,6 @@ public class RequirementController {
         mav.addObject("requirement", requirement);
         
         Map<String, SimpleLink> links = new HashMap<String, SimpleLink>();
-        links.put("team", new SimpleLink(requirement.getGroup().getId(), requirement.getGroup().getName()));
-        links.put("group", new SimpleLink(requirement.getGroup().getId(), requirement.getGroup().getName()));
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
-        
         return mav;
         
     }

@@ -52,16 +52,7 @@ public class GroupController {
         ModelAndView mav = new ModelAndView("groups");
         SummaryGroups testSummary = getGroupStatus();
     	mav.addObject("summary", testSummary);
-    	
-    	Map<String, Long> links = new HashMap<String, Long>();
-        links.put("team", null);
-        links.put("group", null);
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
-        
-        return mav;
+    	return mav;
     }
     
     private SummaryGroups getGroupStatus(){
@@ -87,15 +78,6 @@ public class GroupController {
         ModelAndView mav = new ModelAndView("group");
         SummaryGroup groupSummary = getGroupSummary(id);
         mav.addObject("summary",groupSummary);
-        
-        Map<String, Long> links = new HashMap<String, Long>();
-        links.put("team", null);
-        links.put("group", null);
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
-
         return mav;
     }
     

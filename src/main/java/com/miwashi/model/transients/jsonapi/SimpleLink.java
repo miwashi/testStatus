@@ -1,20 +1,41 @@
 package com.miwashi.model.transients.jsonapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleLink {
-	long id;
-	String name;
 	
-	public SimpleLink(long id, String name){
-		this.id = id;
-		this.name = name;
+	public class Ref{
+		String to;
+		String name;
+	
+		public Ref(String to, String name){
+			this.to = to;
+			this.name = name;
+		}
+		
+		public String getTo() {
+			return to;
+		}
+		public String getName() {
+			return name;
+		}
 	}
 	
-	public long getId() {
-		return id;
+	
+	private List<Ref> refs = new ArrayList<Ref>();
+	
+	public SimpleLink(Ref ... newRefs){
 	}
-	public String getName() {
-		return name;
+	
+	public List<Ref> getRefs(){
+		return refs;
 	}
-		
-		
+	
+	public SimpleLink add(Ref ... newRefs){
+		for(Ref ref : newRefs){
+			refs.add(ref);
+		}
+		return this;
+	}
 }

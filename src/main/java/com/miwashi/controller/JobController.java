@@ -39,15 +39,6 @@ public class JobController {
         ModelAndView mav = new ModelAndView("jobs");
         mav.addObject("jobs", findJobs());
         mav.addObject("summary", new SummaryJobs());
-        
-        Map<String, Long> links = new HashMap<String, Long>();
-        links.put("team", null);
-        links.put("group", null);
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
-        
         return mav;
     }
     
@@ -56,14 +47,6 @@ public class JobController {
         ModelAndView mav = new ModelAndView("job");
         mav.addObject("job",findJobsById(id));
         mav.addObject("summary", new SummaryJob());
-        
-        Map<String, Long> links = new HashMap<String, Long>();
-        links.put("team", null);
-        links.put("group", null);
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
         
         return mav;
     }

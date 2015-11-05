@@ -33,12 +33,12 @@ public class SummaryGroups extends AbstractSummary{
 			teams.add(team);
 		}
 		
-		ResultSummary summary = (ResultSummary) getStatistics().get("summary");
+		RequirementTestSummary summary = (RequirementTestSummary) getStatistics().get("summary");
 		if(summary==null){
-			summary = new ResultSummary();
+			summary = new RequirementTestSummary();
 			getStatistics().put("summary", summary);
 		}
-		ResultSummary groupSummary = (ResultSummary) group.getStatistics().get("summary");
+		RequirementTestSummary groupSummary = (RequirementTestSummary) group.getStatistics().get("summary");
 		if(groupSummary!=null){
 			summary.add(groupSummary);
 		}

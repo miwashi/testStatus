@@ -42,7 +42,7 @@ function poll() {
 	   success: function(data) {
 		  console.log("loading");
 		  hideErrorMessage()
-		  
+		  setGlobalStats(data);
 		  var summaryTable = document.getElementById(summaryTableId);
 	      $.each(data.requirements, function( index, requirement ) {
 	    	  var prefix = "requirement-" + requirement.id;
@@ -70,6 +70,15 @@ function poll() {
 	   },
 	   type: 'GET'
 	});
+}
+
+function setGlobalStats(data){
+	setGlobalTotal("Total", data.statistics.summary.total);
+	  setGlobalTested("Tested", data.statistics.summary.runs);
+	  setGlobalPassed("Passed", data.statistics.summary.passRatio + "%");
+	  setGlobalFailed("Fails", data.statistics.summary.failRatio + "%");
+	  setGlobalUnstable("Unstable", data.statistics.summary.unstableRatio + "%");
+	  setGlobalJobs("Jobs", 0);
 }
 
 function createHeaderCell(row, className, id, requirement){

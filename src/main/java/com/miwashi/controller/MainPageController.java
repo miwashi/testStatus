@@ -21,15 +21,6 @@ public class MainPageController {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("stats", TestStatusApplication.getStats());
         mav.addObject("summary", new SummaryStatistics());
-        
-        Map<String, Long> links = new HashMap<String, Long>();
-        links.put("team", null);
-        links.put("group", null);
-        links.put("subject", null); 
-        links.put("requirement", null);
-        links.put("result", null);
-        mav.addObject("links", links);
-        
         return mav;
     }
     

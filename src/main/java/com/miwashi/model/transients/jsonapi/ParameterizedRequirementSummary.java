@@ -11,13 +11,13 @@ import com.miwashi.model.transients.jsonapi.ParameterizedRequirement.Parameter;
 
 public class ParameterizedRequirementSummary  extends AbstractSummary{
 	private Map<String, ParameterizedRequirement> requirements = new HashMap<String, ParameterizedRequirement>();
-	private ResultSummary summary = new ResultSummary();
+	private RequirementTestSummary summary = new RequirementTestSummary();
 	
 	public Collection<ParameterizedRequirement> getRequirements(){
 		return requirements.values();
 	}
 	
-	public ResultSummary getSummary() {
+	public RequirementTestSummary getSummary() {
 		return summary;
 	}
 	

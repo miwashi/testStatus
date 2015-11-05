@@ -11,7 +11,7 @@ import com.miwashi.model.TestState;
 public class ParameterizedRequirement {
 	private long id;
 	private String requirement;
-	private ResultSummary summary = new ResultSummary();
+	private RequirementTestSummary summary = new RequirementTestSummary();
 	
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 	
@@ -76,7 +76,7 @@ public class ParameterizedRequirement {
 		
 		
 		
-		public ResultSummary getSummary() {
+		public RequirementTestSummary getSummary() {
 			return summary;
 		}
 
@@ -111,7 +111,7 @@ public class ParameterizedRequirement {
 		this.requirement = requirement;
 	}
 
-	public ResultSummary getSummary() {
+	public RequirementTestSummary getSummary() {
 		return summary;
 	}
 

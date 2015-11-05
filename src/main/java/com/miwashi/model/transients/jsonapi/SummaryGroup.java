@@ -16,11 +16,10 @@ public class SummaryGroup extends AbstractSummary{
 	private SimpleGroup group = new SimpleGroup(); 
 	
 	public SummaryGroup(){
-		isGroupIncluded = true;
+		getStatistics().put("summary", new GroupTestSummary());
 	}
 	
 	public List<SimpleRequirement> getRequirements(){
-		isGroupIncluded = true;
 		return requirements;
 	}
 	
@@ -28,6 +27,19 @@ public class SummaryGroup extends AbstractSummary{
 		SimpleRequirement requirement = new SimpleRequirement(persistentRequirement);
 		requirements.add(requirement);
 		requirement.add(persistentRequirement.getResults());
+		
+		;
+		
+		GroupTestSummary summary = (GroupTestSummary) getStatistics().get("summary");
+		if(summary==null){
+			summary = new GroupTestSummary();
+			getStatistics().put("summary", summary);
+		}
+		
+		RequirementTestSummary requirementSummary = (RequirementTestSummary) requirement.getStatistics().get("summary");
+		if(requirementSummary!=null){
+			summary.merge(requirementSummary);
+		}
 	}
 	
 	public void add(Group persistentGroup){

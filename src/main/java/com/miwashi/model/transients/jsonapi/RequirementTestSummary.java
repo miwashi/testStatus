@@ -5,17 +5,17 @@ import java.util.List;
 import com.miwashi.model.Result;
 import com.miwashi.model.TestState;
 
-public class ResultSummary {
+public class RequirementTestSummary {
 	
 	int total = 0;
 	int passes = 0;
 	int fails = 0;
 	int skips = 0;
 	
-	public ResultSummary(){
+	public RequirementTestSummary(){
 	}
 	
-	public ResultSummary(List<Result> results){
+	public RequirementTestSummary(List<Result> results){
 		this.add(results);
 	}
 	
@@ -66,6 +66,10 @@ public class ResultSummary {
 		return total - skips;
 	}
 	
+	public boolean isUnstable(){
+		return (passes>0) && (fails > 0);
+	}
+	
 	public void add(Result result){
 		switch (result.getStatus()){
 		case PASS:
@@ -93,13 +97,13 @@ public class ResultSummary {
 		}
 	}
 	
-	public void add(ResultSummary summary){
+	public void add(RequirementTestSummary summary){
 		addPasses(summary.getPasses());
 		addFails(summary.getFails());
 		addSkips(summary.getSkips());
 	}
 	
-	public void merge(ResultSummary summary){
+	public void merge(RequirementTestSummary summary){
 		if(summary.getTotal()==0){
 			return;
 		}

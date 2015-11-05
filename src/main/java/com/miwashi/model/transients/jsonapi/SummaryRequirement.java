@@ -20,8 +20,7 @@ public class SummaryRequirement extends AbstractSummary{
 		requirement.add(persistentRequirement.getResults());
 		team = new SimpleTeam(persistentRequirement.getGroup());
 		group = new SimpleGroup(persistentRequirement.getSubGroup());
-		isTeamInclued = true;
-		isGroupIncluded = true;
+		links.add(links.new Ref("/group/" + team.getId(), team.getName()),links.new Ref("/group/" + group.getId(), group.getName()));
 	}
 
 	public List<SimpleResult> getResults() {

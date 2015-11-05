@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.miwashi.model.Result;
 
-public class RequirementResultSummary extends ResultSummary {
+public class RequirementResultSummary extends RequirementTestSummary {
 	
 	
 	public RequirementResultSummary(List<Result> persistentResults) {
