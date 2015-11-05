@@ -16,6 +16,11 @@ th {
 	text-align: left;
 }
 
+td {
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
 table.requirement-summary-table {
 	width: 100%;
 }

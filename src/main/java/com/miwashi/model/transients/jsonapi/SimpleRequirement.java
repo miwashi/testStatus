@@ -64,7 +64,7 @@ public class SimpleRequirement {
 		}
 		statistics.put("duration",new DurationStat(persistentResults));
 		statistics.put("summary", new RequirementResultSummary(persistentResults));
-		
+		statistics.put("lastresult", new LastResult(persistentResults));
 		Collections.sort(results, new Comparator<SimpleResult>() {
             @Override
             public int compare(SimpleResult result1, SimpleResult result2) {

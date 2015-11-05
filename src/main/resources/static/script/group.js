@@ -19,9 +19,19 @@ $( document ).ready(function() {
 	
 	groupSummaryTable.className = summaryTableId;
     summaryTable.appendChild(groupSummaryTable);
+    groupSummaryTable.appendChild(createHeaderRow());
     console.log( "ready!" );
     poll();
 });
+
+function createHeaderRow(){
+	var headerRow = document.createElement("tr");
+	headerRow.appendChild(createHeader("Requirement",""));
+	headerRow.appendChild(createHeader("Touched",""));
+	headerRow.appendChild(createHeader("Duration",""));
+	headerRow.appendChild(createHeader("Status",""));
+	return headerRow;
+}
 
 
 function poll() {
@@ -52,6 +62,7 @@ function poll() {
 		    	  row.id = prefix;
 	    		  
 	    		  createHeaderCell(row, headerCellClassName, prefix + "header", requirement);
+	    		  appendCell(row, "", prefix + "-touched", requirement.statistics.lastresult.when.since);
 	    		  appendCell(row, "", prefix + "-duration", requirement.statistics.duration.intervall);
 	    		  appendResultCell(row, "", prefix + "results", requirement.results);
 	    		  summaryTable.appendChild(row);
@@ -60,6 +71,7 @@ function poll() {
 	    		  row = document.createElement("tr")
 		    	  row.id = prefix;
 	    		  createHeaderCell(row, headerCellClassName, prefix + "header", requirement);
+	    		  appendCell(row, "", prefix + "-touched", requirement.statistics.lastresult.when.since);
 	    		  appendCell(row, "", prefix + "-duration", requirement.statistics.duration.intervall);
 	    		  appendResultCell(row, "", prefix + "results", requirement.results);
 	    		  summaryTable.appendChild(row);
@@ -117,11 +129,14 @@ function appendResultCell(row, className, id, results){
 	
 	for(var i = 0 ; i < 10; i++){
 		var img = document.createElement("img");
+		var testLightCell = testLightsRow.insertCell();
 		img.className="resultindicator";
+		
 		var result = results[i];
 		if(result == undefined){
 			img.src="/img/white_light.png";
 			img.title= "not run yet";
+			testLightCell.appendChild(img);
 		}else{
 			if(result.status == 'PASS'){
 				img.src="/img/green_light.png";
@@ -132,9 +147,12 @@ function appendResultCell(row, className, id, results){
 				img.src="/img/yellow_light.png";
 			}
 			img.title=result.status + " " + result.when.since;
+			
+			var a = document.createElement("a");
+			a.appendChild(img);
+			a.href =result.buildUrl;
+			testLightCell.appendChild(a);
 		}
-		var testLightCell = testLightsRow.insertCell();
-		testLightCell.appendChild(img);
 		testLightCell.className="testlights";
 	}
 	return cell;

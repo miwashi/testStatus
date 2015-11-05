@@ -37,7 +37,7 @@ function createHeaderRow(){
 	headerRow.appendChild(createHeader("Platform",""));
 	headerRow.appendChild(createHeader("Touched",""));
 	headerRow.appendChild(createHeader("Job",""));
-	headerRow.appendChild(createHeader("Duration",""));
+	headerRow.appendChild(createHeader("Duration","numeric"));
 	return headerRow;
 }
 

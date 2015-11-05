@@ -15,7 +15,12 @@ public class SimpleTimeStamp {
 	
 	public SimpleTimeStamp(Date when){
 		this.when = when;
-	
+		if(when==null){
+			timeStamp = "never";
+			minutesSince = 0;
+			since = "never";
+			return;
+		}
 		timeStamp = when==null?"":ApplicationConfig.TIME_STAMP.format(when);
 		minutesSince = prepareMinutesSince();
 		since = prepareSince();

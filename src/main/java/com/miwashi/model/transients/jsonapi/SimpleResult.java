@@ -26,7 +26,7 @@ public class SimpleResult {
 		return job;
 	}
 	
-	public String getBuilUrl() {
+	public String getBuildUrl() {
 		return buildUrl;
 	}
 
