@@ -1,4 +1,4 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi.summaries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,15 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.miwashi.jsonapi.SimpleGroup;
+import com.miwashi.jsonapi.SimpleRequirement;
+import com.miwashi.jsonapi.statistics.GroupTestSummary;
+import com.miwashi.jsonapi.statistics.RequirementTestSummary;
 import com.miwashi.model.Group;
 import com.miwashi.model.Requirement;
 
-public class SummaryGroup extends AbstractSummary{
+public class GroupSummary extends AbstractSummary{
 	
 	private List<SimpleRequirement> requirements = new ArrayList<SimpleRequirement>();
 	private SimpleGroup group = new SimpleGroup(); 
 	
-	public SummaryGroup(){
+	public GroupSummary(){
 		getStatistics().put("summary", new GroupTestSummary());
 	}
 	
@@ -50,6 +54,10 @@ public class SummaryGroup extends AbstractSummary{
 	
 	public SimpleGroup getGroup(){
 		return group;
+	}
+	
+	public void setGroup(SimpleGroup group){
+		this.group = group;
 	}
 	
 	public void clean(){

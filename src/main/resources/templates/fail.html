@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout"
+        >
+<head>
+    <title th:text="'Test sumary for ' + ${summary.group.name}">Teams</title>
+    <script type="text/javascript" th:src="@{/script/fail.js}"></script>
+    
+</head>
+<body>
+<h1 layout:fragment="header" th:text="'Test sumary for ' + ${summary.group.name}">SVT Test summary page</h1>
+<div layout:fragment="content">
+	<div id="meta">
+		<input id="teamid" type="hidden" th:value="${summary.group.id}"/>
+	</div>
+    <section id="group-summary-section">
+	</section>
+</div>
+</body>
+</html>

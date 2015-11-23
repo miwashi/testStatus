@@ -1,4 +1,4 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi.statistics;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.miwashi.jsonapi.statistics.DurationStat;
+import com.miwashi.jsonapi.statistics.LastResult;
+import com.miwashi.jsonapi.statistics.RequirementResultSummary;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
 
@@ -14,7 +17,10 @@ public class SimpleRequirement {
 	private long id;
 	private String name;
 	private String readableName;
+	private String team;
 	private String parameter;
+	private SimpleTimeStamp whenStatusChanged;
+	private boolean status;
 	
 	private Map<String, Object> statistics = new HashMap<String, Object>();
 	private List<SimpleResult> results = new ArrayList<SimpleResult>();
@@ -22,6 +28,13 @@ public class SimpleRequirement {
 	public SimpleRequirement(long id, String name){
 		this.id = id;
 		this.name = name;
+		
+		String readable1 = subjectToReadable(name);
+		String readable2 = requirementToReadeable(name);
+		readableName = readable1 + " " + readable2;
+		parameter = extractParameter(name);
+		
+		team = requirementToTeam(name);
 	}
 	
 	public SimpleRequirement(Requirement persistentRequirement) {
@@ -31,7 +44,12 @@ public class SimpleRequirement {
 		String readable1 = subjectToReadable(name);
 		String readable2 = requirementToReadeable(name);
 		readableName = readable1 + " " + readable2;
-		parameter = extractParameter(name);		
+		parameter = extractParameter(name);	
+		
+		whenStatusChanged = new SimpleTimeStamp(persistentRequirement.getStatusChangeDate());
+		status = persistentRequirement.isStatusPass();
+		
+		team = requirementToTeam(persistentRequirement.getGroup()!=null?persistentRequirement.getGroup().getName():"");
 	}
 
 	public long getId(){
@@ -46,8 +64,20 @@ public class SimpleRequirement {
 		return readableName;
 	}
 
+	public String getTeam(){
+		return team;
+	}
+	
 	public String getParameter() {
 		return parameter;
+	}
+	
+	public SimpleTimeStamp getWhenStatusChanged() {
+		return whenStatusChanged;
+	}
+
+	public boolean isStatusPass() {
+		return status;
 	}
 
 	public Map<String, Object> getStatistics(){
@@ -97,6 +127,8 @@ public class SimpleRequirement {
 		if(requirement.indexOf(".")<0){
             return requirement;
         }
+		requirement = requirement.replaceAll("TMA", "Tma");
+		requirement = requirement.replaceAll("VMA", "Vma");
 		requirement = requirement.replaceAll("NSS", "Nss");
 		requirement = requirement.replaceAll("SVT", "Svt");
 		requirement = requirement.replaceAll("ATV", "Atv");
@@ -114,7 +146,17 @@ public class SimpleRequirement {
 		requirement = requirement.replaceAll("/(\\d+)([a-z]+)/g","$1 $2");
 		requirement = requirement.replaceAll("([a-z]+)(\\d+)","$1 $2");
 		requirement = requirement.toLowerCase();
+		
+		requirement = requirement.replaceAll(" tma", " TMA");
+		requirement = requirement.replaceAll(" vma", " VMA");
+		
 		return requirement;
+	}
+	
+	private String requirementToTeam(String methodName){
+		String team = methodName;
+		
+		return team;
 	}
 	
 	private String subjectToReadable(String methodName){

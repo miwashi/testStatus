@@ -1,8 +1,11 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi.summaries;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.miwashi.jsonapi.SimpleLink;
+import com.miwashi.jsonapi.SimpleLink.Ref;
 
 public abstract class AbstractSummary {
 	

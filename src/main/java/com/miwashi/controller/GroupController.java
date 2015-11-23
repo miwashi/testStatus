@@ -1,11 +1,11 @@
 package com.miwashi.controller;
 
+import com.miwashi.jsonapi.SimpleGroup;
+import com.miwashi.jsonapi.SimplePackageWithRequirements;
+import com.miwashi.jsonapi.SimpleTeam;
+import com.miwashi.jsonapi.summaries.GroupSummary;
+import com.miwashi.jsonapi.summaries.GroupsSummary;
 import com.miwashi.model.*;
-import com.miwashi.model.transients.jsonapi.SimpleGroup;
-import com.miwashi.model.transients.jsonapi.SimplePackageWithRequirements;
-import com.miwashi.model.transients.jsonapi.SimpleTeam;
-import com.miwashi.model.transients.jsonapi.SummaryGroup;
-import com.miwashi.model.transients.jsonapi.SummaryGroups;
 import com.miwashi.repositories.*;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,21 +42,21 @@ public class GroupController {
 
     @RequestMapping(value = "/api/groups/{groups}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/groups/{groups}", notes = "Returns a status")
-    public SummaryGroups getAllRequirementsNew(@PathParam(value = "groups") @PathVariable final String groups) {
-    	SummaryGroups testSummary = getGroupStatus();
+    public GroupsSummary getAllRequirementsNew(@PathParam(value = "groups") @PathVariable final String groups) {
+    	GroupsSummary testSummary = getGroupStatus();
     	return testSummary;
     }
     
     @RequestMapping("/groups/{groups}")
     public ModelAndView getAllTeams(@PathParam(value = "groups") @PathVariable final String groups) {
         ModelAndView mav = new ModelAndView("groups");
-        SummaryGroups testSummary = getGroupStatus();
+        GroupsSummary testSummary = getGroupStatus();
     	mav.addObject("summary", testSummary);
     	return mav;
     }
     
-    private SummaryGroups getGroupStatus(){
-    	SummaryGroups testSummary = new SummaryGroups();
+    private GroupsSummary getGroupStatus(){
+    	GroupsSummary testSummary = new GroupsSummary();
     	
     	Iterable<Group> groupsIter = groupRepository.findAll();
     	groupsIter.forEach( group -> {
@@ -76,20 +76,20 @@ public class GroupController {
     @RequestMapping(value = "/group/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public ModelAndView getTeamn(@PathParam(value = "Path id") @PathVariable final Long id) {
         ModelAndView mav = new ModelAndView("group");
-        SummaryGroup groupSummary = getGroupSummary(id);
+        GroupSummary groupSummary = getGroupSummary(id);
         mav.addObject("summary",groupSummary);
         return mav;
     }
     
     @RequestMapping(value = "/api/group/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/groupn/{id}", notes = "Returns a status")
-    public SummaryGroup getTeamForApin(@PathParam(value = "Path id") @PathVariable final Long id) {
-    	SummaryGroup groupSummary = getGroupSummary(id);
+    public GroupSummary getTeamForApin(@PathParam(value = "Path id") @PathVariable final Long id) {
+    	GroupSummary groupSummary = getGroupSummary(id);
         return groupSummary;
     }
     
-    SummaryGroup getGroupSummary(long id){
-    	SummaryGroup summary = new SummaryGroup();
+    GroupSummary getGroupSummary(long id){
+    	GroupSummary summary = new GroupSummary();
     	Iterable<Group> groupIter =  groupRepository.findById(id);
     	if(groupIter.iterator().hasNext()){
     		Group group = groupIter.iterator().next();

@@ -1,9 +1,10 @@
 package com.miwashi.controller;
 
+import com.miwashi.jsonapi.summaries.JobSummary;
+import com.miwashi.jsonapi.summaries.JobsSummary;
+import com.miwashi.jsonapi.summaries.RequirementSummary;
+import com.miwashi.jsonapi.summaries.StatisticsSummary;
 import com.miwashi.model.*;
-import com.miwashi.model.transients.jsonapi.SummaryJob;
-import com.miwashi.model.transients.jsonapi.SummaryJobs;
-import com.miwashi.model.transients.jsonapi.SummaryStatistics;
 import com.miwashi.repositories.*;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,20 @@ public class JobController {
     @Autowired
     JobRepository jobRepository;
     
-
+    @RequestMapping(value = "/api/jobs/{selection}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public Map<String, Object> getJob(@PathParam(value = "Selection name") @PathVariable final String selection) {
+    	Map<String, Object> result = new HashMap<String,Object>();
+    	JobsSummary summary = new JobsSummary();
+    	System.out.println(selection);
+    	Iterable<Job> jobIter = jobRepository.findAll();
+    	for(Job job : jobIter){
+    		summary.add(job);
+    	}
+    	summary.clean();
+        result.put("summary", summary);
+    	return result;
+    }
+    
     @RequestMapping(value = "/api/job/all", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/job/all", notes = "Returns a status")
     public List<Job> getAllJobs() {
@@ -38,7 +52,7 @@ public class JobController {
     public ModelAndView getAllJobsAsMav() {
         ModelAndView mav = new ModelAndView("jobs");
         mav.addObject("jobs", findJobs());
-        mav.addObject("summary", new SummaryJobs());
+        mav.addObject("summary", new JobsSummary());
         return mav;
     }
     
@@ -46,8 +60,7 @@ public class JobController {
     public ModelAndView getJobAsMav(@PathParam(value = "Path id") @PathVariable final Long id) {
         ModelAndView mav = new ModelAndView("job");
         mav.addObject("job",findJobsById(id));
-        mav.addObject("summary", new SummaryJob());
-        
+        mav.addObject("summary", new JobSummary(""));        
         return mav;
     }
     

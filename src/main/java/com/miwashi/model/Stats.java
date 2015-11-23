@@ -210,8 +210,6 @@ public class Stats {
         }
     }
 
-    
-    
     public int getNumberOfRequirements() {
 		return numberOfRequirements;
 	}

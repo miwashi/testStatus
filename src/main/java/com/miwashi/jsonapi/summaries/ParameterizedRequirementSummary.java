@@ -1,13 +1,15 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi.summaries;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.miwashi.jsonapi.ParameterizedRequirement;
+import com.miwashi.jsonapi.ParameterizedRequirement.Parameter;
+import com.miwashi.jsonapi.statistics.RequirementTestSummary;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
-import com.miwashi.model.transients.jsonapi.ParameterizedRequirement.Parameter;
 
 public class ParameterizedRequirementSummary  extends AbstractSummary{
 	private Map<String, ParameterizedRequirement> requirements = new HashMap<String, ParameterizedRequirement>();

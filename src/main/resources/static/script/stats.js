@@ -64,7 +64,7 @@ function poll() {
 	      $('#stats-lastWeek-failshare').html(data.stats.lastWeek.failShare);
 	      
 	      $.each(data.stats.hourly, function( index, value ) {
-	    	  console.log( index + ": " + value.caption );
+	    	  //console.log( index + ": " + value.caption );
 	    	  var headerId = "#" + value.caption + "-header";
 	    	  var startsId = "#" + value.caption + "-starts";
 	    	  var completeId = "#" + value.caption + "-complete";

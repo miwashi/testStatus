@@ -218,3 +218,19 @@ table.jobstat colgroup {
 table.jobstat colgroup.rowheader {
 	
 }
+
+table.fails-summary-table th.duration, table.fails-summary-table td.duration, table.unstable-summary-table th.duration, table.unstable-summary-table td.duration {
+	display: none;
+}
+
+table.fails-summary-table th.status, table.fails-summary-table td.status, table.unstable-summary-table th.status, table.unstable-summary-table td.status {
+	display: none;
+}
+
+table.fails-summary-table th.touched, table.fails-summary-table td.touched, table.unstable-summary-table th.touched, table.unstable-summary-table td.touched {
+	display: none;
+}
+
+table.fails-summary-table th.requirement, table.fails-summary-table td.requirement, table.unstable-summary-table th.requirement, table.unstable-summary-table td.requirement {
+	display: none;
+}

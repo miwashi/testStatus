@@ -17,23 +17,20 @@
 	<div id="errorpopup" class="error">Hello World</div>
 	
     <div class="container">
-
         <div class="banner">
         	<table width="100%"><tr><td  width="100%">
             
             <img id="logo" th:src="@{/img/logo.png}" style="float:left; padding-right: 20px;"/>
+            
             [<a href="/">main</a>]
             <!-- [<a href="/api">API</a>] -->
             [<a href="/groups/all">teams</a>]
             [<a href="/job/all">jobs</a>]
+            [<a href="/fails/all">fails</a>]
             [<a href="/statistics/all">statistics</a>]
             <th:block th:each="link : ${summary.links}">
             	[<a th:href="${link.to}" th:text="${link.name}"></a>]
             </th:block>
-            <span th:if="${links!=null} and ${links.team!=null}">[<a th:href="'/group/' + ${links.team.id}" th:text="${links.team.name}"></a>]</span>
-            <span th:if="${links!=null} and ${links.group!=null}">[<a th:href="'/group/' + ${links.group.id}" th:text="${links.group.name}"></a>]</span>
-            <!--span th:if="*{summary.group}">[<a th:href="'/group/' + ${summary.group.id}" th:text="${summary.group.name}"></a>]
-            </span-->
             
             <h1 layout:fragment="header"></h1>
             </td><td class="headerright">

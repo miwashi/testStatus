@@ -28,12 +28,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.miwashi.jsonapi.SimpleGroup;
+import com.miwashi.jsonapi.SimpleLink;
+import com.miwashi.jsonapi.SimplePackageWithRequirements;
+import com.miwashi.jsonapi.summaries.RequirementSummary;
 import com.miwashi.model.JenkinsResult;
 import com.miwashi.model.Job;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
-import com.miwashi.model.transients.jsonapi.SimpleLink;
-import com.miwashi.model.transients.jsonapi.SummaryRequirement;
 import com.miwashi.repositories.BrowserRepository;
 import com.miwashi.repositories.JobRepository;
 import com.miwashi.repositories.PlatformRepository;
@@ -69,50 +71,37 @@ public class RequirementController {
     @Autowired
     JobRepository jobRepository;
 
-@RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/api/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/requirement/{id}", notes = "Returns a status")
-    public Map<String, Object>  getRequirement(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
+    public Map<String, Object>  getRequirementByIdForAPI(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
     	Map<String, Object> result = new HashMap<String,Object>();
     	Requirement requirement = findRequirement(id);
-        result.put("summary", new SummaryRequirement(requirement));
+        result.put("summary", new RequirementSummary(requirement));
     	return result;
-    }
-
-    @RequestMapping(value = "/api/requirement", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ApiOperation(value = "/api/requirement", notes = "Returns a status", response = Requirement.class, responseContainer = "List")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "ok")
-            ,@ApiResponse(code = 404, message = "missing")
-    })
-    public Requirement getRequirement(@ApiParam(value = "Parameter id") @RequestParam(required = false, defaultValue = "0") final String name) {
-        System.out.println("Got " + name + " from id param!");
-        return new Requirement("anyrec");
     }
     
     @RequestMapping(value = "/requirement/{id}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	public ModelAndView getRequirementById(@PathParam(value = "Path id") @PathVariable final Long id, @ApiParam(value = "Build id") @RequestParam(required = false, defaultValue = "0") final String buildId) {
 		ModelAndView mav = new ModelAndView("requirement");
 		Requirement requirement = findRequirement(id);
-		mav.addObject("summary", new SummaryRequirement(requirement));
-		
+		mav.addObject("summary", new RequirementSummary(requirement));		
 		Map<String, SimpleLink> links = new HashMap<String, SimpleLink>();
         return mav;
 	}
     
-    
-    
-    @RequestMapping(value = "/requirement/key/{key}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public ModelAndView getRequirementById(@PathParam(value = "Path key") @PathVariable final String key) {
-    	ModelAndView mav = new ModelAndView("requirement");
+    @RequestMapping(value = "/api/requirements/{selection}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ApiOperation(value = "/api/requirements/{selection}", notes = "Returns a status")
+    public Map<String, Object>  getRequirementsForAPI(@PathParam(value = "Selection") @PathVariable final String selection) {
+    	Map<String, Object> result = new HashMap<String,Object>();
     	
-    	Requirement requirement = findRequirement(key);
-    	mav.addObject("title", "Requirement!");
-    	mav.addObject("header", "Requirement!");
-        mav.addObject("requirement", requirement);
-        
-        Map<String, SimpleLink> links = new HashMap<String, SimpleLink>();
-        return mav;
-        
+    	SimplePackageWithRequirements group = new SimplePackageWithRequirements(0, selection);
+    	Iterable<Requirement> requirementIter = requirementRepository.findAll();
+        for(Requirement requirement : requirementIter){
+        	group.add(requirement);
+        }
+        group.clean();
+        result.put("summary", group);
+        return result;
     }
     
     private Requirement findRequirement(long id){
@@ -133,15 +122,6 @@ public class RequirementController {
 	                return result2.getStartTime().compareTo(result1.getStartTime());
 	            }
 	        });
-        }
-        return requirement;
-    }
-    
-    private Requirement findRequirement(String key){
-    	Requirement requirement = null;
-        Iterable<Requirement> requirementIter = requirementRepository.findByKey(key);
-        if(requirementIter.iterator().hasNext()){
-        	requirement = requirementIter.iterator().next();
         }
         return requirement;
     }

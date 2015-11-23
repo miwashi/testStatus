@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.miwashi.jsonapi.summaries.ParameterizedRequirementSummary;
 import com.miwashi.model.JenkinsResult;
 import com.miwashi.model.Job;
 import com.miwashi.model.Requirement;
-import com.miwashi.model.transients.jsonapi.ParameterizedRequirementSummary;
 import com.miwashi.repositories.BrowserRepository;
 import com.miwashi.repositories.JobRepository;
 import com.miwashi.repositories.PlatformRepository;

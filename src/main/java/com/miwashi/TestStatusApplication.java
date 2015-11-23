@@ -178,9 +178,17 @@ public class TestStatusApplication {
 
         Requirement requirement = new Requirement(resultReport.getNameAsKey());
         Iterable<Requirement> requirements = requirementRepository.findByKey(requirement.getKey());
+        requirement.setStatusChangeDate(resultReport.getCompleteTime().toDate());
+        
         if(requirements.iterator().hasNext()){
             requirement = requirements.iterator().next();
+            
+            //Set date for statuschanges
+            if(resultReport.isSucceeded() != requirement.isStatusPass()){
+            	requirement.setStatusChangeDate(resultReport.getCompleteTime().toDate());
+            }
         }
+        requirement.setStatusPass(resultReport.isSucceeded());
         requirement.setGroup(aGroup);
         requirement.setSubGroup(aSubGroup);
         requirement.setSubject(aSubject);

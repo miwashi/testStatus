@@ -1,8 +1,8 @@
 package com.miwashi.controller;
 
 import com.miwashi.TestStatusApplication;
+import com.miwashi.jsonapi.summaries.StatisticsSummary;
 import com.miwashi.model.Group;
-import com.miwashi.model.transients.jsonapi.SummaryStatistics;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class MainPageController {
     public ModelAndView index() {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("stats", TestStatusApplication.getStats());
-        mav.addObject("summary", new SummaryStatistics());
+        mav.addObject("summary", new StatisticsSummary());
         return mav;
     }
     
@@ -29,7 +29,7 @@ public class MainPageController {
     public Map<String, Object> getStats() {
     	Map<String, Object> result = new HashMap<String, Object>();
     	result.put("stats", TestStatusApplication.getStats());
-    	result.put("summary", new SummaryStatistics());
+    	result.put("summary", new StatisticsSummary());
         return result;
     }
 

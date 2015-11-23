@@ -1,9 +1,12 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.miwashi.jsonapi.statistics.DurationStat;
+import com.miwashi.jsonapi.statistics.GroupTestSummary;
+import com.miwashi.jsonapi.statistics.RequirementTestSummary;
 import com.miwashi.model.Group;
 import com.miwashi.model.Requirement;
 import com.miwashi.model.Result;
@@ -21,6 +24,12 @@ public class SimpleGroup extends SimpleTeam {
 		super(subGroup);
 	}
 
+	public SimpleGroup(long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
 	public SimpleGroup() {
 		super();
 	}

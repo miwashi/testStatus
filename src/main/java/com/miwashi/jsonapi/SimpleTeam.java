@@ -1,4 +1,4 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi;
 
 import com.miwashi.model.Group;
 

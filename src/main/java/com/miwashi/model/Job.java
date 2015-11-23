@@ -3,8 +3,11 @@ package com.miwashi.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
+
+import org.json.JSONObject;
 
 @Entity(name = "JOBS")
 public class Job {
@@ -215,6 +218,34 @@ public class Job {
     	super();
     	this.name = name;
     	this.key = key;
+	}
+    
+    public Job(JSONObject obj) {
+    	super();
+    	UUID uuid = UUID.randomUUID();
+    	this.id = obj.getLong("id");
+    	this.key = obj.getString("key");
+    	this.name = obj.getString("name");
+    	this.timeStamp = new Date(obj.getLong("timeStamp"));
+    	this.host = obj.getString("host");
+    	this.grid = obj.getString("grid");
+    	this.gitBranch = obj.getString("host");
+    	this.gitCommit = obj.getString("gitCommit");
+    	this.gitBranch = obj.getString("gitBranch");
+    	this.jenkinsResult = obj.getString("jenkinsResult");
+    	this.jenkinsDuration = obj.getInt("jenkinsDuration");
+    	this.jenkinsFailCount = obj.getInt("jenkinsFailCount");
+    	this.jenkinsPassCount = obj.getInt("jenkinsPassCount");
+    	this.jenkinsTotalCount = obj.getInt("jenkinsTotalCount");
+    	this.jenkinsSkipCount = obj.getInt("jenkinsSkipCount");
+    	this.jenkinsUrl = obj.getString("jenkinsUrl");
+    	this.platform = obj.getString("platform");
+    	this.size = obj.getString("size");
+    	this.buildTag = obj.getString("buildTag");
+    	this.browser = obj.getString("browser");
+    	this.user = obj.getString("user");
+    	this.buildUrl = obj.getString("buildUrl");
+    	
 	}
 
 	public String toString(){

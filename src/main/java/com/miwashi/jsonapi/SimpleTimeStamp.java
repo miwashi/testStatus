@@ -1,4 +1,4 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi;
 
 import java.util.Date;
 
@@ -90,4 +90,11 @@ public class SimpleTimeStamp {
 
         return seconds + " seconds ago";
     }
+
+	public int compareTo(SimpleTimeStamp when) {
+		if(this.when==null || when==null || when.getTime()==null){
+			return 0;
+		}
+		return Long.compare(this.when.getTime(), when.getTime().getTime());
+	}
 }

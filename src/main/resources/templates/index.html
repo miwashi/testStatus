@@ -7,16 +7,16 @@
 <head>
     <title th:text="'Tests started: ' + ${stats.today.starts}">Index</title>
     <script type="text/javascript" th:src="@{/script/stats.js}"></script>
+    <script type="text/javascript" th:src="@{/script/fails.js}"></script>
+    <script type="text/javascript" th:src="@{/script/unstable.js}"></script>
 </head>
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
 <div layout:fragment="content">
-    <section>
     	<table><tr><td>
-		
-		<!-- previously mainstat -->
-		
 		</td><td>
+		<h2>Runs</h2>
+		<section id="mainstat">
         <table class="runstat">
         	<colgroup class="rowheader"><col/></colgroup>
             <colgroup><col/><col/><col/><col/></colgroup>
@@ -74,10 +74,18 @@
 
             </tbody>
 
-        </table>
-		</td></tr></table>
-    </section>
-
+        </table></section>
+		</td>
+		<td>
+			<h2>Oldest Fails</h2>
+			<section id="fails-summary-section">
+			</section>
+			<h2>Most unstable</h2>
+			<section id="unstable-summary-section">
+			</section>
+		</td>
+		</tr>
+		</table>
 </div>
 </body>
 </html>

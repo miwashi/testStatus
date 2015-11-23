@@ -1,10 +1,13 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.miwashi.jsonapi.statistics.DurationStat;
+import com.miwashi.jsonapi.statistics.RequirementStat;
+import com.miwashi.jsonapi.statistics.RequirementTestSummary;
 import com.miwashi.model.Result;
 import com.miwashi.model.TestState;
 

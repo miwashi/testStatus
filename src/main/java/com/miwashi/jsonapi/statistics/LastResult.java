@@ -1,8 +1,9 @@
-package com.miwashi.model.transients.jsonapi;
+package com.miwashi.jsonapi.statistics;
 
 import java.util.Date;
 import java.util.List;
 
+import com.miwashi.jsonapi.SimpleTimeStamp;
 import com.miwashi.model.Result;
 
 public class LastResult {

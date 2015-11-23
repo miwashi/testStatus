@@ -43,6 +43,9 @@ public class Requirement {
     @JoinColumn(name = "SUJBECT_ID")
     private Subject subject;
     
+    private Date statusChangeDate;
+    private boolean status;
+    
     @Transient
     private Result lastResult;
     
@@ -71,8 +74,24 @@ public class Requirement {
     public void setKey(String key) {
         this.key = key;
     }
+    
+    public Date getStatusChangeDate() {
+		return statusChangeDate;
+	}
 
-    public List<Result> getResults() {
+	public void setStatusChangeDate(Date statusChangeDate) {
+		this.statusChangeDate = statusChangeDate;
+	}
+
+	public boolean isStatusPass() {
+		return status;
+	}
+
+	public void setStatusPass(boolean status) {
+		this.status = status;
+	}
+
+	public List<Result> getResults() {
         return results;
     }
 
