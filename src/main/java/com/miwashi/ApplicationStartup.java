@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,9 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 	@Autowired
     JobRepository jobRepository;
 	
+	@Value("${configuration.initialdata:false}")
+    private boolean do_init_data = false;
+	
 	/**
 	 * This method is called during Spring's startup.
 	 * 
@@ -29,12 +33,14 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 	 **/
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
+		if(!do_init_data) return;
 		
 		loadHistoricalData();
 		return;
 	}
 
 	private void loadHistoricalData(){
+		
 		@SuppressWarnings("deprecation")
 		JSONParser parser = new JSONParser();
 		 

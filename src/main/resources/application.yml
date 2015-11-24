@@ -36,6 +36,7 @@ configuration:
       host: localhost
 
     testdata: false
+    initialdata: true
 
     schedule:
       synchwithjenkins:
@@ -105,6 +106,7 @@ spring:
 configuration:
   projectName: test-status-stage
   testdata: false
+  initialdata: false
 
   log:
     receivedresult: false
@@ -125,6 +127,7 @@ spring:
 configuration:
   projectName: test-status-prod
   testdata: false
+  initialdata: false
 
   log:
     receivedresult: false

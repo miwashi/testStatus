@@ -27,6 +27,7 @@ public class RunStats {
 	Date firstRun;
 	Date lastPass;
 	Date lastFail;
+	TestState lastState = TestState.UNKNOWN;
 	
 	private List<Long> data = new ArrayList<Long>();
 	private boolean isDirty = true;
@@ -85,8 +86,22 @@ public class RunStats {
 		}
 		if(lastRun==null && job.getWhen()!=null){
 			lastRun = job.getWhen().getTime();
+			if(job.getDuration()==0){
+				lastState = TestState.STARTED;
+			}else if(fails>0){
+				lastState = TestState.FAIL;
+			}else{
+				lastState = TestState.PASS;
+			}
 		}else if(job.getWhen()!=null && job.getWhen().getTime()!=null && job.getWhen().getTime().getTime() > lastRun.getTime()){
 			lastRun = job.getWhen().getTime();
+			if(job.getDuration()==0){
+				lastState = TestState.STARTED;
+			}else if(fails>0){
+				lastState = TestState.FAIL;
+			}else{
+				lastState = TestState.PASS;
+			}
 		}
 		if(firstRun==null && job.getWhen()!=null){
 			firstRun = job.getWhen().getTime();
@@ -181,6 +196,6 @@ public class RunStats {
 	public String getStatus(){
 		int total = fails + passes;
 		String ratio = "" + (100 - (total==0?0:Math.round((100 * (total-getPasses())) / total)));
-		return "" + (fails>0?"FAIL - ":"SUCCESS - ") + passes + "/" + total + " (" + ratio + "%)";
+		return lastState.toString() + " - " + passes + "/" + total + " (" + ratio + "%)";
 	}
 }
