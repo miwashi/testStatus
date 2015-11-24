@@ -27,7 +27,6 @@ public class JobController {
     public Map<String, Object> getJob(@PathParam(value = "Selection name") @PathVariable final String selection) {
     	Map<String, Object> result = new HashMap<String,Object>();
     	JobsSummary summary = new JobsSummary();
-    	System.out.println(selection);
     	Iterable<Job> jobIter = jobRepository.findAll();
     	for(Job job : jobIter){
     		summary.add(job);

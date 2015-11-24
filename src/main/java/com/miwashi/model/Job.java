@@ -43,17 +43,7 @@ public class Job {
     private int jenkinsSkipCount = 0;
     private int jenkinsPassCount = 0;
     private String jenkinstTestReportUrl ="";
-    
-    
-    public long getJenkinsDuration() {
-		return jenkinsDuration;
-	}
-
-	public void setJenkinsDuration(long jenkinsDuration) {
-		this.jenkinsDuration = jenkinsDuration;
-	}
-
-	private String nodeName = "";
+    private String nodeName = "";
     private String jenkinsUrl = "";
     private String platform = "";
 	private String size = "";
@@ -118,8 +108,16 @@ public class Job {
 		this.browser = browser;
 	}
  
+	public long getJenkinsDuration() {
+		return jenkinsDuration;
+	}
+
+	public void setJenkinsDuration(long jenkinsDuration) {
+		this.jenkinsDuration = jenkinsDuration;
+	}
+	
 	public String getBuildUrl() {
-		return ((buildUrl==null)?"":buildUrl) + (buildUrl.endsWith("/")?"":"/");
+		return ((buildUrl==null)?"":buildUrl + (buildUrl.endsWith("/")?"":"/"));
 	}
 	
 	//TODO Use properties

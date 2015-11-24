@@ -105,7 +105,7 @@ public class SimplePackageWithRequirements extends SimpleGroup {
 	                if (summary1 == null || summary2 == null) {
 	                	return 0;
 	                }
-	                return Integer.compare(summary1.getFailRatio(), summary2.getFailRatio());
+	                return Integer.compare(summary2.getFailRatio(), summary1.getFailRatio());
 	            }
 	        });
 			

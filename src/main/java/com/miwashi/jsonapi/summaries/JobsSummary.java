@@ -1,7 +1,9 @@
 package com.miwashi.jsonapi.summaries;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.miwashi.jsonapi.statistics.GroupTestSummary;
@@ -31,9 +33,10 @@ public class JobsSummary extends AbstractSummary{
 		jobSummary.add(persistentJob);
 	}
 	
-	public Map<String, JobSummary> getJobs(){
-		
-		return jobSummaries;
+	public List<JobSummary> getJobs(){
+		List<JobSummary> result = new ArrayList<JobSummary>();
+		result.addAll(jobSummaries.values());
+		return result;
 	}
 
 	public void clean() {

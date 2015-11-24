@@ -3,6 +3,7 @@ package com.miwashi.jsonapi.statistics;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.miwashi.jsonapi.SimpleJob;
 import com.miwashi.model.Result;
 import com.miwashi.model.TestState;
 
@@ -79,6 +80,11 @@ public class DurationStat {
 			isDirty = true;
 			data.add(result.getDuration());
 		}
+	}
+	
+	public void add(SimpleJob job){
+		isDirty = true;
+		data.add(job.getDuration());
 	}
 	
 	public void add(DurationStat stat){

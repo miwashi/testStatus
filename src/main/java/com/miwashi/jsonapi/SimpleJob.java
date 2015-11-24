@@ -2,6 +2,7 @@ package com.miwashi.jsonapi;
 
 import java.util.Date;
 
+import com.miwashi.jsonapi.statistics.JenkinsStat;
 import com.miwashi.model.Job;
 import com.miwashi.model.Result;
 import com.miwashi.model.TestState;
@@ -17,24 +18,31 @@ public class SimpleJob {
 	private String job;
 	private String buildUrl;
 	
+	private JenkinsStat jenkinsStat;
+	
 	public SimpleJob(Job peristentJob){
+		jenkinsStat = new JenkinsStat(
+				peristentJob.getJenkinsPassCount(), 
+				peristentJob.getJenkinsFailCount(), 
+				peristentJob.getJenkinsSkipCount(), 
+				peristentJob.getJenkinsTotalCount()
+				);
+		duration = peristentJob.getJenkinsDuration();
+		
+		
 		this.id = peristentJob.getId();
 		browser = peristentJob.getBrowser();
 		peristentJob.getBuildNumber();
 		peristentJob.getBuildTag();
 		job = peristentJob.getBuildUrl();
+		buildUrl = peristentJob.getBuildUrl();
 		peristentJob.getCheckins();
 		peristentJob.getGitBranch();
 		peristentJob.getGitCommit();
 		peristentJob.getGitURL();
 		peristentJob.getGrid();
 		peristentJob.getHost();
-		peristentJob.getJenkinsDuration();
-		peristentJob.getJenkinsFailCount();
-		peristentJob.getJenkinsPassCount();
-		peristentJob.getJenkinsPassCount();
-		peristentJob.getJenkinsSkipCount();
-		peristentJob.getJenkinsTotalCount();
+		
 		//job = peristentJob.getJenkinsUrl();
 		//job = peristentJob.getJenkinstTestReportUrl();
 		peristentJob.getJobStatusUrl();
@@ -90,5 +98,9 @@ public class SimpleJob {
 
 	public long getDuration(){
 		return duration;
+	}
+	
+	public JenkinsStat getJenkinsStat(){
+		return jenkinsStat;
 	}
 }

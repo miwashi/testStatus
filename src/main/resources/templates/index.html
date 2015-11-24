@@ -9,6 +9,7 @@
     <script type="text/javascript" th:src="@{/script/stats.js}"></script>
     <script type="text/javascript" th:src="@{/script/fails.js}"></script>
     <script type="text/javascript" th:src="@{/script/unstable.js}"></script>
+    <script type="text/javascript" th:src="@{/script/jobs.js}"></script>
 </head>
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
@@ -82,6 +83,11 @@
 			</section>
 			<h2>Most unstable</h2>
 			<section id="unstable-summary-section">
+			</section>
+		</td>
+		<td>
+			<h2>Jenkins</h2>
+			<section id="jobs-summary-section">
 			</section>
 		</td>
 		</tr>

@@ -71,6 +71,97 @@ function createHeader(headerText, className){
 	return headerItem;
 }
 
+var Job = function(){
+	job = {};
+	
+	var columns = [
+	              {
+	              	key : 'job', 
+	              	name: 'Job',
+	              	className: 'job'
+	              }, 
+	              {
+	              	key : 'touched', 
+	              	name: 'Touched',
+	              	className: 'touched'
+	              }, 
+	              {
+	              	key : 'status', 
+	              	name: 'Status',
+	              	className: 'status'
+	              } 
+	           ];
+	
+	job.createTableInSection = function(section, tableId, tableClassName){
+		var table = document.createElement("table");
+	    table.id = tableId;
+		table.className = tableClassName;
+		table.appendChild(Job.createHeaderRow());
+		section.appendChild(table);
+	};
+	
+	job.createHeaderRow = function(){
+		var headerRow = document.createElement("tr");
+		for(var column of columns){
+			var headerItem = document.createElement("th");
+			headerItem.appendChild(document.createTextNode(column.name));
+			headerItem.className = column.className;
+			headerRow.appendChild(headerItem);
+		}
+		return headerRow;
+	}
+	
+	job.createResultRow = function(job, sectionPrefix){
+		var resultRow = document.createElement("tr");
+		for(var column of columns){
+			cell = Job.createCell(job, sectionPrefix, column.key);
+			resultRow.appendChild(cell);
+		}
+		return resultRow;
+	}
+	
+	job.createCell = function (job, sectionPrefix, header){
+		var cell = document.createElement("td");
+		var cellClassName = header;
+		var cellId = sectionPrefix + "-" + job.key + "-" + header;
+		var value;		
+		
+		for(var column of columns){
+			if((header!=null) && ((new String(header)).localeCompare(column.key)==0)){
+				cellClassName = column.className;
+			}
+		}
+		
+		switch(header){
+		case "job":
+			var linkText = job.name;
+			var href = "/job/" + job.key;
+			var title = "";
+			cell = Requirement.createAnchorCell(linkText, href, title);
+			break;
+		case "touched":
+			value = job.statistics.runs.lastRun.since;
+			break;
+		case "duration":
+			value = job.statistics.duration.avg;
+			break;	
+		case "status":
+			value = job.statistics.runs.status;
+			break;
+		default:
+		}
+		if(value != undefined || value!=null){
+			var textNode = document.createTextNode(value);
+			cell.appendChild(textNode);
+		}
+		cell.className=cellClassName;
+		cell.id = cellId;
+		return cell;
+	}
+	
+	return job;
+}();
+
 var Requirement = function(){
 	var requirement = {};
 	
