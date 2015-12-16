@@ -14,6 +14,10 @@
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
 <div layout:fragment="content">
+	<div id="meta">
+		<input id="jobkey" type="hidden" th:value="${jobkey}"/>
+	</div>
+	
     	<table><tr><td>
 		</td><td>
 		<h2>Runs</h2>

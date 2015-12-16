@@ -47,11 +47,11 @@ public class JobController {
         return findJobsById(id);
     }
 
-    @RequestMapping("/job/all")
-    public ModelAndView getAllJobsAsMav() {
+    @RequestMapping("/jobs/{key}")
+    public ModelAndView getAllJobsAsMav(@PathParam(value = "Key") @PathVariable final String key) {
         ModelAndView mav = new ModelAndView("jobs");
-        mav.addObject("jobs", findJobs());
         mav.addObject("summary", new JobsSummary());
+        mav.addObject("jobkey", key);
         return mav;
     }
     

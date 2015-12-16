@@ -1,7 +1,10 @@
 package com.miwashi;
 
-import com.miwashi.model.*;
-import com.miwashi.repositories.*;
+import static reactor.bus.selector.Selectors.$;
+
+import java.text.SimpleDateFormat;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,20 +17,29 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.context.annotation.ComponentScan;
 
+import com.miwashi.model.Stats;
+import com.miwashi.model.User;
+import com.miwashi.repositories.BrowserRepository;
+import com.miwashi.repositories.FailRepository;
+import com.miwashi.repositories.GroupRepository;
+import com.miwashi.repositories.JobRepository;
+import com.miwashi.repositories.PlatformRepository;
+import com.miwashi.repositories.RequirementRepository;
+import com.miwashi.repositories.ResultRepository;
+import com.miwashi.repositories.SubjectRepository;
+import com.miwashi.repositories.UserRepository;
+
+import reactor.bus.Event;
+import reactor.bus.EventBus;
 import reactor.io.encoding.StandardCodecs;
 import reactor.net.netty.udp.NettyDatagramServer;
 import reactor.net.udp.DatagramServer;
 import reactor.net.udp.spec.DatagramServerSpec;
 import reactor.spring.context.config.EnableReactor;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 @ConfigurationProperties
@@ -70,31 +82,12 @@ public class TestStatusApplication {
     
     @Autowired
     JobRepository jobRepository;
-
+    
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-    private static ConcurrentHashMap<String, ResultReport> reports = new ConcurrentHashMap<String, ResultReport>();
-    private static List<ExceptionReport> exceptions = Collections.synchronizedList(new ArrayList<ExceptionReport>());
-    private static ConcurrentHashMap<String, Group> groups = new ConcurrentHashMap<String, Group>();
-    private static ConcurrentHashMap<String, Group> subgroups = new ConcurrentHashMap<String, Group>();
-    private static ConcurrentHashMap<String, Subject> subjects = new ConcurrentHashMap<String, Subject>();
-
-    public static Map<String, ResultReport> getIncompleteReports(){
-        Map<String, ResultReport> result = new HashMap<String, ResultReport>();
-
-        reports.values().forEach(item -> {
-            if (!item.isCompleted()) {
-                result.put(item.getKey(), item);
-            }
-        });
-        return result;
-    }
 
     public static Stats getStats(){
         return stats;
     }
-
-
 
     @Bean
     InitializingBean seedDatabase(final UserRepository repository){
@@ -145,199 +138,24 @@ public class TestStatusApplication {
     }
 
 
-    @Scheduled(fixedRateString = "${configuration.schedule.handleresults.rate}", initialDelayString = "${configuration.schedule.daily.delay}")
-    public void handleResultReports() {
-        List<ResultReport> toBeHandled = new ArrayList<ResultReport>();
-        List<String> toBeDeleted = new ArrayList<String>();
-
-        reports.values().forEach(result -> {
-            if(result.getCompleteTime()!=null){
-                toBeHandled.add(result);
-                toBeDeleted.add(result.getKey());
-            }
-        });
-        toBeDeleted.forEach( key -> {
-            reports.remove(key);
-        });
-        toBeHandled.forEach(result -> {
-            handleResult(result);
-        });
-    }
-
-    /**
-     * 
-     * @param resultReport
-     */
-    private void handleResult(ResultReport resultReport) {
-    	Job aJob = loadJob(resultReport.getJobName() + "-" + resultReport.getBuildId(), resultReport.getJobName(), resultReport);
-        Browser aBrowser = loadBrowser(resultReport.getBrowser());
-        Platform aPlatform = loadPlatform(resultReport.getPlatform());
-        Group aGroup = loadGroup(resultReport.getTestGroup());
-        Group aSubGroup = loadGroup(resultReport.getTestSubGroup());
-        Subject aSubject = loadSubject(resultReport.getTestSubject(), resultReport.getTestSubjectKey());
-
-        Requirement requirement = new Requirement(resultReport.getNameAsKey());
-        Iterable<Requirement> requirements = requirementRepository.findByKey(requirement.getKey());
-        requirement.setStatusChangeDate(resultReport.getCompleteTime().toDate());
-        
-        if(requirements.iterator().hasNext()){
-            requirement = requirements.iterator().next();
-            
-            //Set date for statuschanges
-            if(resultReport.isSucceeded() != requirement.isStatusPass()){
-            	requirement.setStatusChangeDate(resultReport.getCompleteTime().toDate());
-            }
-        }
-        requirement.setStatusPass(resultReport.isSucceeded());
-        requirement.setGroup(aGroup);
-        requirement.setSubGroup(aSubGroup);
-        requirement.setSubject(aSubject);
-        requirementRepository.save(requirement);
-
-        
-        Result result = new Result(resultReport.getStatus());
-        result.setOldKey(resultReport.getKey());
-        result.setBrowser(aBrowser);
-        result.setPlatform(aPlatform);
-        result.setJob(aJob);
-        result.setCompletionTime(resultReport.getCompleteTime());
-        result.setStartTime(resultReport.getStartTime());
-        requirement.add(result);
-        
-        requirementRepository.save(requirement);
+    @Bean
+    reactor.Environment env() {
+        return reactor.Environment.initializeIfEmpty().assignErrorJournal();
     }
     
-    @Scheduled(fixedRateString = "${configuration.schedule.handleresults.rate}", initialDelayString = "${configuration.schedule.daily.delay}")
-    public void handleExceptionReports() {
-        List<ExceptionReport> toBeHandled = new ArrayList<ExceptionReport>();
-        List<ExceptionReport> toBeDeleted = new ArrayList<ExceptionReport>();
-        exceptions.forEach(fail -> {
-            toBeHandled.add(fail);
-            toBeDeleted.add(fail);
-        });
-        toBeDeleted.forEach( fail -> {
-        	exceptions.remove(fail);
-        });
-        toBeHandled.forEach(fail -> {
-        	handleFail(fail);
-        });
-    }
-
-    private void handleFail(ExceptionReport exceptionReport) {
-    	
-    	Iterable<Result> resultIterator = resultRepository.findByOldKey(exceptionReport.getKey());
-    	if(resultIterator.iterator().hasNext()){
-    		Result result = resultIterator.iterator().next();
-    		Fail fail = new Fail(exceptionReport);
-    		fail.setResultId(result.getId());
-    		failRepository.save(fail);
-    		if (do_log_recievied_results) {
-                log.info("handled: " + "Connect to " + result.getId() + ": " + exceptionReport);
-            }
-    		System.out.println("handled: " + "Connect to " + result.getId() + ": " + exceptionReport);
-    	}else{
-    		if (do_log_recievied_results) {
-                log.info("FAILED to connect: " + exceptionReport);
-            }
-    		System.out.println("FAILED to connect: " + exceptionReport);
-    	}
-    }
-
-    private Browser loadBrowser(String name){
-        if(name==null || name.isEmpty() || "any".equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)){
-            name = Browser.DEFAULT_BROWSER;
-        }
-        name = name.toLowerCase();
-
-        Iterable<Browser> browsers = browserRepository.findByName(name);
-        Browser aBrowser = new Browser(name);
-        if(browsers.iterator().hasNext()){
-            aBrowser = browsers.iterator().next();
-        }else{
-            browserRepository.save(aBrowser);
-        }
-        return aBrowser;
-    }
-
-    private Platform loadPlatform(String name){
-        if(name==null || name.isEmpty() || "any".equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)){
-            name = Platform.DEFAULT_PLATFORM;
-        }
-        name = name.toLowerCase();
-
-        Iterable<Platform> platforms = platformRepository.findByName(name);
-        Platform aPlatform = new Platform(name);
-        if(platforms.iterator().hasNext()){
-            aPlatform = platforms.iterator().next();
-        }else{
-            platformRepository.save(aPlatform);
-        }
-        return aPlatform;
-    }
-
-    private Group loadGroup(String name){
-        name = name.toLowerCase();
-
-        Iterable<Group> groups = groupRepository.findByName(name);
-        Group aGroup = new Group(name);
-        if(groups.iterator().hasNext()){
-            aGroup = groups.iterator().next();
-        }else{
-        }
-        aGroup.setLastTested(new Date());
-        
-        groupRepository.save(aGroup);
-        return aGroup;
-    }
-
-    private Subject loadSubject(String name, String key){
-        name = name.toLowerCase();
-
-        Iterable<Subject> groups = subjectRepository.findByKey(key);
-        Subject aSubject = new Subject(name, key);
-        if(groups.iterator().hasNext()){
-            aSubject = groups.iterator().next();
-        }else{
-        }
-        aSubject.setLastTested(new Date());
-        subjectRepository.save(aSubject);
-        return aSubject;
+    @Bean
+    EventBus createEventBus(reactor.Environment env) {
+	    return EventBus.create(env, reactor.Environment.THREAD_POOL);
     }
     
-    private Job loadJob(String key, String name, ResultReport resultReport){
-    	name = name.toLowerCase();
-        if(name == null || name.isEmpty()){
-        	name = "local";
-        	key = "local-" + resultReport.getUuid();
-        }
-        Iterable<Job> jobs = jobRepository.findByKey(key);
-        Job aJob = new Job(key, name);
-        
-        if(jobs.iterator().hasNext()){
-        	aJob = jobs.iterator().next();
-        }else{
-        	aJob.setBuildNumber(resultReport.getBuildNumber());
-            aJob.setGitBranch(resultReport.getGitBranch());
-            aJob.setGitCommit(resultReport.getGitCommit());
-            aJob.setGitURL(resultReport.getGitURL());
-            aJob.setGrid(resultReport.getGrid());
-            aJob.setHost(resultReport.getHost());
-            aJob.setBrowser(resultReport.getBrowser());
-            aJob.setBuildTag(resultReport.getBuildTag());
-            aJob.setBuildUrl(resultReport.getBuildUrl());
-            aJob.setJenkinsUrl(resultReport.getJenkinsUrl());
-            aJob.setPlatform(resultReport.getPlatform());
-            aJob.setSize(resultReport.getSize());
-            aJob.setUser(resultReport.getUser());
-            aJob.setTimeStamp(new Date(resultReport.getStartTime().getMillis()));
-        }
-        jobRepository.save(aJob);
-        return aJob;
-    }
-
+    @Autowired
+	private EventBus eventBus;
+    
+    @Autowired
+	CountDownLatch latch;
+    
     @Bean
     public DatagramServer<byte[], byte[]> datagramServer(reactor.core.Environment env) throws InterruptedException {
-
         final DatagramServer<byte[], byte[]> server = new DatagramServerSpec<byte[], byte[]>(NettyDatagramServer.class)
                 .env(env)
                 //.listen(SocketUtils.findAvailableTcpPort())
@@ -345,29 +163,14 @@ public class TestStatusApplication {
                 .codec(StandardCodecs.BYTE_ARRAY_CODEC)
                 .consumeInput(bytes -> {
                     String request = new String(bytes);
-                    if (do_log_recievied_results) {
-                        log.info("received: " + request);
-                    }
-                    
-                    if(ExceptionReport.isException(request)){
-                    	ExceptionReport ex = new ExceptionReport(request);
-                    	exceptions.add(ex);
-                    }else{	
-	                    ResultReport result = new ResultReport(request);
-	                    stats.add(result);
-	                    if (result.isCompleted()) {
-	                        ResultReport oldReport = reports.get(result.getKey());
-	                        if (oldReport != null) {
-	                            oldReport.setStatus(result.getStatus());
-	                            oldReport.setCompleteTime(result.getStartTime());
-	                        }
-	                    } else {
-	                        reports.put(result.getKey(), result);
-	                    }
-                    }
+                    long start = System.currentTimeMillis();
+            		eventBus.notify("results", Event.wrap(request));
+            		try {
+						latch.await();
+					} catch (Exception ignore) {}
+            		long elapsed = System.currentTimeMillis() - start;
                 })
                 .get();
-
         server.start().await();
         return server;
     }
@@ -376,11 +179,15 @@ public class TestStatusApplication {
     public CountDownLatch latch() {
         return new CountDownLatch(1);
     }
-
-
+    
     public static void main(String[] args) throws InterruptedException  {
         ApplicationContext ctx = SpringApplication.run(TestStatusApplication.class, args);
+        
         CountDownLatch latch = ctx.getBean(CountDownLatch.class);
-        latch.await();
+        latch.await(1, TimeUnit.SECONDS);
+        
+        EventBus bus = ctx.getBean(EventBus.class);
+		Receiver receiver = ctx.getBean(Receiver.class);
+		bus.on($("results"), receiver);
     }
 }

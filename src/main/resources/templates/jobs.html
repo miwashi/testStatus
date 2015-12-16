@@ -6,44 +6,20 @@
         >
 <head>
     <title>Jobs</title>
+    <script type="text/javascript" th:src="@{/script/jobs.js}"></script>
 </head>
 <body>
 <h1 layout:fragment="header">SVT Test summary page</h1>
 <div layout:fragment="content">
-
+	<div id="meta">
+		<input id="jobkey" type="hidden" th:value="${jobkey}"/>
+	</div>
+	
     <section>
 		<h1>Today's testing</h1>
     </section>
 
-	<table class="jobstat">
-           <colgroup><col/></colgroup>
-           <colgroup><col/><col/><col/><col/><col/></colgroup>
-           <colgroup><col/></colgroup>
-           <colgroup><col/></colgroup>
-           <tbody>
-           <th>
-               <td>jobId</td>
-               <td>Jenkins says</td>
-               <td>Job</td>
-               <td class="numeric" >Tests</td>
-               <td colspan="2" class="numeric" >Fails</td>
-               <td class="numeric" >Skips</td>
-           </th>
-           <th:block th:each="job : ${jobs}">
-               <tr th:id="'job-' + ${job.id}">
-               	<td width="100%" class="rowheader"><a th:href="'/job/' + ${job.id}" th:text="${job.name}"></a></td>
-               	<td th:text="${job.key}"></td>
-               	<td th:text="${job.jenkinsResult} + ' (' + ${job.jenkinsDuration} + 's)'"></td>
-               	<td><a th:href="${job.buildUrl}"><span th:text="${job.name}"></span></a></td>     
-               	
-               	<td th:id="'job-' + ${job.id} + '-totalCount'" class="numeric" th:text="${job.jenkinsTotalCount}"></td>
-               	<td th:id="'job-' + ${job.id} + '-failCount'" class="numeric" th:text="${job.jenkinsFailCount}"></td>
-               	<td th:id="'job-' + ${job.id} + '-failShare'" class="numeric" th:text="'(' + ${job.jenkinsFailShare} + '%)'"></td>
-               	<td th:id="'job-' + ${job.id} + '-skipCount'" class="numeric" th:text="${job.jenkinsSkipCount}"></td>
-               </tr>
-           </th:block>
-	    </tbody>
-       </table>
+	<section id="jobs-summary-section"></section>
 </div>
 </body>
 </html>

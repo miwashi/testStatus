@@ -1,5 +1,6 @@
 package com.miwashi.controller;
 
+import com.miwashi.Receiver;
 import com.miwashi.TestStatusApplication;
 import com.miwashi.model.*;
 import com.miwashi.repositories.BrowserRepository;
@@ -81,7 +82,7 @@ public class MetaController {
     @RequestMapping(value = "/api/meta/incomplete", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ApiOperation(value = "/api/meta/incomplete", notes = "Returns a status")
     public Collection<ResultReport> getAllIncomplete() {
-        Map<String, ResultReport> incomplete = TestStatusApplication.getIncompleteReports();
+        Map<String, ResultReport> incomplete = Receiver.getIncompleteReports();
         return incomplete.values();
     }
 

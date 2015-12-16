@@ -29,9 +29,10 @@ var Jobs = function() {
 	
 	
 	jobs.poll = function() {
+		var key = document.getElementById("jobkey").value;
 		
 		$.ajax({
-		   url: url,
+		   url: url  + key,
 		   data: {
 		      format: 'json'
 		   },

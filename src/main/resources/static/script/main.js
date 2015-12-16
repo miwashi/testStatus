@@ -135,7 +135,7 @@ var Job = function(){
 		switch(header){
 		case "job":
 			var linkText = job.name;
-			var href = "/job/" + job.key;
+			var href = "/jobs/" + job.key;
 			var title = "";
 			cell = Requirement.createAnchorCell(linkText, href, title);
 			break;
