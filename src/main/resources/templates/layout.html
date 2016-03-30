@@ -19,64 +19,67 @@
     <div class="container">
         <div class="banner">
         	<table width="100%"><tr><td  width="100%">
+	            
+	            <img id="logo" th:src="@{/img/logo.png}" style="float:left; padding-right: 20px;"/>
+	            
+	            [<a href="/">main</a>]
+	            <!-- [<a href="/api">API</a>] -->
+	            [<a href="/groups/all">teams</a>]
+	            [<a href="/jobs/all">jobs</a>]
+	            [<a href="/fails/all">fails</a>]
+	            [<a href="/statistics/all">statistics</a>]
+	            <span th:if="${summary != null}">
+		            <th:block  th:each="link : ${summary.links}">
+		            	[<a th:href="${link.to}" th:text="${link.name}"></a>]
+		            </th:block>
+	            </span>
+	            
+	            <h1 layout:fragment="header"></h1>
+            </td>
             
-            <img id="logo" th:src="@{/img/logo.png}" style="float:left; padding-right: 20px;"/>
-            
-            [<a href="/">main</a>]
-            <!-- [<a href="/api">API</a>] -->
-            [<a href="/groups/all">teams</a>]
-            [<a href="/jobs/all">jobs</a>]
-            [<a href="/fails/all">fails</a>]
-            [<a href="/statistics/all">statistics</a>]
-            <th:block th:each="link : ${summary.links}">
-            	[<a th:href="${link.to}" th:text="${link.name}"></a>]
-            </th:block>
-            
-            <h1 layout:fragment="header"></h1>
-            </td><td class="headerright">
-            
-            <table id="mainstat" class="mainstat-frame"><tr><td>
-	            <table id="mainstat1" class="mainstat">
-					<colgroup class="rowheader"><col/></colgroup>
-					<colgroup><col/></colgroup>
-					<tr>
-						<td id="mainstat_requirements_hdr" class="mainstat text">Total number of requirements</td>
-						<td id="mainstat_requirements" class="mainstat numeric">Total number of requirements</td>
-					</tr>
-					<tr>
-						<td id="mainstat_tested_hdr" class="mainstat text">Tested requirements</td>
-						<td id="mainstat_tested" class="mainstat numeric">Tested requirements</td>
-					</tr>
-					
-					<tr>
-						<td id="mainstat_jobs_hdr" class="mainstat text">Jobs</td>
-						<td id="mainstat_jobs" class="mainstat numeric">Jobs</td>
-					</tr>
-				</table>
-				</td>
-				<td>
-				<table id="mainstat2" class="mainstat">
+            <td class="headerright">
+	            <table id="mainstat" class="mainstat-frame"><tr><td>
+		            <table id="mainstat1" class="mainstat">
 						<colgroup class="rowheader"><col/></colgroup>
 						<colgroup><col/></colgroup>
-					<tr>
-						<td id="mainstat_failed_hdr" class="mainstat text">Failed requirements</td>
-						<td id="mainstat_failed" class="mainstat numeric">Failed requirements</td>
-					</tr>
-					<tr>
-						<td id="mainstat_unstable_hdr" class="mainstat text">Unstable requirements</td>
-						<td id="mainstat_unstable" class="mainstat numeric">Unstable requirements</td>
-					</tr>
-					
-					<tr>
-						<td id="mainstat_verified_hdr" class="mainstat text">Verified requirements</td>
-						<td id="mainstat_verified" class="mainstat numeric">Verified requirements</td>
-					</tr>
-					
+						<tr>
+							<td id="mainstat_requirements_hdr" class="mainstat text">Total number of requirements</td>
+							<td id="mainstat_requirements" class="mainstat numeric">Total number of requirements</td>
+						</tr>
+						<tr>
+							<td id="mainstat_tested_hdr" class="mainstat text">Tested requirements</td>
+							<td id="mainstat_tested" class="mainstat numeric">Tested requirements</td>
+						</tr>
+						
+						<tr>
+							<td id="mainstat_jobs_hdr" class="mainstat text">Jobs</td>
+							<td id="mainstat_jobs" class="mainstat numeric">Jobs</td>
+						</tr>
+					</table>
+					</td>
+					<td>
+					<table id="mainstat2" class="mainstat">
+							<colgroup class="rowheader"><col/></colgroup>
+							<colgroup><col/></colgroup>
+						<tr>
+							<td id="mainstat_failed_hdr" class="mainstat text">Failed requirements</td>
+							<td id="mainstat_failed" class="mainstat numeric">Failed requirements</td>
+						</tr>
+						<tr>
+							<td id="mainstat_unstable_hdr" class="mainstat text">Unstable requirements</td>
+							<td id="mainstat_unstable" class="mainstat numeric">Unstable requirements</td>
+						</tr>
+						
+						<tr>
+							<td id="mainstat_verified_hdr" class="mainstat text">Verified requirements</td>
+							<td id="mainstat_verified" class="mainstat numeric">Verified requirements</td>
+						</tr>
+						
+					</table>
+					</td></tr>
 				</table>
-				</td></tr>
-			</table>
-            
-            </td></tr>
+	            
+	            </td></tr>
             </table>
         </div>
 
@@ -84,18 +87,18 @@
 
         <hr/>
 
-        <div layout:fragment="content">
+        <div class="wrapper" layout:fragment="content">
 
         </div>
 
-        <p class="footer">
+        <div class="footer">
             All Rights Reserved Miwashi Inc.
             [<a href="/">main</a>]
             <!-- [<a href="/api">API</a>] -->
             [<a href="/groups/all">teams</a>]
             [<a href="/jobs/all">jobs</a>]
             [<a href="/statistics/all">statistics</a>]
-        </p>
+        </div>
     </div>
 </body>
 </html>

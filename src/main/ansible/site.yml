@@ -1,0 +1,24 @@
+---
+- hosts: support
+  gather_facts: true
+  sudo: yes
+
+  vars:
+    system_user: root
+    system_group: "{{system_user}}"
+    
+  roles:
+    - { role: build}
+    - { role: deploy}
+    
+  pre_tasks:
+    - name: pretask
+      debug: msg="PRETASK"
+      
+  tasks:
+    - name: task
+      debug: msg="TASKS"
+
+  post_tasks:
+    - name: posttask
+      debug: msg="POSTTASKS"

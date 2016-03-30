@@ -8,8 +8,6 @@ $( document ).ready(function() {
     poll();
 });
 
-
-
 function poll() {
 	$.ajax({
 	   url: statUrl,

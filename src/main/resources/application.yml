@@ -36,7 +36,7 @@ configuration:
       host: localhost
 
     testdata: false
-    initialdata: true
+    initialdata: false
 
     schedule:
       synchwithjenkins:

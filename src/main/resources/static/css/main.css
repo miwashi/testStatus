@@ -1,3 +1,22 @@
+html, body {
+	height: 100%;
+}
+
+div.container {
+	height: 100%;
+}
+
+div.wrapper {
+	min-height: 100%;
+	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */
+}
+
+
+
+footer, .push {
+	height: 100px; /* '.push' must be the same height as 'footer' */
+}
+
 body {
 	background-color: OldLace;
 	font-family: "courier","sans-serif";

@@ -22,6 +22,7 @@ $( document ).ready(function() {
     groupSummaryTable.appendChild(createHeaderRow());
     console.log( "ready!" );
     poll();
+    update();
 });
 
 function createHeaderRow(){
@@ -33,6 +34,15 @@ function createHeaderRow(){
 	return headerRow;
 }
 
+function update(){
+	var currenttime = (new Date()).getTime();
+	$('.teams-summary-table-row').each(function (i, row) {
+		var time = currenttime - $("#" + $(row).attr('id') + "-touched-time").text();
+		time = Math.round(time / (1000*60));
+		console.debug($(row).attr('id') + time);
+    });
+	setTimeout(update, 2000);
+}
 
 function poll() {
 	var id = document.getElementById("teamid").value;
@@ -63,18 +73,22 @@ function poll() {
 	    		  
 	    		  createHeaderCell(row, headerCellClassName, prefix + "header", requirement);
 	    		  appendCell(row, "", prefix + "-touched", requirement.statistics.lastresult.when.since);
+	    		  appendInvisibleCell(row, "", prefix + "-touched-time", requirement.statistics.lastresult.when.time);
 	    		  appendCell(row, "", prefix + "-duration", requirement.statistics.duration.intervall);
 	    		  appendResultCell(row, "", prefix + "results", requirement.results);
 	    		  summaryTable.appendChild(row);
+	    		  row.className = "teams-summary-table-row " + requirement.statistics.lastresult.status;
 	    	  }else{
 	    		  summaryTable.removeChild(row);
 	    		  row = document.createElement("tr")
 		    	  row.id = prefix;
 	    		  createHeaderCell(row, headerCellClassName, prefix + "header", requirement);
 	    		  appendCell(row, "", prefix + "-touched", requirement.statistics.lastresult.when.since);
+	    		  appendInvisibleCell(row, "", prefix + "-touched-time", requirement.statistics.lastresult.when.time);
 	    		  appendCell(row, "", prefix + "-duration", requirement.statistics.duration.intervall);
 	    		  appendResultCell(row, "", prefix + "results", requirement.results);
 	    		  summaryTable.appendChild(row);
+	    		  row.className = "teams-summary-table-row " + requirement.statistics.lastresult.status;
 	    	  }
 	      });
 		  
@@ -108,6 +122,15 @@ function createHeaderCell(row, className, id, requirement){
 }
 
 function appendCell(row, className, id, nodeText){
+	var cell = row.insertCell();
+	var textNode = document.createTextNode(nodeText);
+	cell.appendChild(textNode);
+	cell.className=headerCellClassName;
+	cell.id = id;
+	return cell;
+}
+
+function appendInvisibleCell(row, className, id, nodeText){
 	var cell = row.insertCell();
 	var textNode = document.createTextNode(nodeText);
 	cell.appendChild(textNode);

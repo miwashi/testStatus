@@ -6,7 +6,7 @@
         >
 <head>
     <title th:text="'Test sumary for ' + ${summary.group.name}">Teams</title>
-    <script type="text/javascript" th:src="@{/script/fail.js}"></script>
+    <script type="text/javascript" th:src="@{/script/fails.js}"></script>
     
 </head>
 <body>
@@ -15,7 +15,7 @@
 	<div id="meta">
 		<input id="teamid" type="hidden" th:value="${summary.group.id}"/>
 	</div>
-    <section id="group-summary-section">
+    <section id="fails-summary-section">
 	</section>
 </div>
 </body>

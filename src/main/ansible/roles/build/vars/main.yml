@@ -1,0 +1,9 @@
+---
+#Build Vars
+service_name: test-status
+service_owner: root
+service_group: root
+service_mode: 0755
+service_home: /etc/init.d
+jar_home: /opt/test-status
+jar_name: test-status.jar

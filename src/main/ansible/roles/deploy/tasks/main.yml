@@ -1,0 +1,6 @@
+---
+#Deploy task
+- name: Check if server is alive.
+  ping:
+  
+- debug: msg="Service name is {{service_name}}."

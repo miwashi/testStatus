@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.miwashi.model.ResultReport;
+import net.miwashi.receiver.Notification;
 
 public class TestResultReport {
 
@@ -34,7 +34,7 @@ public class TestResultReport {
 		"}";
 	@Test
 	public void test() {
-		ResultReport result = new ResultReport(json);
+		Notification result = new Notification(json);
 		System.out.println("Group: " + result.getTestGroup());
 		System.out.println("Subgroup: " + result.getTestSubGroup());
 		System.out.println("Requirement: " +  result.getTestRequirement());

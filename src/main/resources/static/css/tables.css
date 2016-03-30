@@ -155,6 +155,22 @@ td.text {
 	text-align: left;
 }
 
+tr.stable_PASS {
+	background-color: white;
+}
+
+tr.stable_FAIL {
+	background-color: pink;
+}
+
+tr.unstable_FAIL {
+	background-color: pink;
+}
+
+tr.unstable_PASS {
+	background-color: yellow;
+}
+
 
 
 /* MAINSTAT */

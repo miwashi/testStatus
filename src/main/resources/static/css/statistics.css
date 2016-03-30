@@ -1,0 +1,96 @@
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    background-color: lightgrey;
+}
+
+.flex-item {
+    background-color: cornflowerblue;
+    width: 50px;
+    height: 100px;
+    margin: 10px;
+}
+
+.tab {
+	padding:0;
+	margin:0;
+}
+
+li.tab {
+	padding:0;
+	margin:0;
+}
+
+h3.tab {
+	margin-bottom:15px;
+}
+
+p.tab { 
+	
+}
+
+div.tab {
+	padding:10px;
+	width:100%;
+	background:#fff;
+	
+}
+
+.tabs li {
+	padding:0;
+	margin:0;
+	list-style:none;
+	display:inline;
+}
+
+.tabs a {
+	margin:0;
+	padding:5px 10px;
+	display:inline-block;
+	background:#666;
+	color:#fff;
+	text-decoration:none;
+}
+
+.tabs a.active {
+	padding:0;
+	margin:0;
+	background:#fff;
+	color:#000;
+}
+
+div.team_summary {
+	background-color: cornflowerblue;
+	width: 200px;
+    height: 100px;
+    margin: 10px;
+	border-style: solid;
+    border-width: thin;
+    padding: 2px;
+}
+
+span.team_summary_title {
+	display: block;
+	font-weight: bold;
+	font-size: 10px;
+}
+
+span.team_summary_requirements {
+	display: block;
+	font-size: 8px;
+}
+
+section {
+	
+}
+
+tr.pass {
+	color: green;
+	background-color: green;
+}
+
+tr.fail {
+	color: red;
+	background-color: red;
+}

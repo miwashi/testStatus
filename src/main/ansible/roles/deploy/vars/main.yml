@@ -1,0 +1,5 @@
+---
+#Deploy Vars
+service_name: selenium
+service_home: /opt/{{service_name}}
+service_file_mode: "0777"
